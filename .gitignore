@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+data/samples/*
+!data/samples/.gitkeep
+data/runs/*
+!data/runs/.gitkeep
+*.mp4
+*.mov
+*.wav
+cookies.txt
+.pytest_cache/

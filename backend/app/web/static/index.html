@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Retention Analysis</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #0c0e14; --panel: #161927; --panel2: #1c2033; --border: #2c3147;
+    --text: #eef0f6; --muted: #9aa1b8;
+    --accent: #8b5cf6; --accent2: #ec4899; --blue: #38bdf8;
+    --danger: #fb7185; --ok: #34d399; --warn: #fbbf24;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #f5f6fb; --panel: #ffffff; --panel2: #f7f4ff; --border: #e4e6f2; --text: #1a1d2b; --muted: #666f8c; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding-block: 32px; background: var(--bg); color: var(--text);
+         font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+
+  .hero { margin-bottom: 24px; }
+  .hero h1 { font-size: 1.7rem; margin: 0 0 6px; font-weight: 800;
+    background: linear-gradient(90deg, var(--accent), var(--accent2) 60%, var(--blue));
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero .sub { color: var(--muted); font-size: 0.95rem; }
+
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 16px;
+           padding: 22px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .panel.accent-top { border-top: 3px solid transparent;
+    border-image: linear-gradient(90deg, var(--accent), var(--blue)) 1; }
+
+  label { display: block; font-size: 0.85rem; margin: 16px 0 6px; color: var(--muted); font-weight: 600; }
+  label:first-of-type { margin-top: 0; }
+  input[type=text], input[type=file] { width: 100%; padding: 11px 12px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--panel2); color: var(--text); font-size: 0.9rem; }
+  input[type=text]:focus { outline: none; border-color: var(--accent); }
+
+  button { padding: 12px 24px; border-radius: 10px; border: none; font-weight: 700;
+    background: linear-gradient(90deg, var(--accent), var(--accent2)); color: white;
+    font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 14px rgba(139,92,246,0.35); }
+  button:hover { filter: brightness(1.08); }
+  button:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
+  button.ghost { background: var(--panel2); color: var(--text); box-shadow: none; border: 1px solid var(--border); }
+
+  .hint { font-size: 0.8rem; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+  .hint a { color: var(--blue); }
+
+  .howto { background: var(--panel2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-top: 10px; }
+  .howto summary { cursor: pointer; font-size: 0.85rem; font-weight: 700; color: var(--accent); list-style: none; }
+  .howto summary::-webkit-details-marker { display: none; }
+  .howto summary::before { content: '\25B8  '; }
+  .howto[open] summary::before { content: '\25BE  '; }
+  .howto ol { margin: 10px 0 8px; padding-left: 20px; font-size: 0.85rem; line-height: 1.65; color: var(--text); }
+  .howto video { width: 100%; max-width: 260px; border-radius: 10px; margin-top: 8px; display: block; border: 1px solid var(--border); }
+  .howto .cap { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+
+  #progress { display: none; }
+  #progress .line { font-size: 0.85rem; color: var(--muted); padding: 4px 0; }
+  #progress .line:last-child { color: var(--text); font-weight: 600; }
+  #error { display: none; color: var(--danger); font-size: 0.9rem; border-left: 3px solid var(--danger); }
+  #result { display: none; }
+
+  .player-row { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start; }
+  .player-col { flex: 1 1 280px; max-width: 340px; }
+  .chart-col { flex: 2 1 480px; min-width: 0; }
+
+  video { width: 100%; border-radius: 12px; background: #000; display: block; }
+  .controls { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
+  .controls button.icon { padding: 9px 16px; font-size: 1rem; line-height: 1; box-shadow: none;
+    background: var(--panel2); color: var(--text); border: 1px solid var(--border); }
+  .controls .time { font-size: 0.82rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+  #chartWrap { position: relative; width: 100%; }
+  svg#chart { width: 100%; height: auto; display: block; cursor: pointer; user-select: none; }
+  .gridline { stroke: var(--border); stroke-width: 1; }
+  .axis-label { fill: var(--muted); font-size: 9px; }
+  .retline { fill: none; stroke: url(#lineGrad); stroke-width: 2.5; }
+  .playhead { stroke: var(--accent2); stroke-width: 1.5; pointer-events: none; }
+  .playhead-dot { fill: var(--accent2); pointer-events: none; }
+  .drop-zone { cursor: pointer; }
+  .drop-zone:hover { opacity: 0.34 !important; }
+
+  #tooltip { position: absolute; display: none; background: var(--panel); border: 1px solid var(--border);
+    border-radius: 10px; padding: 11px 13px; font-size: 0.8rem; max-width: 260px; pointer-events: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3); z-index: 10; }
+  #tooltip .tt-title { font-weight: 700; margin-bottom: 4px; }
+  #tooltip .tt-title.danger { color: var(--danger); }
+  #tooltip .tt-title.ok { color: var(--ok); }
+  #tooltip .tt-title.warn { color: var(--warn); }
+  #tooltip .tt-body { color: var(--muted); line-height: 1.4; }
+
+  .legend { display: flex; gap: 16px; margin-top: 12px; font-size: 0.78rem; color: var(--muted); flex-wrap: wrap; }
+  .legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+
+  #reportHtml { background: var(--panel2); border-radius: 14px; padding: 20px 24px; margin-top: 24px; }
+  #reportHtml h1 { font-size: 1.25rem; background: linear-gradient(90deg, var(--accent), var(--blue));
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  #reportHtml h2 { font-size: 1.05rem; margin-top: 24px; color: var(--accent2); }
+  #reportHtml h3 { font-size: 0.95rem; margin-top: 18px; color: var(--blue); }
+  #reportHtml p, #reportHtml li { font-size: 0.92rem; line-height: 1.6; }
+  #reportHtml strong { color: var(--accent); }
+
+  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border);
+    border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite;
+    vertical-align: middle; margin-right: 8px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Retention Analysis</h1>
+    <div class="sub">Paste a reel link + a recording of its retention graph &mdash; get a causal drop analysis and suggestions.</div>
+  </div>
+
+  <div class="panel accent-top">
+    <form id="form">
+      <label>Reel URL</label>
+      <input type="text" id="reelUrl" placeholder="https://www.instagram.com/reel/..." required>
+
+      <label>Retention graph recording</label>
+      <input type="file" id="retentionRecording" accept="video/*,image/*" required>
+      <div class="hint">A screen recording of you dragging your finger across the retention graph in Instagram Edits &mdash; see how below.</div>
+
+      <details class="howto">
+        <summary>How to record this (with an example)</summary>
+        <ol>
+          <li>Open the reel in the <strong>Instagram Edits</strong> app (not the main Instagram app) &rarr; Insights &rarr; tap the retention graph.</li>
+          <li>Start a screen recording, then slowly drag your finger left to right across the graph, pausing briefly every second or so &mdash; each pause gives a clean, readable "X% at 0:0Y" tooltip.</li>
+          <li>Keep the recording tight on the graph itself (not the whole phone screen with extra chrome) &mdash; like the example on the right.</li>
+          <li>Upload the resulting video above. No need to trim it.</li>
+        </ol>
+        <video src="/sample_retention.mp4" controls muted loop></video>
+        <div class="cap">Example of a good recording</div>
+      </details>
+
+      <button type="submit" id="submitBtn" style="margin-top:20px">Run Analysis</button>
+    </form>
+  </div>
+
+  <div class="panel" id="progress">
+    <div id="progressLines"></div>
+  </div>
+
+  <div class="panel" id="error"></div>
+
+  <div class="panel" id="result">
+    <div class="player-row">
+      <div class="player-col">
+        <video id="reelVideo" playsinline></video>
+        <div class="controls">
+          <button class="icon" id="playPauseBtn">&#9654;</button>
+          <button class="icon" id="restartBtn" title="Restart">&#9198;</button>
+          <span class="time"><span id="curTime">0:00</span> / <span id="durTime">0:00</span></span>
+        </div>
+      </div>
+      <div class="chart-col">
+        <div id="chartWrap">
+          <svg id="chart" viewBox="0 0 700 220" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="var(--accent)"/>
+                <stop offset="100%" stop-color="var(--blue)"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div id="tooltip"></div>
+        </div>
+        <div class="legend">
+          <span><i style="background:var(--danger)"></i> quality issue found</span>
+          <span><i style="background:var(--warn)"></i> pacing/content drop</span>
+          <span><i style="background:var(--ok)"></i> likely a skip (recovered)</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="reportHtml"></div>
+  </div>
+</div>
+
+<script>
+const form = document.getElementById('form');
+const submitBtn = document.getElementById('submitBtn');
+const progressEl = document.getElementById('progress');
+const progressLines = document.getElementById('progressLines');
+const errorEl = document.getElementById('error');
+const resultEl = document.getElementById('result');
+const video = document.getElementById('reelVideo');
+const svg = document.getElementById('chart');
+const tooltip = document.getElementById('tooltip');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const restartBtn = document.getElementById('restartBtn');
+const curTimeEl = document.getElementById('curTime');
+const durTimeEl = document.getElementById('durTime');
+
+const CHART = { w: 700, h: 220, pad: { left: 34, right: 10, top: 12, bottom: 22 } };
+let chartState = null;
+const DEFS = svg.innerHTML; // preserve the gradient <defs> across innerHTML rewrites
+
+function renderMarkdown(md) {
+  const lines = md.split('\n');
+  let html = '', inList = false;
+  const closeList = () => { if (inList) { html += '</ul>'; inList = false; } };
+  for (const raw of lines) {
+    const line = raw.trim();
+    if (line.startsWith('### ')) { closeList(); html += `<h3>${inline(line.slice(4))}</h3>`; }
+    else if (line.startsWith('## ')) { closeList(); html += `<h2>${inline(line.slice(3))}</h2>`; }
+    else if (line.startsWith('# ')) { closeList(); html += `<h1>${inline(line.slice(2))}</h1>`; }
+    else if (line.startsWith('- ')) { if (!inList) { html += '<ul>'; inList = true; } html += `<li>${inline(line.slice(2))}</li>`; }
+    else if (line === '') { closeList(); }
+    else { closeList(); html += `<p>${inline(line)}</p>`; }
+  }
+  closeList();
+  return html;
+  function inline(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  }
+}
+
+function fmtTime(s) {
+  s = Math.max(0, s || 0);
+  const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+  return `${m}:${sec.toString().padStart(2, '0')}`;
+}
+
+function zoneColor(e) {
+  if (e.quality_issue_found) return 'var(--danger)';
+  if (e.likely_skip) return 'var(--ok)';
+  return 'var(--warn)';
+}
+function zoneClass(e) {
+  if (e.quality_issue_found) return 'danger';
+  if (e.likely_skip) return 'ok';
+  return 'warn';
+}
+
+function buildChart(result) {
+  const points = result.retention_points;
+  const duration = result.video_duration_s || (points.length ? points[points.length - 1].t : 1);
+  const { w, h, pad } = CHART;
+  const xScale = t => pad.left + (t / duration) * (w - pad.left - pad.right);
+  const yScale = pct => pad.top + (1 - Math.max(0, Math.min(100, pct)) / 100) * (h - pad.top - pad.bottom);
+  chartState = { duration, xScale, yScale };
+
+  let svgContent = DEFS;
+  [0, 50, 100].forEach(pct => {
+    const y = yScale(pct);
+    svgContent += `<line class="gridline" x1="${pad.left}" x2="${w - pad.right}" y1="${y}" y2="${y}"/>`;
+    svgContent += `<text class="axis-label" x="2" y="${y + 3}">${pct}%</text>`;
+  });
+  result.drop_events.forEach((e, i) => {
+    const x0 = xScale(e.start_t), x1 = xScale(e.end_t);
+    svgContent += `<rect class="drop-zone" data-idx="${i}" x="${x0}" y="${pad.top}" ` +
+      `width="${Math.max(3, x1 - x0)}" height="${h - pad.top - pad.bottom}" fill="${zoneColor(e)}" opacity="0.20"/>`;
+  });
+  const path = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${xScale(p.t).toFixed(1)},${yScale(p.pct).toFixed(1)}`).join(' ');
+  svgContent += `<path class="retline" d="${path}"/>`;
+  svgContent += `<line class="playhead" id="playheadLine" x1="${xScale(0)}" x2="${xScale(0)}" y1="${pad.top}" y2="${h - pad.bottom}"/>`;
+  svgContent += `<circle class="playhead-dot" id="playheadDot" cx="${xScale(0)}" cy="${yScale(points[0]?.pct ?? 100)}" r="4"/>`;
+
+  svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  svg.innerHTML = svgContent;
+
+  svg.querySelectorAll('.drop-zone').forEach(zoneEl => {
+    const e = result.drop_events[+zoneEl.dataset.idx];
+    zoneEl.addEventListener('mousemove', (ev) => showTooltip(ev, e));
+    zoneEl.addEventListener('mouseleave', hideTooltip);
+    zoneEl.addEventListener('click', (ev) => { ev.stopPropagation(); video.currentTime = e.start_t; });
+  });
+
+  svg.onclick = (ev) => {
+    if (ev.target.classList.contains('drop-zone')) return;
+    video.currentTime = timeFromEvent(ev);
+  };
+}
+
+function timeFromEvent(ev) {
+  const rect = svg.getBoundingClientRect();
+  const x = (ev.clientX - rect.left) * (CHART.w / rect.width);
+  const t = ((x - CHART.pad.left) / (CHART.w - CHART.pad.left - CHART.pad.right)) * chartState.duration;
+  return Math.max(0, Math.min(chartState.duration, t));
+}
+
+function showTooltip(ev, e) {
+  const wrapRect = document.getElementById('chartWrap').getBoundingClientRect();
+  const label = e.quality_issue_found ? 'Quality issue' : (e.likely_skip ? 'Likely a skip' : 'Retention drop');
+  tooltip.innerHTML = `<div class="tt-title ${zoneClass(e)}">${label} &mdash; ${e.pct_lost.toFixed(1)} pts lost</div>` +
+    `<div class="tt-body">t=${e.start_t.toFixed(0)}-${e.end_t.toFixed(0)}s (${e.start_pct.toFixed(0)}%→${e.end_pct.toFixed(0)}%)<br><br>${escapeHtml(e.reason)}` +
+    (e.suggestion ? `<br><br><strong>Suggestion:</strong> ${escapeHtml(e.suggestion)}` : '') + `</div>`;
+  tooltip.style.display = 'block';
+  let left = ev.clientX - wrapRect.left + 12;
+  if (left + 260 > wrapRect.width) left = ev.clientX - wrapRect.left - 272;
+  tooltip.style.left = `${left}px`;
+  tooltip.style.top = `${ev.clientY - wrapRect.top - 10}px`;
+}
+function hideTooltip() { tooltip.style.display = 'none'; }
+
+video.addEventListener('timeupdate', () => {
+  curTimeEl.textContent = fmtTime(video.currentTime);
+  if (!chartState) return;
+  const x = chartState.xScale(video.currentTime);
+  const line = document.getElementById('playheadLine');
+  const dot = document.getElementById('playheadDot');
+  if (line) { line.setAttribute('x1', x); line.setAttribute('x2', x); }
+  if (dot) dot.setAttribute('cx', x);
+});
+video.addEventListener('loadedmetadata', () => { durTimeEl.textContent = fmtTime(video.duration); });
+video.addEventListener('play', () => { playPauseBtn.innerHTML = '&#9208;'; });
+video.addEventListener('pause', () => { playPauseBtn.innerHTML = '&#9654;'; });
+
+playPauseBtn.addEventListener('click', () => { video.paused ? video.play() : video.pause(); });
+restartBtn.addEventListener('click', () => { video.currentTime = 0; });
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  submitBtn.disabled = true;
+  errorEl.style.display = 'none';
+  resultEl.style.display = 'none';
+  progressEl.style.display = 'block';
+  progressLines.innerHTML = '<div class="line"><span class="spinner"></span>Starting...</div>';
+
+  const fd = new FormData();
+  fd.append('reel_url', document.getElementById('reelUrl').value);
+  fd.append('retention_recording', document.getElementById('retentionRecording').files[0]);
+
+  try {
+    const res = await fetch('/api/analyze', { method: 'POST', body: fd });
+    if (!res.ok) throw new Error(`Server error: ${res.status}`);
+    const { job_id } = await res.json();
+    poll(job_id);
+  } catch (err) {
+    showError(err.message);
+  }
+});
+
+async function poll(jobId) {
+  try {
+    const res = await fetch(`/api/analyze/${jobId}/status`);
+    const data = await res.json();
+
+    progressLines.innerHTML = data.messages.map((m, i) =>
+      `<div class="line">${i === data.messages.length - 1 && data.status === 'running' ? '<span class="spinner"></span>' : ''}${escapeHtml(m)}</div>`
+    ).join('');
+
+    if (data.status === 'running') setTimeout(() => poll(jobId), 1500);
+    else if (data.status === 'error') showError(data.error);
+    else if (data.status === 'done') showResult(data.result);
+  } catch (err) {
+    showError(err.message);
+  }
+}
+
+function showError(msg) {
+  submitBtn.disabled = false;
+  errorEl.style.display = 'block';
+  errorEl.textContent = `Failed: ${msg}`;
+}
+
+function showResult(result) {
+  submitBtn.disabled = false;
+  resultEl.style.display = 'block';
+  video.src = result.video_url;
+  buildChart(result);
+  document.getElementById('reportHtml').innerHTML = result.report_markdown
+    ? renderMarkdown(result.report_markdown)
+    : '<p>No synthesis report was generated.</p>';
+}
+
+function escapeHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+const existingJob = new URLSearchParams(location.search).get('job');
+if (existingJob) poll(existingJob);
+</script>
+</body>
+</html>

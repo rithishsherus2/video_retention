@@ -1,0 +1,28 @@
+# --- Phase 1: retention extraction + video fetch ---
+opencv-python==5.0.0.93
+numpy==2.5.3
+pandas==3.0.5
+pillow==12.3.0
+pytesseract==0.3.13
+ffmpeg-python==0.2.0
+yt-dlp==2026.8.19
+pydantic==2.13.5
+python-dotenv==1.2.3
+matplotlib==3.11.1
+
+# Windows Chrome cookie decryption (App-Bound Encryption support) --
+# in practice we ended up needing the manual cookies.txt export path
+# instead (see app/ingest/video_fetch.py docstring), but keep these
+# installed in case --cookies-from-browser becomes viable again.
+pycryptodome==3.23.0
+pywin32==312
+
+# --- Phase 2: feature timeline ---
+faster-whisper==1.2.1
+scenedetect==0.7.1
+ImageHash==4.3.2
+torch==2.14.0+cpu          # install via: pip install --index-url https://download.pytorch.org/whl/cpu torch
+open_clip_torch==3.3.0
+
+# --- Phase 3: analysis ---
+google-genai==2.23.0

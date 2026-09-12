@@ -1,0 +1,164 @@
+[
+  {
+    "event": {
+      "start_t": 2.0,
+      "end_t": 6.0,
+      "start_pct": 99.8,
+      "end_pct": 57.4,
+      "pct_lost": 42.4,
+      "peak_z": 13.28
+    },
+    "likely_skip": null,
+    "evidence_numeric": {
+      "retention_before_pct": 99.8,
+      "retention_after_pct": 57.4,
+      "pct_points_lost": 42.4,
+      "peak_drop_z": 13.28,
+      "before_window_s": [
+        0.0,
+        1.2
+      ],
+      "during_window_s": [
+        0.0,
+        6.5
+      ],
+      "before_window_metrics": {
+        "sharpness_mean": 1261.9,
+        "blockiness_mean": 0.884,
+        "any_cut": true,
+        "any_redundant_cut": false,
+        "any_reused_shot": false,
+        "audio_rms_db_mean": -180.0,
+        "transcript": null
+      },
+      "during_window_metrics": {
+        "sharpness_mean": 1681.7,
+        "blockiness_mean": 0.989,
+        "any_cut": true,
+        "any_redundant_cut": false,
+        "any_reused_shot": false,
+        "audio_rms_db_mean": -78.5,
+        "transcript": null
+      }
+    },
+    "finding": {
+      "quality_issue_found": false,
+      "description": "",
+      "affected_elements": [],
+      "severity": "none",
+      "confidence": 0.65,
+      "likely_explains_retention_drop": false,
+      "reasoning": "The clip cleanly cuts from a text intro to landscape video footage with matching music. There are no visual distortions or rendering defects.",
+      "other_observations": "The static, silent text screen stays up for nearly three seconds, likely causing impatient viewers to leave before the scenery begins.",
+      "suggestion": ""
+    }
+  },
+  {
+    "event": {
+      "start_t": 6.0,
+      "end_t": 8.0,
+      "start_pct": 57.4,
+      "end_pct": 47.7,
+      "pct_lost": 9.7,
+      "peak_z": 2.45
+    },
+    "likely_skip": null,
+    "evidence_numeric": {
+      "retention_before_pct": 57.4,
+      "retention_after_pct": 47.7,
+      "pct_points_lost": 9.7,
+      "peak_drop_z": 2.45,
+      "before_window_s": [
+        1.0,
+        4.0
+      ],
+      "during_window_s": [
+        4.0,
+        8.5
+      ],
+      "before_window_metrics": {
+        "sharpness_mean": 1865.0,
+        "blockiness_mean": 0.976,
+        "any_cut": true,
+        "any_redundant_cut": false,
+        "any_reused_shot": false,
+        "audio_rms_db_mean": -82.7,
+        "transcript": null
+      },
+      "during_window_metrics": {
+        "sharpness_mean": 1883.5,
+        "blockiness_mean": 1.045,
+        "any_cut": true,
+        "any_redundant_cut": false,
+        "any_reused_shot": false,
+        "audio_rms_db_mean": -17.4,
+        "transcript": null
+      }
+    },
+    "finding": {
+      "quality_issue_found": false,
+      "description": "",
+      "affected_elements": [],
+      "severity": "none",
+      "confidence": 0.7,
+      "likely_explains_retention_drop": false,
+      "reasoning": "The footage across the transition consists of standard real-world travel recordings with consistent clarity, natural camera motion, and synchronized music.",
+      "other_observations": "The initial text hook transitions into a relatively slow landscape pan before cutting to the temple, which may have caused viewers to lose interest due to pacing rather than visual defects.",
+      "suggestion": ""
+    }
+  },
+  {
+    "event": {
+      "start_t": 9.0,
+      "end_t": 10.0,
+      "start_pct": 44.2,
+      "end_pct": 37.1,
+      "pct_lost": 7.1,
+      "peak_z": 4.05
+    },
+    "likely_skip": null,
+    "evidence_numeric": {
+      "retention_before_pct": 44.2,
+      "retention_after_pct": 37.1,
+      "pct_points_lost": 7.1,
+      "peak_drop_z": 4.05,
+      "before_window_s": [
+        4.0,
+        7.0
+      ],
+      "during_window_s": [
+        7.0,
+        10.5
+      ],
+      "before_window_metrics": {
+        "sharpness_mean": 1922.1,
+        "blockiness_mean": 1.053,
+        "any_cut": true,
+        "any_redundant_cut": false,
+        "any_reused_shot": false,
+        "audio_rms_db_mean": -17.4,
+        "transcript": null
+      },
+      "during_window_metrics": {
+        "sharpness_mean": 1666.5,
+        "blockiness_mean": 1.025,
+        "any_cut": true,
+        "any_redundant_cut": false,
+        "any_reused_shot": false,
+        "audio_rms_db_mean": -17.0,
+        "transcript": null
+      }
+    },
+    "finding": {
+      "quality_issue_found": false,
+      "description": "No visual rendering or technical quality issues detected. The footage is sharp, stable real-world video.",
+      "affected_elements": [],
+      "severity": "none",
+      "confidence": 0.65,
+      "likely_explains_retention_drop": false,
+      "reasoning": "The visual clarity, motion, and color reproduction are normal with no visible artifacts or rendering glitches.",
+      "other_observations": "There is a sharp contrast and sudden thematic jump from an isolated, cold snowy mountain landscape to a bright, crowded temple courtyard.",
+      "suggestion": ""
+    }
+  }
+]
