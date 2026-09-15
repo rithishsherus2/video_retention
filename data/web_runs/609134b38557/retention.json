@@ -1,0 +1,155 @@
+{
+  "points": [
+    {
+      "t": 0.0,
+      "pct": 100.0,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 1.0,
+      "pct": 100.0,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 2.0,
+      "pct": 100.0,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 3.0,
+      "pct": 91.5,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 4.0,
+      "pct": 86.9,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 5.0,
+      "pct": 81.0,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 6.0,
+      "pct": 75.8,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 8.0,
+      "pct": 67.3,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 9.0,
+      "pct": 63.4,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 10.0,
+      "pct": 60.1,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 11.0,
+      "pct": 58.2,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 12.0,
+      "pct": 56.2,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 13.0,
+      "pct": 49.7,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 14.0,
+      "pct": 45.8,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 15.0,
+      "pct": 43.8,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 16.0,
+      "pct": 43.1,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 17.0,
+      "pct": 40.5,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 18.0,
+      "pct": 37.3,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 19.0,
+      "pct": 34.6,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 20.0,
+      "pct": 32.0,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 21.0,
+      "pct": 30.7,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 22.0,
+      "pct": 30.1,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 23.0,
+      "pct": 28.8,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 24.0,
+      "pct": 25.5,
+      "source": "ocr",
+      "confidence": 1.0
+    },
+    {
+      "t": 25.0,
+      "pct": 23.5,
+      "source": "ocr",
+      "confidence": 1.0
+    }
+  ],
+  "video_duration_s": 25.0
+}

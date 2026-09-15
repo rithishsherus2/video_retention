@@ -1,0 +1,171 @@
+[
+  {
+    "event": {
+      "start_t": 2.0,
+      "end_t": 3.0,
+      "start_pct": 100.0,
+      "end_pct": 91.5,
+      "pct_lost": 8.5,
+      "peak_z": 3.04
+    },
+    "likely_skip": null,
+    "evidence_numeric": {
+      "retention_before_pct": 100.0,
+      "retention_after_pct": 91.5,
+      "pct_points_lost": 8.5,
+      "peak_drop_z": 3.04,
+      "before_window_s": [
+        0.0,
+        0.0
+      ],
+      "during_window_s": [
+        0.0,
+        3.5
+      ],
+      "before_window_metrics": {
+        "sharpness_mean": 251.2,
+        "blockiness_mean": 1.017,
+        "any_cut": true,
+        "any_redundant_cut": false,
+        "any_reused_shot": false,
+        "audio_rms_db_mean": -18.9,
+        "transcript": "It's time for your next adventure."
+      },
+      "during_window_metrics": {
+        "sharpness_mean": 170.7,
+        "blockiness_mean": 1.026,
+        "any_cut": true,
+        "any_redundant_cut": false,
+        "any_reused_shot": false,
+        "audio_rms_db_mean": -21.2,
+        "transcript": "It's time for your next adventure. I have no idea"
+      }
+    },
+    "finding": {
+      "quality_issue_found": true,
+      "description": "Severe letterboxing with large black bars occupies most of the frame before abruptly cutting to full vertical format.",
+      "affected_elements": [
+        "framing",
+        "aspect ratio continuity"
+      ],
+      "severity": "medium",
+      "confidence": 0.65,
+      "likely_explains_retention_drop": true,
+      "reasoning": "A tiny landscape frame surrounded by black borders looks unpolished on mobile feeds, driving immediate viewer abandonment during the opening hook.",
+      "other_observations": "The drop also aligns with standard initial drop-off where unengaged viewers scroll away within the first three seconds.",
+      "suggestion": "Crop or reframe landscape footage to fill the 9:16 frame consistently from the start."
+    }
+  },
+  {
+    "event": {
+      "start_t": 12.0,
+      "end_t": 13.0,
+      "start_pct": 56.2,
+      "end_pct": 49.7,
+      "pct_lost": 6.5,
+      "peak_z": 2.0
+    },
+    "likely_skip": null,
+    "evidence_numeric": {
+      "retention_before_pct": 56.2,
+      "retention_after_pct": 49.7,
+      "pct_points_lost": 6.5,
+      "peak_drop_z": 2.0,
+      "before_window_s": [
+        7.0,
+        10.0
+      ],
+      "during_window_s": [
+        10.0,
+        13.5
+      ],
+      "before_window_metrics": {
+        "sharpness_mean": 1087.1,
+        "blockiness_mean": 1.08,
+        "any_cut": true,
+        "any_redundant_cut": false,
+        "any_reused_shot": false,
+        "audio_rms_db_mean": -20.6,
+        "transcript": "How exciting. No matter what anybody"
+      },
+      "during_window_metrics": {
+        "sharpness_mean": 792.7,
+        "blockiness_mean": 1.063,
+        "any_cut": true,
+        "any_redundant_cut": false,
+        "any_reused_shot": false,
+        "audio_rms_db_mean": -17.4,
+        "transcript": "No matter what anybody tells you,"
+      }
+    },
+    "finding": {
+      "quality_issue_found": false,
+      "description": "",
+      "affected_elements": [],
+      "severity": "none",
+      "confidence": 0.6,
+      "likely_explains_retention_drop": false,
+      "reasoning": "The DURING frames show standard scenic travel photography without notable visual rendering flaws, compression artifacts, or distortions.",
+      "other_observations": "The video transitions into a fast-paced montage of varied landscape stills, which may feel like a generic photo slideshow and cause viewers to lose interest.",
+      "suggestion": ""
+    }
+  },
+  {
+    "event": {
+      "start_t": 4.0,
+      "end_t": 5.0,
+      "start_pct": 86.9,
+      "end_pct": 81.0,
+      "pct_lost": 5.9,
+      "peak_z": 1.69
+    },
+    "likely_skip": null,
+    "evidence_numeric": {
+      "retention_before_pct": 86.9,
+      "retention_after_pct": 81.0,
+      "pct_points_lost": 5.9,
+      "peak_drop_z": 1.69,
+      "before_window_s": [
+        0.0,
+        2.0
+      ],
+      "during_window_s": [
+        2.0,
+        5.5
+      ],
+      "before_window_metrics": {
+        "sharpness_mean": 204.9,
+        "blockiness_mean": 1.025,
+        "any_cut": true,
+        "any_redundant_cut": false,
+        "any_reused_shot": false,
+        "audio_rms_db_mean": -20.7,
+        "transcript": "It's time for your next adventure. I have no"
+      },
+      "during_window_metrics": {
+        "sharpness_mean": 590.1,
+        "blockiness_mean": 1.034,
+        "any_cut": true,
+        "any_redundant_cut": false,
+        "any_reused_shot": false,
+        "audio_rms_db_mean": -22.7,
+        "transcript": "I have no idea what I'm gonna do tomorrow."
+      }
+    },
+    "finding": {
+      "quality_issue_found": true,
+      "description": "Inconsistent aspect ratios jumping erratically between letterboxed horizontal shots and full vertical video, accompanied by a blurry, poorly focused close-up shot.",
+      "affected_elements": [
+        "lighting continuity",
+        "character face",
+        "hands"
+      ],
+      "severity": "medium",
+      "confidence": 0.65,
+      "likely_explains_retention_drop": false,
+      "reasoning": "While the abrupt shifts in framing and the blurry shot look unpolished, early drops around 2-3 seconds are common when viewers quickly assess initial content style.",
+      "other_observations": "The montage rapidly switches pacing, settings, and subjects with jarring framing shifts and mismatched clip formats.",
+      "suggestion": "Standardize all clips to a vertical 9:16 format and cut the blurry footage to ensure visual consistency."
+    }
+  }
+]

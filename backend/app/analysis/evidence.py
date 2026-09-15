@@ -1,18 +1,20 @@
-"""Gather the actual before/during evidence for a DropEvent -- the package
-that gets handed to Gemini.
+"""Gather the actual before/during frames + numeric context for a
+DropEvent -- the package that gets handed to Gemini.
 
-Evidence is real video CLIPS (with audio), not sampled still frames --
-Gemini natively understands motion and audio together, and a lot of what
-actually matters here (AI-generation artifacts like a face morphing across
-frames, flicker, inconsistent hand geometry within one shot, audio that
-doesn't sync to the action) is structurally invisible to a handful of
-stills no matter how many you sample. One representative thumbnail per
-window is still saved alongside the clip purely so a human can eyeball the
-evidence folder without playing video files.
+Frame-sampled stills, not full video clips. This was previously upgraded
+to real video+audio clips (see git history / DESIGN.md) so Gemini could
+perceive motion and audio-sync directly -- genuinely better evidence for
+catching temporal artifacts (a face morphing across frames, audio that
+doesn't sync to the action). Reverted back to stills because the free
+Gemini tier's rate limit is request-count-sensitive, and video clips need
+~5 requests per event (2 uploads + polling + generate) vs. 1 inline call
+for a set of images -- the video-clip version couldn't complete even a
+25-second reel's analysis before hitting the limit. Stills are the
+correct tradeoff for demoing under a free-tier budget; switch back once
+billing/quota isn't the constraint.
 """
 from __future__ import annotations
 
-import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -22,56 +24,33 @@ import pandas as pd
 from app.analysis.drops import DropEvent
 
 
-def _ensure_min_duration(start: float, end: float, min_s: float, floor: float = 0.0, ceil: float | None = None) -> tuple[float, float]:
-    """Widen a (possibly zero-width) window to at least min_s seconds,
-    centered where possible, clamped to [floor, ceil]."""
-    if end - start >= min_s:
-        return start, end
-    center = (start + end) / 2
-    new_start = max(floor, center - min_s / 2)
-    new_end = new_start + min_s
-    if ceil is not None and new_end > ceil:
-        new_end = ceil
-        new_start = max(floor, new_end - min_s)
-    return new_start, new_end
+def sample_frame_times(start_t: float, end_t: float, n: int) -> list[float]:
+    if end_t <= start_t or n <= 1:
+        return [start_t]
+    return [start_t + i * (end_t - start_t) / (n - 1) for i in range(n)]
 
 
-def extract_clip(video_path: str, start_t: float, end_t: float, out_path: Path) -> Path:
-    """Trim a frame-accurate clip (video + audio) via ffmpeg. -ss/-to placed
-    after -i trades some speed for accuracy, which is worth it since these
-    clips are only a few seconds long anyway."""
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    cmd = [
-        "ffmpeg", "-y", "-i", str(video_path),
-        "-ss", f"{max(0.0, start_t):.2f}", "-to", f"{end_t:.2f}",
-        "-c:v", "libx264", "-preset", "fast", "-c:a", "aac",
-        str(out_path),
-    ]
-    result = subprocess.run(cmd, capture_output=True, text=True)
-    if result.returncode != 0:
-        raise RuntimeError(f"ffmpeg clip extraction failed:\n{result.stderr[-2000:]}")
-    return out_path
-
-
-def extract_thumbnail(video_path: str, t: float, out_path: Path) -> Path | None:
-    out_path.parent.mkdir(parents=True, exist_ok=True)
+def extract_frames_at(video_path: str, times: list[float], out_dir: Path, prefix: str) -> list[Path]:
+    out_dir.mkdir(parents=True, exist_ok=True)
     cap = cv2.VideoCapture(video_path)
-    cap.set(cv2.CAP_PROP_POS_MSEC, max(0.0, t) * 1000)
-    ok, frame = cap.read()
+    paths = []
+    for i, t in enumerate(times):
+        cap.set(cv2.CAP_PROP_POS_MSEC, max(0.0, t) * 1000)
+        ok, frame = cap.read()
+        if not ok:
+            continue
+        p = out_dir / f"{prefix}_{i:02d}_t{t:.1f}s.jpg"
+        cv2.imwrite(str(p), frame)
+        paths.append(p)
     cap.release()
-    if not ok:
-        return None
-    cv2.imwrite(str(out_path), frame)
-    return out_path
+    return paths
 
 
 @dataclass
 class DropEvidence:
     event: DropEvent
-    before_clip_path: Path
-    during_clip_path: Path
-    before_thumb_path: Path | None
-    during_thumb_path: Path | None
+    before_frame_paths: list[Path]
+    during_frame_paths: list[Path]
     before_window: tuple[float, float]
     during_window: tuple[float, float]
     numeric_summary: dict
@@ -95,24 +74,33 @@ def _window_summary(df: pd.DataFrame, t0: float, t1: float) -> dict:
 
 def gather_evidence(
     video_path: str, event: DropEvent, timeline_df: pd.DataFrame,
-    out_dir: Path, before_lookback_s: float = 3.0, min_clip_s: float = 1.2,
+    out_dir: Path, n_before: int = 3, n_during: int = 5, before_lookback_s: float = 3.0,
 ) -> DropEvidence:
-    video_duration = float(timeline_df["sec"].max()) if "sec" in timeline_df else None
-
     during_start, during_end = event.investigate_start_t, event.investigate_end_t
-    during_start, during_end = _ensure_min_duration(during_start, during_end, min_clip_s, ceil=video_duration)
-
-    before_end = event.investigate_start_t
+    before_end = during_start
     before_start = max(0.0, before_end - before_lookback_s)
-    before_start, before_end = _ensure_min_duration(before_start, before_end, min_clip_s, ceil=video_duration)
+    # A drop right at the start of the video has no earlier material to
+    # compare against -- 'before' degenerates to the opening frame(s),
+    # which is actually the right comparison there (the hook itself vs.
+    # what happens as it collapses), not a bug to special-case away.
+    if before_start == before_end and before_end > 0:
+        before_start = max(0.0, before_end - 1.0)
+
+    before_times = sample_frame_times(before_start, before_end, n_before)
+    # Guard against the 'before' window's last sample and 'during's first
+    # landing on the exact same timestamp (happens when a drop starts at
+    # or near t=0) -- that would hand Gemini the identical frame in both
+    # sets, defeating the before/during comparison.
+    if before_times and abs(before_times[-1] - during_start) < 1e-6:
+        during_start_adj = min(during_start + 0.3, during_end)
+    else:
+        during_start_adj = during_start
+    during_times = sample_frame_times(during_start_adj, during_end, n_during)
 
     event_slug = f"t{int(event.start_t)}-{int(event.end_t)}"
     event_dir = out_dir / event_slug
-
-    before_clip = extract_clip(video_path, before_start, before_end, event_dir / "before.mp4")
-    during_clip = extract_clip(video_path, during_start, during_end, event_dir / "during.mp4")
-    before_thumb = extract_thumbnail(video_path, (before_start + before_end) / 2, event_dir / "before_thumb.jpg")
-    during_thumb = extract_thumbnail(video_path, (during_start + during_end) / 2, event_dir / "during_thumb.jpg")
+    before_paths = extract_frames_at(video_path, before_times, event_dir, "before")
+    during_paths = extract_frames_at(video_path, during_times, event_dir, "during")
 
     numeric_summary = {
         "retention_before_pct": event.start_pct,
@@ -127,10 +115,8 @@ def gather_evidence(
 
     return DropEvidence(
         event=event,
-        before_clip_path=before_clip,
-        during_clip_path=during_clip,
-        before_thumb_path=before_thumb,
-        during_thumb_path=during_thumb,
+        before_frame_paths=before_paths,
+        during_frame_paths=during_paths,
         before_window=(before_start, before_end),
         during_window=(during_start, during_end),
         numeric_summary=numeric_summary,

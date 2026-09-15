@@ -1,22 +1,27 @@
 """Gemini call for the one generic rule we're starting with: does the
-DURING clip look/sound visibly worse or wrongly rendered compared to the
-BEFORE clip -- and does that plausibly explain the retention drop.
+DURING window look visually worse or wrongly rendered compared to the
+BEFORE window -- and does that plausibly explain the retention drop.
 
-Evidence is real video clips with audio (uploaded via the Files API), not
-sampled stills -- Gemini natively perceives motion and audio together,
-which is what actually matters for the failure modes we care about most:
-a face morphing across frames, flicker, inconsistent geometry within one
-shot, audio that doesn't sync to the action. None of that is visible in
-discrete still frames no matter how many you sample.
+Evidence is sampled still frames sent inline, NOT full video+audio clips.
+This was previously upgraded to real video clips (uploaded via the Files
+API) so Gemini could perceive motion and audio-sync directly -- genuinely
+better evidence for temporal artifacts (a face morphing across frames,
+audio that doesn't sync to the action), and worth reinstating once quota
+isn't the constraint. Reverted because the free tier's rate limit is
+request-count-sensitive: a video clip needs ~5 requests per event (2
+uploads + polling + generate) vs. 1 inline call for a set of images, and
+the video-clip version couldn't finish analyzing even a 25-second reel
+before hitting the limit. Stills are the deliberate, disclosed tradeoff
+for demoing under a free-tier budget, not the intended long-term design.
 
 Deliberately NOT AI-generation-specific. The eventual use case is
 reviewing AI-generated film/reels for scenes that aren't "on par" with
 their neighbors, but this same comparison also has to work on ordinary
 real-footage quality problems (focus, compression, lighting) -- so the
-prompt asks Gemini to judge what's visible/audible without assuming which
-kind of content it is. More rules get added once this one flow is
-validated end-to-end; nothing here should assume it's the only rule that
-will ever run.
+prompt asks Gemini to judge what's visible without assuming which kind of
+content it is. More rules get added once this one flow is validated
+end-to-end; nothing here should assume it's the only rule that will ever
+run.
 """
 from __future__ import annotations
 
@@ -26,6 +31,7 @@ import time
 from pathlib import Path
 from typing import Literal
 
+from PIL import Image
 from pydantic import BaseModel, Field
 
 from app.analysis.evidence import DropEvidence
@@ -67,43 +73,30 @@ def _get_client():
     return genai.Client(api_key=api_key)
 
 
-def _upload_and_wait(client, path: Path, poll_interval_s: float = 2.0, timeout_s: float = 120.0):
-    """Upload a video file and block until Gemini has finished processing
-    it (video/audio files go through a PROCESSING state before they're
-    usable in generate_content)."""
-    f = client.files.upload(file=str(path))
-    start = time.monotonic()
-    while f.state == "PROCESSING":
-        if time.monotonic() - start > timeout_s:
-            raise TimeoutError(f"Gemini file processing timed out for {path}")
-        time.sleep(poll_interval_s)
-        f = client.files.get(name=f.name)
-    if f.state == "FAILED":
-        raise RuntimeError(f"Gemini failed to process uploaded file {path}: {f.error}")
-    return f
-
-
 def _build_prompt(evidence: DropEvidence) -> str:
     s = evidence.numeric_summary
     return f"""You are reviewing a short video (a reel) to understand why viewer retention dropped sharply at one point.
 
-You are given two short video clips, WITH AUDIO, in order:
-- BEFORE: t={s['before_window_s'][0]}-{s['before_window_s'][1]}s, just before the drop window
-- DURING: t={s['during_window_s'][0]}-{s['during_window_s'][1]}s, the drop window itself
+You are shown two sets of still frames sampled from the video, in order (these are still images, not video -- you
+cannot perceive motion or hear audio directly; judge only what's visible in each frame, and use the numeric audio
+signals below for anything audio-related):
+- BEFORE: {len(evidence.before_frame_paths)} frame(s) from just before the drop window (t={s['before_window_s'][0]}-{s['before_window_s'][1]}s)
+- DURING: {len(evidence.during_frame_paths)} frame(s) from within the drop window itself (t={s['during_window_s'][0]}-{s['during_window_s'][1]}s)
 
 Retention went from {s['retention_before_pct']}% to {s['retention_after_pct']}% of viewers still watching across this window
 ({s['pct_points_lost']} percentage points lost) -- much steeper than this video's own typical pace (z={s['peak_drop_z']}, where >1.5 is already unusual for this video).
 
-YOUR TASK: watch both clips -- motion and audio together, not just individual frames -- and compare DURING against
-BEFORE as a viewer would. Judge whether DURING shows a genuine quality or rendering problem: reduced
-clarity/sharpness, blurred or malformed characters/faces/hands/objects, flicker or morphing across frames, broken
-temporal continuity, warped geometry, texture breakdown, audio that doesn't sync to what's on screen, or anything
-that looks/sounds like it wasn't shot/rendered/generated properly. Do NOT assume the content is real footage or
-AI-generated -- judge only on what you actually see and hear. A content/subject change alone (new location, new
-shot, new topic) is NOT a quality issue by itself; only flag it if something about HOW it's rendered or played
-looks or sounds wrong.
+YOUR TASK: compare the DURING frames against the BEFORE frames as a viewer would. Judge whether the DURING frames
+show a genuine visual quality or rendering problem -- reduced clarity/sharpness, blurred or malformed
+characters/faces/hands/objects, broken continuity, warped geometry, texture breakdown, or anything that looks like
+it wasn't shot/rendered/generated properly. Do NOT assume the footage is real or AI-generated -- judge only on what
+is visible. A content/subject change alone (new location, new shot) is NOT a quality issue by itself; only flag it
+if something about how it's rendered looks wrong.
 
-Supporting numeric signals (context only -- your own read of the clips is what matters most):
+Supporting numeric signals -- including audio levels and transcript, since you can't hear audio yourself. Your
+visual judgment on the actual frames is what matters most for the quality question, but use these numbers to
+reason about non-visual causes too (e.g. an audio jump or silence) and mention them in other_observations if
+relevant:
 {json.dumps(s, indent=2)}
 
 Respond with the structured fields requested."""
@@ -146,14 +139,12 @@ def _generate_structured(model: str, contents: list, response_schema: type[BaseM
 
 
 def analyze_drop_event(evidence: DropEvidence, max_retries: int = 6) -> QualityFinding:
-    client = _get_client()
     prompt = _build_prompt(evidence)
-
-    before_file = _upload_and_wait(client, evidence.before_clip_path)
-    during_file = _upload_and_wait(client, evidence.during_clip_path)
-    contents = [prompt, "BEFORE clip:", before_file, "DURING clip:", during_file]
-
-    return _generate_structured(MODEL, contents, QualityFinding, max_retries, client=client)
+    contents: list = [prompt, "BEFORE frames:"]
+    contents += [Image.open(p) for p in evidence.before_frame_paths]
+    contents.append("DURING frames:")
+    contents += [Image.open(p) for p in evidence.during_frame_paths]
+    return _generate_structured(MODEL, contents, QualityFinding, max_retries)
 
 
 class RankedFinding(BaseModel):

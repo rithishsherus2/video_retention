@@ -1,0 +1,28 @@
+=== 25s reel -- 8 cuts (0 likely redundant) -- retention 100% -> 24% ===
+
+t=  0s  retention=100.0%  [cut, COMPRESSION ARTIFACTS vs. rest of this shot (z=1.8), says: "It's time for your next"]
+t=  1s  retention=100.0%  [COMPRESSION ARTIFACTS vs. rest of this shot (z=2.1), says: "adventure."]
+t=  2s  retention=100.0%  [says: "I"]
+t=  3s  retention= 91.5%  [cut, sharpness -85% vs prev shot, blockiness +7% vs prev shot, says: "have no"]
+t=  4s  retention= 86.9%  [cut, sharpness +2937% vs prev shot, blockiness -5% vs prev shot, soft/blurry vs. rest of this shot (z=-1.6), says: "idea"]
+t=  5s  retention= 81.0%  [says: "what I'm gonna do tomorrow."]
+t=  6s  retention= 75.8%
+t=  7s  retention=  n/a   [cut, sharpness -79% vs prev shot, blockiness +3% vs prev shot]
+t=  8s  retention= 67.3%  [says: "How"]
+t=  9s  retention= 63.4%  [says: "exciting."]
+t= 10s  retention= 60.1%  [cut, sharpness +62% vs prev shot, blockiness +1% vs prev shot, soft/blurry vs. rest of this shot (z=-1.7), COMPRESSION ARTIFACTS vs. rest of this shot (z=1.8), says: "No matter"]
+t= 11s  retention= 58.2%  [cut, sharpness -49% vs prev shot, blockiness -1% vs prev shot, says: "what anybody"]
+t= 12s  retention= 56.2%  [cut, sharpness +63% vs prev shot, blockiness -0% vs prev shot, soft/blurry vs. rest of this shot (z=-2.0), COMPRESSION ARTIFACTS vs. rest of this shot (z=2.0), says: "tells you,"]
+t= 13s  retention= 49.7%  [cut, sharpness -25% vs prev shot, blockiness -6% vs prev shot]
+t= 14s  retention= 45.8%
+t= 15s  retention= 43.8%  [says: "words"]
+t= 16s  retention= 43.1%  [says: "and ideas"]
+t= 17s  retention= 40.5%  [COMPRESSION ARTIFACTS vs. rest of this shot (z=2.8), says: "can change"]
+t= 18s  retention= 37.3%  [COMPRESSION ARTIFACTS vs. rest of this shot (z=2.5), says: "the world."]
+t= 19s  retention= 34.6%
+t= 20s  retention= 32.0%  [says: "Smile,"]
+t= 21s  retention= 30.7%  [says: "my boy."]
+t= 22s  retention= 30.1%
+t= 23s  retention= 28.8%
+t= 24s  retention= 25.5%  [says: "Sunrise."]
+t= 25s  retention= 23.5%
