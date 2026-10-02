@@ -1,0 +1,57 @@
+[rules] Fetching https://www.instagram.com/reel/DTkqrN3kp_1/ ...
+[PROGRESS] Fetching https://www.instagram.com/reel/DTkqrN3kp_1/ ...
+[Instagram] Extracting URL: https://www.instagram.com/reel/DTkqrN3kp_1/
+[Instagram] DTkqrN3kp_1: Downloading video info
+[info] DTkqrN3kp_1: Downloading 1 format(s): dash-1238195874882881v+dash-894650080181731a
+[download] Destination: ..\data\web_runs\single_reel_isolation_test\DTkqrN3kp_1.fdash-1238195874882881v.mp4
+[download]   0.0% of   18.90MiB at  285.06KiB/s ETA 01:07[download]   0.0% of   18.90MiB at  664.25KiB/s ETA 00:29[download]   0.0% of   18.90MiB at    1.51MiB/s ETA 00:12[download]   0.1% of   18.90MiB at    1.59MiB/s ETA 00:11[download]   0.2% of   18.90MiB at    2.13MiB/s ETA 00:08[download]   0.3% of   18.90MiB at    2.83MiB/s ETA 00:06[download]   0.7% of   18.90MiB at    3.99MiB/s ETA 00:04[download]   1.3% of   18.90MiB at    6.09MiB/s ETA 00:03[download]   2.6% of   18.90MiB at    9.54MiB/s ETA 00:01[download]   5.3% of   18.90MiB at    4.91MiB/s ETA 00:03[download]  10.6% of   18.90MiB at    4.48MiB/s ETA 00:03[download]  21.2% of   18.90MiB at    4.05MiB/s ETA 00:03[download]  40.7% of   18.90MiB at    3.88MiB/s ETA 00:02[download]  60.4% of   18.90MiB at    3.58MiB/s ETA 00:02[download]  76.7% of   18.90MiB at    3.55MiB/s ETA 00:01[download]  94.9% of   18.90MiB at    3.30MiB/s ETA 00:00[download] 100.0% of   18.90MiB at    3.20MiB/s ETA 00:00[download] 100% of   18.90MiB in 00:00:05 at 3.16MiB/s   
+[download] Destination: ..\data\web_runs\single_reel_isolation_test\DTkqrN3kp_1.fdash-894650080181731a.m4a
+[download]   0.2% of  545.19KiB at  182.94KiB/s ETA 00:02[download]   0.6% of  545.19KiB at  548.83KiB/s ETA 00:00[download]   1.3% of  545.19KiB at    1.25MiB/s ETA 00:00[download]   2.8% of  545.19KiB at    1.88MiB/s ETA 00:00[download]   5.7% of  545.19KiB at    2.29MiB/s ETA 00:00[download]  11.6% of  545.19KiB at    3.27MiB/s ETA 00:00[download]  23.3% of  545.19KiB at    2.33MiB/s ETA 00:00[download]  46.8% of  545.19KiB at    2.70MiB/s ETA 00:00[download]  93.7% of  545.19KiB at    2.88MiB/s ETA 00:00[download] 100.0% of  545.19KiB at    3.03MiB/s ETA 00:00[download] 100% of  545.19KiB in 00:00:00 at 2.01MiB/s   
+[Merger] Merging formats into "..\data\web_runs\single_reel_isolation_test\DTkqrN3kp_1.mp4"
+Deleting original file ..\data\web_runs\single_reel_isolation_test\DTkqrN3kp_1.fdash-1238195874882881v.mp4 (pass -k to keep)
+Deleting original file ..\data\web_runs\single_reel_isolation_test\DTkqrN3kp_1.fdash-894650080181731a.m4a (pass -k to keep)
+[rules] Fetched DTkqrN3kp_1.mp4
+[PROGRESS] Fetched DTkqrN3kp_1.mp4
+[rules] Engagement (yt_dlp+provider:instagram_api_fast_reliable): views=922582 likes=60626 comments=498
+[PROGRESS] Engagement (yt_dlp+provider:instagram_api_fast_reliable): views=922582 likes=60626 comments=498
+[rules] Building feature timeline (quality, shots, audio, transcript)... this is the slow step.
+[PROGRESS] Building feature timeline (quality, shots, audio, transcript)... this is the slow step.
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+WARNING:huggingface_hub.utils._http:Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[timeline] shot detection + CLIP similarity...
+[timeline] quality metrics...
+[timeline] audio loudness...
+[timeline] transcription (faster-whisper, this is the slow step)...
+[audio] dropped 12 low-confidence segment(s) (no_speech_prob > 0.2 or avg_logprob < -1.0) -- not treated as real transcript.
+[timeline] detected language: en (confidence 0.98, model 'small')
+[timeline] redundant dialogue check...
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 2215.46it/s]
+[rules] Sampled 156 frames at ~2.0/s for decoding.
+[PROGRESS] Sampled 156 frames at ~2.0/s for decoding.
+[rules] Decoding creative/technical approach with Gemini...
+[PROGRESS] Decoding creative/technical approach with Gemini...
+WARNING:google_genai.models:Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+    Gemini call failed (ServerError), attempt 1/6, retrying in 3s...
+    Gemini call failed (ReadTimeout), attempt 2/6, retrying in 6s...
+    Gemini call failed (ReadTimeout), attempt 3/6, retrying in 12s...
+    Gemini call failed (ServerError), attempt 4/6, retrying in 24s...
+    Gemini call failed (ServerError), attempt 5/6, retrying in 48s...
+[rotation] Gemini API key 1/3 exhausted/rate-limited (exhausted 6 retries: The read operation timed out); trying next...
+    Gemini call failed (ReadTimeout), attempt 1/6, retrying in 3s...
+=== SUCCESS in 1391.7 s ===
+{
+  "hook_description": "Immediate shock imagery featuring an illustrated killer clown holding a bloody knife over a victim with quick cuts to hook true-crime fans.",
+  "storytelling_arc": "Contextual setup comparing infamous killers, leading into Edmund Kemper's specific modus operandi, the shocking juxtaposition of drinking with police while carrying heads in his trunk, the culmination in murdering his mother, and his eventual confession/profiling legacy.",
+  "pacing_style": "Moderate-paced narrative animation averaging around 2.8 seconds per shot, using cutaways to emphasize gruesome reveals and narrative contrasts.",
+  "tone_and_style": "Dark, gritty, graphic-novel style 2D animation with muted nocturnal palettes and vivid red accents suited for true crime horror.",
+  "audio_strategy": "Solemn, measured narrative voiceover paired with ambient, suspenseful background audio to accentuate disturbing biographical details.",
+  "text_overlay_and_captions": "Center-screen, high-contrast, bold white sans-serif subtitles rendered word-by-word in real time.",
+  "notable_techniques": [
+    "Shock-value visual hook within first second",
+    "Word-by-word dynamic kinetic typography",
+    "Thematic contrast editing (friendly pub banter juxtaposed with trunk gore)",
+    "Animated true crime documentary format to depict graphic scenes without platform strikes"
+  ],
+  "call_to_action": ""
+}
+=== DONE ===

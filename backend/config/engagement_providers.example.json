@@ -1,0 +1,53 @@
+[
+  {
+    "_comment": "Copy this file to engagement_providers.json (gitignored) and fill in real endpoints. Entries are tried IN ORDER for each reel and rotated past whenever one responds with a rate-limit status code -- put your primary/cheapest provider first. This file is only a fallback for whatever yt-dlp's own metadata (view_count/like_count/comment_count) leaves null; with no file here at all, engagement still works using yt-dlp alone.",
+
+    "_verified": "This first entry is a REAL, verified-working RapidAPI provider (instagram-api-fast-reliable-data-scraper) -- it takes Instagram's internal numeric media ID (not the URL), which {media_id} computes automatically from the reel URL's shortcode. Its response has views/likes/comments as flat top-level fields, confirmed via a live test call.",
+
+    "name": "instagram_api_fast_reliable",
+    "base_url": "https://instagram-api-fast-reliable-data-scraper.p.rapidapi.com/media",
+    "method": "GET",
+
+    "api_key_env": "ENGAGEMENT_API_KEY_1",
+
+    "query_params": {
+      "id": "{media_id}"
+    },
+    "headers": {
+      "x-rapidapi-key": "{api_key}",
+      "x-rapidapi-host": "instagram-api-fast-reliable-data-scraper.p.rapidapi.com"
+    },
+
+    "response_paths": {
+      "views": "play_count",
+      "likes": "like_count",
+      "comments": "comment_count",
+      "caption": "caption.text"
+    },
+
+    "rate_limit_status_codes": [429, 403]
+  },
+  {
+    "_comment": "A second endpoint, tried only if the first one above is rate-limited/exhausted. Different services shape their JSON differently -- response_paths is dot-notation into whatever this one returns; adjust it to match.",
+
+    "name": "example_second_provider",
+    "base_url": "https://another-instagram-scraper.example.com/v1/media",
+    "method": "GET",
+
+    "api_key_env": "ENGAGEMENT_API_KEY_2",
+
+    "query_params": {
+      "shortcode_url": "{reel_url}",
+      "token": "{api_key}"
+    },
+    "headers": {},
+
+    "response_paths": {
+      "views": "result.stats.views",
+      "likes": "result.stats.likes",
+      "comments": "result.stats.comments"
+    },
+
+    "rate_limit_status_codes": [429]
+  }
+]

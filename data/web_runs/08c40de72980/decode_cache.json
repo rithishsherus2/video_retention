@@ -1,0 +1,65 @@
+{
+  "engagement": {
+    "views": 8011,
+    "likes": 274,
+    "comments": 3,
+    "caption": "In 1968, Glasgow’s Barrowland Ballroom was the ultimate spot for a night out—until a shadow fell over the dance floor.\n\nWhen 25-year-old Patricia Docker went missing after a Thursday night at Barrowland, it marked the beginning of a chilling chapter in Scottish history. By the time the city realized what was happening, a serial killer had struck three times, leaving behind a mystery that remains unsolved to this day.\n\nEpisode 1 of The Story of Bible John is out now on aby.one. Watch to dive into the origins of Glasgow’s most infamous cold case.\n\n#BibleJohn #TrueCrime #Glasgow #Barrowland #AbyOne",
+    "hashtags": [
+      "BibleJohn",
+      "TrueCrime",
+      "Glasgow",
+      "Barrowland",
+      "AbyOne"
+    ],
+    "posted_at": "20260805",
+    "source": "yt_dlp+provider:instagram_api_fast_reliable"
+  },
+  "features": {
+    "duration_s": 95.0,
+    "shot_count": 26,
+    "avg_shot_duration_s": 3.67,
+    "min_shot_duration_s": 1.0,
+    "max_shot_duration_s": 6.83,
+    "cuts_per_10s": 2.74,
+    "cuts_in_first_3s": 1,
+    "has_dialogue": true,
+    "dialogue_seconds": 60,
+    "dialogue_density": 0.63,
+    "silent_seconds": 0,
+    "redundant_cuts": 0,
+    "reused_shots": 2,
+    "reused_shot_instances": [
+      {
+        "start_t": 0.0,
+        "end_t": 5.2,
+        "reused_of_start_t": 17.3
+      },
+      {
+        "start_t": 17.3,
+        "end_t": 23.1,
+        "reused_of_start_t": 0.0
+      }
+    ],
+    "redundant_dialogue_moments": 0,
+    "avg_sharpness": 49.3,
+    "avg_blockiness": 1.065,
+    "avg_brightness": 57.7,
+    "avg_audio_rms_db": -18.6,
+    "full_transcript": "The steel mills at Ravens Craig ran at full capacity. The city's east -end tenements were, in 1968, still largely unmodernized. Central Glasgow's nightlife orbited the network of pubs, clubs, and dance halls. The most famous of them was the Barreland Ballroom on Gallogate. Barreland's Thursday night was the Over 25s. It was the night most married Glasgow women went to. The rule was informal but understood. You went with your sister or your friend. You danced. You went home. Husbands, in most cases, knew and did not object. In February 1968, a 25 -year -old nursing auxiliary named Patricia Docker did exactly that. She never came home. By the time Glasgow understood that a serial killer had emerged from the Barreland dance floor, three young women were dead. The Barreland is still open today. The killer has never been named.",
+    "has_retention_data": false
+  },
+  "decoding": {
+    "hook_description": "Establishes a gloomy, atmospheric shot of 1968 Glasgow tenement rooftops with stylized anime visuals and title text, immediately setting an ominous true-crime tone.",
+    "storytelling_arc": "Context setup (1968 industrial Glasgow nightlife) to specific setting (Barrowland Ballroom rules) to victim introduction (Patricia Docker), escalating to tragedy (she never returned, three victims dead) and ending on an unsolved cliffhanger.",
+    "pacing_style": "Measured documentary cadence averaging 3.7 seconds per shot, using subtle 2D camera pans/zooms over dramatic illustrated scenes rather than rapid cuts.",
+    "tone_and_style": "Moody retro anime/motion-comic noir aesthetic; desaturated palette with muted grays and warm amber lighting, conveying a grim, serious true-crime mystery.",
+    "audio_strategy": "Solemn, steady voiceover narration driving the historical crime narrative, underpinned by subtle atmospheric sound design and tension-building score.",
+    "text_overlay_and_captions": "Dynamic single-word/short-phrase centered bold white captions timed strictly to speech; stylized red chapter marker overlay ('Episode 01') near the start.",
+    "notable_techniques": [
+      "Motion comic / stylized 2D anime visuals replacing stock archival footage",
+      "Rapid single-word subtitle pulsing in center frame for high mobile retention",
+      "Unresolved chilling closing hook ('The killer has never been named') paired with a walking silhouette"
+    ],
+    "call_to_action": "Explicit text slide at the finale: 'WATCH NOW AT ABY.ONE / EPISODE 02'."
+  }
+}

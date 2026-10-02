@@ -3,49 +3,129 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Retention Analysis</title>
+<title>Reel Intelligence</title>
 <style>
   :root {
-    color-scheme: light dark;
-    --bg: #0c0e14; --panel: #161927; --panel2: #1c2033; --border: #2c3147;
-    --text: #eef0f6; --muted: #9aa1b8;
-    --accent: #8b5cf6; --accent2: #ec4899; --blue: #38bdf8;
-    --danger: #fb7185; --ok: #34d399; --warn: #fbbf24;
-  }
-  @media (prefers-color-scheme: light) {
-    :root { --bg: #f5f6fb; --panel: #ffffff; --panel2: #f7f4ff; --border: #e4e6f2; --text: #1a1d2b; --muted: #666f8c; }
+    color-scheme: light;
+    /* Warm, editorial palette -- exact hex values from the brief, no hardcoded colors
+       outside this block. Deliberately restrained: --accent (primary green) is reserved
+       for primary actions/selected nav per the usage rules, not spread across the whole
+       UI, and --accent2 (terracotta) is used only for small/decorative indicators (chart
+       markers, an occasional small label) -- see individual rules below for where each
+       is (and isn't) applied. */
+    --bg: #F7F5EF;
+    --panel: #FFFFFF;
+    --panel2: #F7F5EF; /* nested surfaces intentionally match --bg -- separation comes from
+                           the enclosing white --panel + border, not a third color */
+    --border: #E3E1D8;
+    --text: #202522;
+    --muted: #68716C;
+    --sidebar: #19352D;
+    --accent: #2F7D65;
+    --accent-hover: #256550;
+    --accent2: #E98A6A;
+    --blue: #2F7D65; /* no distinct blue in this palette -- links/informational text use
+                         the primary action color rather than an invented hue */
+    --danger: #C94B4B;
+    --warn: #D69A3A;
+    --ok: #3D8B70;
+    --on-accent: #FFFFFF; /* text/icon color placed on a solid --accent fill */
+
+    /* No gradients anywhere (see button/sidebar/icon rules) -- shadows and overlays are
+       the only place semi-transparent color is needed, so they're derived from the theme
+       colors via color-mix() rather than separately hardcoded rgba() values. */
+    --shadow-sm: 0 2px 8px color-mix(in srgb, var(--text) 6%, transparent);
+    --shadow-md: 0 10px 24px color-mix(in srgb, var(--text) 12%, transparent);
+    --shadow-btn: 0 3px 10px color-mix(in srgb, var(--accent) 30%, transparent);
+    --shadow-btn-hover: 0 5px 14px color-mix(in srgb, var(--accent) 38%, transparent);
+    --focus-ring: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+    --overlay-scrim: color-mix(in srgb, var(--text) 55%, transparent);
   }
   * { box-sizing: border-box; }
-  body { margin: 0; padding-block: 32px; background: var(--bg); color: var(--text);
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
          font-family: -apple-system, Segoe UI, Roboto, sans-serif; }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
 
-  .hero { margin-bottom: 24px; }
-  .hero h1 { font-size: 1.7rem; margin: 0 0 6px; font-weight: 800;
-    background: linear-gradient(90deg, var(--accent), var(--accent2) 60%, var(--blue));
-    -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .hero .sub { color: var(--muted); font-size: 0.95rem; }
+  /* ---- Full-screen dashboard shell: fixed sidebar + full-bleed content pane ---- */
+  .app-shell { display: flex; min-height: 100vh; }
+
+  /* Sidebar is a flat, solid dark-green surface -- deliberately no gradient or motion:
+     it's the one fixed anchor of the dashboard and stays calm/still by design. */
+  .sidebar { width: 236px; flex-shrink: 0; border-right: none; background: var(--sidebar);
+    display: flex; flex-direction: column; padding: 26px 16px; position: sticky; top: 0; height: 100vh; }
+  .sidebar-brand { font-size: 1.15rem; font-weight: 700; margin: 0 0 30px; padding: 0 10px; color: var(--bg); }
+  .sidebar-nav { display: flex; flex-direction: column; gap: 4px; }
+  /* Inactive nav text uses --bg (warm cream) rather than plain white, so even the dark
+     sidebar carries the palette's warm undertone instead of a neutral gray/white. */
+  .nav-item { display: flex; align-items: center; gap: 12px; justify-content: flex-start;
+    background: none; box-shadow: none; color: color-mix(in srgb, var(--bg) 72%, transparent);
+    font-weight: 600; font-size: 0.92rem;
+    padding: 12px 14px; border-radius: 8px; cursor: pointer; text-align: left; border-left: 3px solid transparent;
+    transition: background 0.15s, color 0.15s; }
+  .nav-item:hover { background: color-mix(in srgb, var(--bg) 12%, transparent); color: var(--bg); }
+  /* Selected nav item uses the primary action color, per the usage rules -- the one
+     deliberate exception to "sidebar itself has no accent fill". */
+  .nav-item.active { background: var(--accent); color: var(--on-accent); border-left-color: var(--accent2); }
+  .nav-icon { font-size: 1.05rem; width: 18px; text-align: center; flex-shrink: 0; }
+  /* .sidebar-tutorial-btn alone loses to button.ghost's higher specificity (element+class);
+     scoping through .sidebar bumps it past that instead of fighting source order. */
+  .sidebar .sidebar-tutorial-btn { margin-top: auto; background: transparent;
+    border: 1px solid color-mix(in srgb, var(--bg) 35%, transparent);
+    color: color-mix(in srgb, var(--bg) 88%, transparent); box-shadow: none; }
+  .sidebar .sidebar-tutorial-btn:hover { background: color-mix(in srgb, var(--bg) 14%, transparent); filter: none; }
+
+  .main-content { flex: 1; min-width: 0; padding: 40px 48px; }
+  .tabpanel { display: none; }
+  .tabpanel.active { display: block; animation: pageIn 0.35s ease; }
+  @keyframes pageIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .page-header { margin-bottom: 24px; }
+  .page-header h1 { font-size: 1.5rem; margin: 0 0 6px; font-weight: 800; color: var(--text); }
+  .page-header .sub { color: var(--muted); font-size: 0.92rem; }
+
+  @media (max-width: 760px) {
+    .app-shell { flex-direction: column; }
+    .sidebar { width: 100%; height: auto; position: static; flex-direction: row; align-items: center;
+      padding: 14px 16px; overflow-x: auto; }
+    .sidebar-brand { display: none; }
+    .sidebar-nav { flex-direction: row; }
+    .sidebar-tutorial-btn { display: none; }
+    .main-content { padding: 24px 18px; }
+  }
 
   .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 16px;
-           padding: 22px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-  .panel.accent-top { border-top: 3px solid transparent;
-    border-image: linear-gradient(90deg, var(--accent), var(--blue)) 1; }
+           padding: 22px; margin-bottom: 20px; box-shadow: var(--shadow-sm);
+           transition: box-shadow 0.2s, transform 0.2s; }
+  .panel.accent-top { border-top: 3px solid var(--accent); }
 
   label { display: block; font-size: 0.85rem; margin: 16px 0 6px; color: var(--muted); font-weight: 600; }
   label:first-of-type { margin-top: 0; }
-  input[type=text], input[type=file] { width: 100%; padding: 11px 12px; border-radius: 10px;
-    border: 1px solid var(--border); background: var(--panel2); color: var(--text); font-size: 0.9rem; }
-  input[type=text]:focus { outline: none; border-color: var(--accent); }
+  input[type=text], input[type=file], select { width: 100%; padding: 11px 12px; border-radius: 10px;
+    border: 1.5px solid var(--border); background: var(--panel2); color: var(--text); font-size: 0.9rem;
+    font-family: inherit; transition: border-color 0.15s, box-shadow 0.15s; }
+  input[type=text]:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: var(--focus-ring); }
+  select { appearance: auto; }
 
+  /* Solid --accent, no gradient -- the primary action color per the usage rules. */
   button { padding: 12px 24px; border-radius: 10px; border: none; font-weight: 700;
-    background: linear-gradient(90deg, var(--accent), var(--accent2)); color: white;
-    font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 14px rgba(139,92,246,0.35); }
-  button:hover { filter: brightness(1.08); }
-  button:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
-  button.ghost { background: var(--panel2); color: var(--text); box-shadow: none; border: 1px solid var(--border); }
+    background: var(--accent); color: var(--on-accent);
+    font-size: 0.95rem; cursor: pointer; box-shadow: var(--shadow-btn);
+    transition: background 0.15s, box-shadow 0.15s, transform 0.15s; }
+  button:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: var(--shadow-btn-hover); }
+  button:active { transform: translateY(0); }
+  button:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; transform: none; }
+  button.ghost { background: var(--panel2); color: var(--text); box-shadow: none; border: 1.5px solid var(--border); }
+  button.ghost:hover { border-color: var(--accent); box-shadow: none; background: var(--panel2); }
+  button.small { padding: 7px 14px; font-size: 0.8rem; }
+  button.icon-btn { background: none; box-shadow: none; color: var(--muted); padding: 4px 8px; font-size: 1rem; }
+  button.icon-btn:hover { color: var(--danger); transform: none; box-shadow: none; background: none; }
 
   .hint { font-size: 0.8rem; color: var(--muted); margin-top: 6px; line-height: 1.5; }
   .hint a { color: var(--blue); }
+
+  .badge { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 20px;
+    background: var(--panel2); border: 1px solid var(--border); color: var(--muted); margin-left: 8px; }
+  /* Outline-only, no filled color background -- a small indicator, not a colored container. */
+  .badge.recommended { color: var(--accent2); border-color: var(--accent2); background: var(--panel2); }
 
   .howto { background: var(--panel2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-top: 10px; }
   .howto summary { cursor: pointer; font-size: 0.85rem; font-weight: 700; color: var(--accent); list-style: none; }
@@ -56,11 +136,76 @@
   .howto video { width: 100%; max-width: 260px; border-radius: 10px; margin-top: 8px; display: block; border: 1px solid var(--border); }
   .howto .cap { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
 
-  #progress { display: none; }
-  #progress .line { font-size: 0.85rem; color: var(--muted); padding: 4px 0; }
-  #progress .line:last-child { color: var(--text); font-weight: 600; }
-  #error { display: none; color: var(--danger); font-size: 0.9rem; border-left: 3px solid var(--danger); }
-  #result { display: none; }
+  #projectProgress, #evalProgress { display: none; }
+  .line { font-size: 0.85rem; color: var(--muted); padding: 4px 0; }
+  .line:last-child { color: var(--text); font-weight: 600; }
+  .error-panel { display: none; color: var(--danger); font-size: 0.9rem; border-left: 3px solid var(--danger); }
+
+  .reel-row { border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-top: 12px; background: var(--panel2); }
+  .reel-row-header { display: flex; justify-content: space-between; align-items: center; }
+  /* Small uppercase labels use --accent2 (sparingly, per the usage rules) rather than
+     stacking yet another use of the primary green onto a purely decorative label. */
+  .reel-row-label { font-size: 0.78rem; font-weight: 700; color: var(--accent2); text-transform: uppercase; letter-spacing: 0.04em; }
+  .reel-row input[type=text] { margin-top: 6px; }
+  .reel-row-retention { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+  .reel-row-retention input[type=file] { flex: 1; font-size: 0.8rem; padding: 8px; }
+
+  /* ---- Tile grids: Projects (name-only tiles) and Tested Reels (richer tiles) ---- */
+  .tile-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 16px; }
+  .project-tile { background: var(--panel); border: 1px solid var(--border); border-radius: 16px;
+    padding: 26px 20px; text-align: center; cursor: pointer; box-shadow: var(--shadow-sm);
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; }
+  .project-tile:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--accent); }
+  .project-tile .tile-icon { width: 44px; height: 44px; margin: 0 auto 12px; border-radius: 12px; display: flex;
+    align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem; color: var(--on-accent);
+    background: var(--accent); }
+  .project-tile .tile-name { font-weight: 700; font-size: 0.95rem; color: var(--text); word-break: break-word; }
+  .project-tile .tile-sub { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+  .empty-state { text-align: center; color: var(--muted); padding: 40px 20px; font-size: 0.9rem; }
+
+  .back-link { margin-bottom: 20px; }
+
+  .test-tile { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 18px 20px;
+    cursor: pointer; box-shadow: var(--shadow-sm);
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; }
+  .test-tile:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--accent); }
+  .test-tile .tile-project { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;
+    color: var(--accent2); margin-bottom: 6px; }
+  .test-tile .tile-url { font-size: 0.82rem; color: var(--blue); word-break: break-all; margin-bottom: 8px; }
+  .test-tile .tile-headline { font-size: 0.85rem; color: var(--text); line-height: 1.5; margin-bottom: 10px; }
+  .test-tile .tile-stats { font-size: 0.78rem; color: var(--muted); }
+
+  .rule-card { border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-top: 10px;
+    background: var(--panel2); transition: border-color 0.15s, transform 0.15s; }
+  .rule-card:hover { border-color: var(--accent); transform: translateX(3px); }
+  .rule-card .cat { display: inline-block; font-size: 0.68rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.05em; color: var(--accent2); margin-bottom: 6px; }
+  .rule-card .rule-text { font-size: 0.92rem; font-weight: 600; margin-bottom: 4px; }
+  .rule-card .rationale { font-size: 0.83rem; color: var(--muted); line-height: 1.5; }
+
+  .stat-chip-row { display: flex; gap: 12px; flex-wrap: wrap; margin: 14px 0; }
+  .stat-chip { background: var(--panel2); border: 1px solid var(--border); border-radius: 12px;
+    padding: 10px 16px; min-width: 110px; transition: transform 0.15s, box-shadow 0.15s; }
+  .stat-chip:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+  .stat-chip .label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  /* Dark charcoal, not accent-colored -- stat numbers appear in many places across the
+     app, and coloring all of them green would read as "the whole interface is green". */
+  .stat-chip .value { font-size: 1.15rem; font-weight: 700; margin-top: 2px; color: var(--text); }
+
+  .violation-card { border-radius: 12px; padding: 14px 16px; margin-top: 10px; border-left: 4px solid var(--border); background: var(--panel2); }
+  .violation-card.impact-high { border-left-color: var(--danger); }
+  .violation-card.impact-medium { border-left-color: var(--warn); }
+  .violation-card.impact-low { border-left-color: var(--blue); }
+  .violation-card .impact-tag { font-size: 0.68rem; font-weight: 800; text-transform: uppercase; padding: 2px 8px; border-radius: 20px; }
+  .violation-card.impact-high .impact-tag { background: color-mix(in srgb, var(--danger) 14%, transparent); color: var(--danger); }
+  .violation-card.impact-medium .impact-tag { background: color-mix(in srgb, var(--warn) 16%, transparent); color: var(--warn); }
+  .violation-card.impact-low .impact-tag { background: color-mix(in srgb, var(--blue) 14%, transparent); color: var(--blue); }
+  .violation-card .rule-text { font-weight: 700; margin: 6px 0; font-size: 0.92rem; }
+  .violation-card .field-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.03em; margin-top: 8px; }
+  .violation-card .field-value { font-size: 0.88rem; line-height: 1.5; }
+
+  ul.plain { margin: 8px 0; padding-left: 20px; }
+  ul.plain li { font-size: 0.88rem; line-height: 1.6; margin-bottom: 4px; }
 
   .player-row { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start; }
   .player-col { flex: 1 1 280px; max-width: 340px; }
@@ -81,10 +226,18 @@
   .playhead-dot { fill: var(--accent2); pointer-events: none; }
   .drop-zone { cursor: pointer; }
   .drop-zone:hover { opacity: 0.34 !important; }
+  .reused-marker { cursor: pointer; fill: var(--accent2); opacity: 0.85; }
+  .reused-marker:hover { opacity: 1; }
+
+  .reused-shot-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 10px 14px;
+    margin-top: 8px; border-radius: 10px; background: var(--panel2); border-left: 4px solid var(--accent2);
+    font-size: 0.85rem; }
+  .reused-shot-row .time-range { font-weight: 700; }
+  .reused-shot-row .reused-from { color: var(--muted); flex: 1 1 auto; }
 
   #tooltip { position: absolute; display: none; background: var(--panel); border: 1px solid var(--border);
     border-radius: 10px; padding: 11px 13px; font-size: 0.8rem; max-width: 260px; pointer-events: none;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.3); z-index: 10; }
+    box-shadow: var(--shadow-md); z-index: 10; }
   #tooltip .tt-title { font-weight: 700; margin-bottom: 4px; }
   #tooltip .tt-title.danger { color: var(--danger); }
   #tooltip .tt-title.ok { color: var(--ok); }
@@ -95,110 +248,383 @@
   .legend span { display: inline-flex; align-items: center; gap: 5px; }
   .legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
 
-  #reportHtml { background: var(--panel2); border-radius: 14px; padding: 20px 24px; margin-top: 24px; }
-  #reportHtml h1 { font-size: 1.25rem; background: linear-gradient(90deg, var(--accent), var(--blue));
-    -webkit-background-clip: text; background-clip: text; color: transparent; }
-  #reportHtml h2 { font-size: 1.05rem; margin-top: 24px; color: var(--accent2); }
-  #reportHtml h3 { font-size: 0.95rem; margin-top: 18px; color: var(--blue); }
-  #reportHtml p, #reportHtml li { font-size: 0.92rem; line-height: 1.6; }
+  #reportHtml { background: var(--panel2); border-radius: 14px; padding: 18px 22px; margin-top: 10px; }
+  #reportHtml h1 { font-size: 1.15rem; }
+  #reportHtml h2 { font-size: 1rem; margin-top: 20px; color: var(--accent2); }
+  #reportHtml h3 { font-size: 0.92rem; margin-top: 16px; color: var(--blue); }
+  #reportHtml p, #reportHtml li { font-size: 0.88rem; line-height: 1.6; }
   #reportHtml strong { color: var(--accent); }
 
   .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border);
     border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite;
     vertical-align: middle; margin-right: 8px; }
   @keyframes spin { to { transform: rotate(360deg); } }
+
+  .section-title { font-size: 1rem; font-weight: 800; margin: 26px 0 4px; color: var(--text); }
+  .headline { font-size: 1.05rem; font-weight: 700; line-height: 1.5; }
+
+  /* ---- Home page ---- */
+  /* Solid dark-charcoal heading, not an animated gradient -- calm/editorial rather than
+     the "shimmering AI product" look. */
+  .home-hero h2 { margin: 0 0 10px; font-size: 1.3rem; font-weight: 700; color: var(--text); }
+  .home-hero p { color: var(--muted); font-size: 0.95rem; line-height: 1.7; margin: 0; max-width: 720px; }
+  .home-hero em { color: var(--accent2); font-style: normal; font-weight: 700; }
+
+  .home-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 20px; }
+  .home-action-card { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 22px;
+    cursor: pointer; box-shadow: var(--shadow-sm);
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s; }
+  .home-action-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: var(--shadow-md); }
+  .home-action-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center;
+    justify-content: center; font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; color: var(--on-accent);
+    background: var(--accent); }
+  .home-action-card h3 { margin: 0 0 6px; font-size: 1.02rem; color: var(--text); }
+  .home-action-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+
+  .how-it-works { margin: 10px 0 18px; padding-left: 22px; }
+  .how-it-works li { font-size: 0.9rem; line-height: 1.7; color: var(--muted); margin-bottom: 8px; }
+  .how-it-works b { color: var(--text); }
+
+  /* ---- Modal ---- */
+  .modal-overlay { position: fixed; inset: 0; background: var(--overlay-scrim); backdrop-filter: blur(3px);
+    display: flex; align-items: center; justify-content: center; z-index: 200; padding: 20px;
+    animation: overlayIn 0.2s ease; }
+  @keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
+  .modal-box { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 28px;
+    max-width: 600px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative;
+    box-shadow: var(--shadow-md); animation: modalIn 0.25s cubic-bezier(0.2,0.9,0.3,1.2); }
+  @keyframes modalIn { from { opacity: 0; transform: scale(0.94) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+  .modal-close { position: absolute; top: 12px; right: 12px; background: none; box-shadow: none;
+    color: var(--muted); font-size: 1.4rem; line-height: 1; padding: 6px 10px; transition: color 0.15s, transform 0.15s; }
+  .modal-close:hover { color: var(--danger); filter: none; transform: rotate(90deg); }
+  .modal-box h2 { margin: 0 0 12px; font-size: 1.2rem; padding-right: 24px; }
+
+  .tutorial-dots { display: flex; gap: 6px; margin-bottom: 18px; }
+  .tutorial-dots .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); transition: background 0.2s, transform 0.2s; }
+  .tutorial-dots .dot.active { background: var(--accent2); transform: scale(1.4); }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="hero">
-    <h1>Retention Analysis</h1>
-    <div class="sub">Paste a reel link + a recording of its retention graph &mdash; get a causal drop analysis and suggestions.</div>
-  </div>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-brand">Reel Intelligence</div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-tab="home"><span class="nav-icon">&#8962;</span> Home</button>
+      <button class="nav-item" data-tab="projects"><span class="nav-icon">&#9776;</span> Projects</button>
+      <button class="nav-item" data-tab="newProject"><span class="nav-icon">+</span> New Project</button>
+      <button class="nav-item" data-tab="testReel"><span class="nav-icon">&#9654;</span> Test a Reel</button>
+      <button class="nav-item" data-tab="testedReels"><span class="nav-icon">&#128203;</span> Tested Reels</button>
+    </nav>
+    <button class="ghost small sidebar-tutorial-btn" onclick="openTutorial()">Show tutorial</button>
+  </aside>
 
-  <div class="panel accent-top">
-    <form id="form">
-      <label>Reel URL</label>
-      <input type="text" id="reelUrl" placeholder="https://www.instagram.com/reel/..." required>
+  <main class="main-content">
 
-      <label>Retention graph recording</label>
-      <input type="file" id="retentionRecording" accept="video/*,image/*" required>
-      <div class="hint">A screen recording of you dragging your finger across the retention graph in Instagram Edits &mdash; see how below.</div>
+  <!-- ============ HOME ============ -->
+  <section id="tab-home" class="tabpanel active">
+    <div class="panel home-hero">
+      <h2>What this does</h2>
+      <p>Instead of generic video-editing advice, Reel Intelligence decodes the reels that already work for
+        <em>your</em> page into a concrete, checkable rule set &mdash; hook, pacing, storytelling, audio, visual
+        style &mdash; then checks any new reel against those exact rules, so you know precisely why it's likely
+        to under- or over-perform before (or after) you post it.</p>
+    </div>
 
-      <details class="howto">
-        <summary>How to record this (with an example)</summary>
-        <ol>
-          <li>Open the reel in the <strong>Instagram Edits</strong> app (not the main Instagram app) &rarr; Insights &rarr; tap the retention graph.</li>
-          <li>Start a screen recording, then slowly drag your finger left to right across the graph, pausing briefly every second or so &mdash; each pause gives a clean, readable "X% at 0:0Y" tooltip.</li>
-          <li>Keep the recording tight on the graph itself (not the whole phone screen with extra chrome) &mdash; like the example on the right.</li>
-          <li>Upload the resulting video above. No need to trim it.</li>
-        </ol>
-        <video src="/sample_retention.mp4" controls muted loop></video>
-        <div class="cap">Example of a good recording</div>
-      </details>
-
-      <button type="submit" id="submitBtn" style="margin-top:20px">Run Analysis</button>
-    </form>
-  </div>
-
-  <div class="panel" id="progress">
-    <div id="progressLines"></div>
-  </div>
-
-  <div class="panel" id="error"></div>
-
-  <div class="panel" id="result">
-    <div class="player-row">
-      <div class="player-col">
-        <video id="reelVideo" playsinline></video>
-        <div class="controls">
-          <button class="icon" id="playPauseBtn">&#9654;</button>
-          <button class="icon" id="restartBtn" title="Restart">&#9198;</button>
-          <span class="time"><span id="curTime">0:00</span> / <span id="durTime">0:00</span></span>
-        </div>
+    <div class="home-actions">
+      <div class="home-action-card" onclick="switchTab('newProject')">
+        <div class="home-action-icon">+</div>
+        <h3>New Project</h3>
+        <p>Decode 2-8 of your best-performing reels into a saved, reusable rule set.</p>
       </div>
-      <div class="chart-col">
-        <div id="chartWrap">
-          <svg id="chart" viewBox="0 0 700 220" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stop-color="var(--accent)"/>
-                <stop offset="100%" stop-color="var(--blue)"/>
-              </linearGradient>
-            </defs>
-          </svg>
-          <div id="tooltip"></div>
-        </div>
-        <div class="legend">
-          <span><i style="background:var(--danger)"></i> quality issue found</span>
-          <span><i style="background:var(--warn)"></i> pacing/content drop</span>
-          <span><i style="background:var(--ok)"></i> likely a skip (recovered)</span>
-        </div>
+      <div class="home-action-card" onclick="switchTab('projects')">
+        <div class="home-action-icon">&#9776;</div>
+        <h3>Existing Projects</h3>
+        <p>View saved rule sets, their benchmarks, and reels already tested against them.</p>
+      </div>
+      <div class="home-action-card" onclick="switchTab('testReel')">
+        <div class="home-action-icon">&#9654;</div>
+        <h3>Test a Reel</h3>
+        <p>Check any reel against a project's rules and get a concrete, rule-by-rule critique.</p>
       </div>
     </div>
 
-    <div id="reportHtml"></div>
-  </div>
+    <div class="panel">
+      <div class="section-title" style="margin-top:0">How it works</div>
+      <ol class="how-it-works">
+        <li><b>Create a Project</b> from a handful of reels that already performed well &mdash; a retention-graph
+          recording per reel is optional but helps.</li>
+        <li><b>We decode the pattern</b> across those reels &mdash; hook, pacing, storytelling, audio, visual
+          style &mdash; into a small set of concrete, checkable rules, not generic advice.</li>
+        <li><b>Test any reel</b> against that project's rules to see exactly what's working, what isn't, and why
+          &mdash; with or without a retention graph for the reel being tested.</li>
+      </ol>
+      <button class="ghost small" onclick="openTutorial()">Show me how (2-minute tour)</button>
+    </div>
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section id="tab-projects" class="tabpanel">
+    <div class="page-header" id="projectsPageHeader">
+      <h1>Your Projects</h1>
+      <div class="sub">Each tile is a saved rule set decoded from a set of ideal reels. Click one to see its rules and benchmarks, or start another for a different niche.</div>
+    </div>
+    <div id="projectsTileGrid" class="tile-grid"></div>
+    <div id="projectDetailView" style="display:none"></div>
+  </section>
+
+  <!-- ============ NEW PROJECT ============ -->
+  <section id="tab-newProject" class="tabpanel">
+    <div class="page-header">
+      <h1>New Project</h1>
+      <div class="sub">Give it a name and 2-8 reels that already performed well &mdash; we'll decode the pattern across them into a reusable rule set.</div>
+    </div>
+    <div class="panel accent-top">
+      <form id="projectForm">
+        <label>Project name</label>
+        <input type="text" id="projectName" placeholder="e.g. Suddenly Horror &ndash; true crime" required>
+        <div class="hint">One project = one saved rule set, decoded from the ideal reels you give it below. To decode a
+          different niche or style, create another project rather than reusing this one.</div>
+
+        <label style="margin-top:24px">Ideal reels &mdash; 2 to 8 reels that already performed well</label>
+        <div id="idealReelRows"></div>
+        <button type="button" class="ghost small" id="addReelRowBtn" style="margin-top:12px">+ Add another reel</button>
+
+        <div class="hint" style="margin-top:16px">A retention graph recording per reel is optional, but recommended &mdash;
+          when given, it lets the model see exactly how well that reel held attention second-by-second, not just its
+          total views/likes/comments. See the "How to record this" guide in the Test a Reel tab for how to capture one.</div>
+
+        <button type="submit" id="projectSubmitBtn" style="margin-top:20px">Decode Ideal Reels</button>
+      </form>
+    </div>
+
+    <div class="panel" id="projectProgress"><div id="projectProgressLines"></div></div>
+    <div class="panel error-panel" id="projectError"></div>
+    <div class="panel" id="projectResult" style="display:none"></div>
+  </section>
+
+  <!-- ============ TEST A REEL ============ -->
+  <section id="tab-testReel" class="tabpanel">
+    <div class="page-header">
+      <h1>Test a Reel</h1>
+      <div class="sub">Check any reel against a project's rules and get a concrete, rule-by-rule critique of what's working and what isn't.</div>
+    </div>
+    <div class="panel accent-top">
+      <form id="evalForm">
+        <label>Project <span class="badge">the ideal-reel rule set to test against</span></label>
+        <select id="evalProject" required></select>
+        <div class="hint" id="evalProjectHint"></div>
+
+        <label>Reel URL to test</label>
+        <input type="text" id="evalReelUrl" placeholder="https://www.instagram.com/reel/..." required>
+
+        <label>Retention graph recording <span class="badge recommended">optional, recommended</span></label>
+        <input type="file" id="evalRetention" accept="video/*,image/*">
+        <div class="hint">When provided, adds a second-by-second drop analysis on top of the rule-based critique.
+          Without it, you still get a full critique based on this reel's own stats and engagement vs. the project's
+          benchmark &mdash; just not tied to exact moments.</div>
+
+        <details class="howto">
+          <summary>How to record a retention graph (with an example)</summary>
+          <ol>
+            <li>Open the reel in the <strong>Instagram Edits</strong> app (not the main Instagram app) &rarr; Insights &rarr; tap the retention graph.</li>
+            <li>Start a screen recording, then slowly drag your finger left to right across the graph, pausing briefly every second or so &mdash; each pause gives a clean, readable "X% at 0:0Y" tooltip.</li>
+            <li>Keep the recording tight on the graph itself (not the whole phone screen with extra chrome) &mdash; like the example below.</li>
+            <li>Upload the resulting video. No need to trim it.</li>
+          </ol>
+          <video src="/sample_retention.mp4" controls muted loop></video>
+          <div class="cap">Example of a good recording</div>
+        </details>
+
+        <button type="submit" id="evalSubmitBtn" style="margin-top:20px">Evaluate Reel</button>
+      </form>
+    </div>
+
+    <div class="panel" id="evalProgress"><div id="evalProgressLines"></div></div>
+    <div class="panel error-panel" id="evalError"></div>
+  </section>
+
+  <!-- ============ TESTED REELS ============ -->
+  <section id="tab-testedReels" class="tabpanel">
+    <div class="page-header" id="testedReelsPageHeader">
+      <h1>Tested Reels</h1>
+      <div class="sub">Every reel evaluated so far, across all projects. Click one to see its full critique.</div>
+    </div>
+    <div id="testedReelsTileGrid" class="tile-grid"></div>
+
+    <div id="testedReelDetailView" style="display:none">
+      <button type="button" class="ghost small" onclick="backToTestedReelsList()" style="margin-bottom:20px">&larr; Back to Tested Reels</button>
+
+      <div class="panel" id="evalResult">
+        <div class="headline" id="evalHeadline"></div>
+        <div class="stat-chip-row" id="evalStatChips"></div>
+        <p id="evalEngagementAssessment" style="color:var(--muted); font-size:0.9rem; line-height:1.6;"></p>
+
+        <div id="evalPlayerRow" class="player-row" style="display:none">
+          <div class="player-col">
+            <video id="reelVideo" playsinline></video>
+            <div class="controls">
+              <button type="button" class="icon" id="playPauseBtn">&#9654;</button>
+              <button type="button" class="icon" id="restartBtn" title="Restart">&#9198;</button>
+              <span class="time"><span id="curTime">0:00</span> / <span id="durTime">0:00</span></span>
+            </div>
+          </div>
+          <div class="chart-col">
+            <div id="chartWrap">
+              <svg id="chart" viewBox="0 0 700 220" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="var(--accent)"/>
+                    <stop offset="100%" stop-color="var(--blue)"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div id="tooltip"></div>
+            </div>
+            <div class="legend">
+              <span><i style="background:var(--danger)"></i> quality issue found</span>
+              <span><i style="background:var(--warn)"></i> pacing/content drop</span>
+              <span><i style="background:var(--ok)"></i> likely a skip (recovered)</span>
+              <span><i style="background:var(--accent2)"></i> reused shot</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="evalVideoOnlyWrap" style="display:none; max-width:340px; margin-top:8px;">
+          <video id="evalVideoOnly" controls playsinline></video>
+          <div class="hint">No retention recording was provided, so this is shown without a drop-off chart.</div>
+        </div>
+
+        <div class="section-title">Reused Shots</div>
+        <div id="evalReusedShots"></div>
+
+        <div class="section-title">Rule Violations</div>
+        <div id="evalViolations"></div>
+
+        <div class="section-title">What's Already Working</div>
+        <ul class="plain" id="evalStrengths"></ul>
+
+        <div class="section-title">Overall Suggestions</div>
+        <ul class="plain" id="evalOverallSuggestions"></ul>
+
+        <details class="howto" style="margin-top:20px">
+          <summary>Full written report</summary>
+          <div id="reportHtml"></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  </main>
+</div>
+
+<div id="modalOverlay" class="modal-overlay" style="display:none">
+  <div class="modal-box" id="modalBox"></div>
 </div>
 
 <script>
-const form = document.getElementById('form');
-const submitBtn = document.getElementById('submitBtn');
-const progressEl = document.getElementById('progress');
-const progressLines = document.getElementById('progressLines');
-const errorEl = document.getElementById('error');
-const resultEl = document.getElementById('result');
-const video = document.getElementById('reelVideo');
-const svg = document.getElementById('chart');
-const tooltip = document.getElementById('tooltip');
-const playPauseBtn = document.getElementById('playPauseBtn');
-const restartBtn = document.getElementById('restartBtn');
-const curTimeEl = document.getElementById('curTime');
-const durTimeEl = document.getElementById('durTime');
+// ---------------------------------------------------------------------
+// Tabs
+// ---------------------------------------------------------------------
+function switchTab(name) {
+  document.querySelectorAll('.nav-item').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+  document.querySelectorAll('.tabpanel').forEach(p => p.classList.toggle('active', p.id === `tab-${name}`));
+  window.scrollTo(0, 0);
+  if (name === 'projects') { showProjectsListView(); loadProjectsList(); }
+  if (name === 'testReel') loadProjectsIntoDropdown();
+  if (name === 'testedReels') { showTestedReelsListView(); loadTestedReelsList(); }
+}
+document.querySelectorAll('.nav-item').forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
 
-const CHART = { w: 700, h: 220, pad: { left: 34, right: 10, top: 12, bottom: 22 } };
-let chartState = null;
-const DEFS = svg.innerHTML; // preserve the gradient <defs> across innerHTML rewrites
+function escapeHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = s == null ? '' : String(s);
+  return d.innerHTML;
+}
+
+const CATEGORY_LABELS = {hook: 'Hook', pacing: 'Pacing', storytelling: 'Storytelling', audio: 'Audio',
+  visual_style: 'Visual Style', text_overlay: 'Text Overlay', cta: 'CTA', technical_quality: 'Technical Quality',
+  other: 'Other'};
+function categoryLabel(c) { return CATEGORY_LABELS[c] || c; }
+
+function renderRuleCards(rules) {
+  return rules.map(r => `
+    <div class="rule-card">
+      <div class="cat">${escapeHtml(categoryLabel(r.category))}</div>
+      <div class="rule-text">${escapeHtml(r.rule)}</div>
+      <div class="rationale">${escapeHtml(r.rationale)}</div>
+    </div>
+  `).join('');
+}
+
+// ---------------------------------------------------------------------
+// Modal (rules popup + tutorial)
+// ---------------------------------------------------------------------
+function openModal(html) {
+  document.getElementById('modalBox').innerHTML = html;
+  document.getElementById('modalOverlay').style.display = 'flex';
+}
+function closeModal() {
+  document.getElementById('modalOverlay').style.display = 'none';
+}
+document.getElementById('modalOverlay').addEventListener('click', (e) => {
+  if (e.target.id === 'modalOverlay') closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && document.getElementById('modalOverlay').style.display !== 'none') closeModal();
+});
+
+// ---------------------------------------------------------------------
+// Interactive first-run tutorial
+// ---------------------------------------------------------------------
+const TUTORIAL_SEEN_KEY = 'reelIntelSeenTutorial';
+const TUTORIAL_STEPS = [
+  { title: 'Welcome to Reel Intelligence', body: 'Instead of generic editing advice, this decodes what makes ' +
+    '<em>your</em> best reels work into a concrete rule set, then checks new reels against it. A quick tour:' },
+  { title: 'Step 1 &mdash; Create a Project', body: 'A Project is a saved rule set decoded from 2-8 reels that ' +
+    'already performed well. Give it a name and paste the reel links &mdash; a retention-graph recording per ' +
+    'reel is optional but recommended for deeper analysis.' },
+  { title: 'Step 2 &mdash; We Decode the Pattern', body: 'We analyze pacing, hooks, storytelling, audio, and ' +
+    'visual style across your ideal reels, then extract a small set of concrete, checkable rules &mdash; not ' +
+    'generic best-practice advice.' },
+  { title: 'Step 3 &mdash; Test Any Reel', body: 'Paste a link to any reel and get a rule-by-rule critique: ' +
+    'what\'s working, what isn\'t, and exactly why views or engagement might be low &mdash; with or without a ' +
+    'retention graph for that reel.' },
+  { title: "You're ready", body: 'Start by creating your first Project from a handful of reels you already ' +
+    'know performed well.', cta: 'Get Started' },
+];
+let tutorialStep = 0;
+
+function openTutorial() { tutorialStep = 0; renderTutorialStep(); }
+
+function renderTutorialStep() {
+  const step = TUTORIAL_STEPS[tutorialStep];
+  const isLast = tutorialStep === TUTORIAL_STEPS.length - 1;
+  const isFirst = tutorialStep === 0;
+  openModal(`
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="tutorial-dots">${TUTORIAL_STEPS.map((_, i) => `<span class="dot ${i === tutorialStep ? 'active' : ''}"></span>`).join('')}</div>
+    <h2>${step.title}</h2>
+    <p style="color:var(--muted); line-height:1.75; font-size:0.95rem;">${step.body}</p>
+    <div style="display:flex; justify-content:space-between; margin-top:26px;">
+      <button class="ghost small" onclick="tutorialBack()">${isFirst ? 'Skip' : 'Back'}</button>
+      <button class="small" onclick="tutorialNext()">${isLast ? step.cta : 'Next'}</button>
+    </div>
+  `);
+}
+function tutorialBack() {
+  if (tutorialStep === 0) { markTutorialSeen(); closeModal(); return; }
+  tutorialStep--; renderTutorialStep();
+}
+function tutorialNext() {
+  if (tutorialStep === TUTORIAL_STEPS.length - 1) {
+    markTutorialSeen(); closeModal(); switchTab('newProject');
+    return;
+  }
+  tutorialStep++; renderTutorialStep();
+}
+function markTutorialSeen() {
+  try { localStorage.setItem(TUTORIAL_SEEN_KEY, '1'); } catch (e) {}
+}
 
 function renderMarkdown(md) {
   const lines = md.split('\n');
@@ -220,12 +646,347 @@ function renderMarkdown(md) {
   }
 }
 
+// ---------------------------------------------------------------------
+// Projects tab: a tile grid (name only) that drills into a full detail
+// view on click -- kept as two views in the same tabpanel (list/detail)
+// rather than two separate sidebar tabs, since a project's detail isn't
+// something you navigate to independently of browsing the list first.
+// ---------------------------------------------------------------------
+function showProjectsListView() {
+  document.getElementById('projectsPageHeader').style.display = 'block';
+  document.getElementById('projectsTileGrid').style.display = 'grid';
+  document.getElementById('projectDetailView').style.display = 'none';
+}
+
+async function loadProjectsList() {
+  const el = document.getElementById('projectsTileGrid');
+  el.innerHTML = '<div class="panel"><span class="spinner"></span>Loading projects...</div>';
+  try {
+    const res = await fetch('/api/projects');
+    const data = await res.json();
+    if (!data.projects.length) {
+      el.innerHTML = `<div class="panel empty-state">No projects yet.<br><br>
+        <button onclick="switchTab('newProject')">Create your first project</button></div>`;
+      return;
+    }
+    el.innerHTML = data.projects.map(p => `
+      <div class="project-tile" onclick="showProjectDetail('${escapeHtml(p.name)}')">
+        <div class="tile-icon">${escapeHtml(p.name.trim().charAt(0).toUpperCase() || '?')}</div>
+        <div class="tile-name">${escapeHtml(p.name)}</div>
+        <div class="tile-sub">${p.n_rules} rules</div>
+      </div>
+    `).join('');
+  } catch (err) {
+    el.innerHTML = `<div class="panel error-panel" style="display:block">Failed to load projects: ${escapeHtml(err.message)}</div>`;
+  }
+}
+
+async function showProjectDetail(name) {
+  document.getElementById('projectsPageHeader').style.display = 'none';
+  document.getElementById('projectsTileGrid').style.display = 'none';
+  const el = document.getElementById('projectDetailView');
+  el.style.display = 'block';
+  el.innerHTML = '<div class="panel"><span class="spinner"></span>Loading project...</div>';
+  try {
+    const res = await fetch(`/api/projects/${encodeURIComponent(name)}`);
+    if (!res.ok) throw new Error(`Server error: ${res.status}`);
+    const rules = await res.json();
+    el.innerHTML = `
+      <button type="button" class="ghost small back-link" onclick="showProjectsListView()">&larr; Back to Projects</button>
+      <div class="panel">
+        <h1 style="margin:0 0 10px; font-size:1.3rem;">${escapeHtml(name)}</h1>
+        <p style="color:var(--muted); font-size:0.92rem; line-height:1.6;">${escapeHtml(rules.profile_summary)}</p>
+        <div class="stat-row" style="display:flex; gap:18px; flex-wrap:wrap; font-size:0.8rem; color:var(--muted); margin:10px 0;">
+          <span>Typical duration: <b style="color:var(--text)">${escapeHtml(rules.benchmark_duration_s || 'n/a')}</b></span>
+          <span>Ideal reels analyzed: <b style="color:var(--text)">${rules.benchmark_stats?.n_reels ?? 'n/a'}</b></span>
+        </div>
+        ${benchmarkStatChips(rules.benchmark_stats)}
+        <p class="hint">${escapeHtml(rules.benchmark_engagement || '')}</p>
+        <div class="actions" style="display:flex; gap:8px; margin-top:16px;">
+          <button class="small" onclick="testInProject('${escapeHtml(name)}')">Test a reel in this project</button>
+          <button class="ghost small" onclick="deleteProject('${escapeHtml(name)}')">Delete project</button>
+        </div>
+      </div>
+      <div class="section-title">Rules (${rules.rules.length})</div>
+      ${renderRuleCards(rules.rules)}
+    `;
+  } catch (err) {
+    el.innerHTML = `<button type="button" class="ghost small back-link" onclick="showProjectsListView()">&larr; Back to Projects</button>
+      <div class="panel error-panel" style="display:block">Failed to load project: ${escapeHtml(err.message)}</div>`;
+  }
+}
+
+function fmtCompact(n) {
+  if (n == null) return 'n/a';
+  if (n >= 1e6) return (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+  if (n >= 1e3) return (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K';
+  return Math.round(n).toLocaleString();
+}
+
+// Deterministic avg/median engagement stats -- computed in code from the
+// ideal reels' own numbers, not narrated by the model (a small ideal-reel
+// sample can otherwise get mischaracterized as a "niche vs iconic" split
+// when it's really just normal variance -- see backend's benchmark_stats).
+function benchmarkStatChips(stats) {
+  if (!stats || !stats.n_reels) return '';
+  const row = (label, s, isPct) => s ? `
+    <div class="stat-chip">
+      <div class="label">${label}</div>
+      <div class="value">${isPct ? s.avg.toFixed(1) + '%' : fmtCompact(s.avg)}</div>
+      <div class="hint" style="margin-top:2px">median ${isPct ? s.median.toFixed(1) + '%' : fmtCompact(s.median)} &middot; ${isPct ? s.min.toFixed(1) : fmtCompact(s.min)}-${isPct ? s.max.toFixed(1) : fmtCompact(s.max)}${isPct ? '%' : ''}</div>
+    </div>` : '';
+  return `<div class="stat-chip-row">
+    ${row('Avg Views', stats.views)}
+    ${row('Avg Likes', stats.likes)}
+    ${row('Avg Comments', stats.comments)}
+    ${row('Avg Engagement Rate', stats.engagement_rate_pct, true)}
+  </div>`;
+}
+
+// ---------------------------------------------------------------------
+// Tested Reels tab: its own page (not nested under Projects) -- a tile
+// grid of every past evaluation, across all projects, drilling into the
+// exact same detail rendering a fresh submission gets (see showEvalResult
+// below). This is also where a JUST-submitted evaluation's result now
+// lands (see pollEval) -- Test a Reel itself only holds the submit form.
+// ---------------------------------------------------------------------
+function showTestedReelsListView() {
+  document.getElementById('testedReelsPageHeader').style.display = 'block';
+  document.getElementById('testedReelsTileGrid').style.display = 'grid';
+  document.getElementById('testedReelDetailView').style.display = 'none';
+}
+
+function showTestedReelDetailView() {
+  document.getElementById('testedReelsPageHeader').style.display = 'none';
+  document.getElementById('testedReelsTileGrid').style.display = 'none';
+  document.getElementById('testedReelDetailView').style.display = 'block';
+}
+
+async function loadTestedReelsList() {
+  const el = document.getElementById('testedReelsTileGrid');
+  el.innerHTML = '<div class="panel"><span class="spinner"></span>Loading tested reels...</div>';
+  try {
+    const res = await fetch('/api/tests');
+    const data = await res.json();
+    if (!data.tests.length) {
+      el.innerHTML = `<div class="panel empty-state">No reels tested yet.<br><br>
+        <button onclick="switchTab('testReel')">Test your first reel</button></div>`;
+      return;
+    }
+    el.innerHTML = data.tests.map(t => `
+      <div class="test-tile" onclick="showTestedReelFromHistory('${escapeHtml(t.job_id)}')">
+        <div class="tile-project">${escapeHtml(t.project_name || 'unknown project')}</div>
+        <div class="tile-url">${escapeHtml(t.reel_url || 'unknown reel')}</div>
+        <div class="tile-headline">${escapeHtml(t.headline || '')}</div>
+        <div class="tile-stats">${t.views ?? 'n/a'} views &middot; ${t.likes ?? 'n/a'} likes &middot; ${t.comments ?? 'n/a'} comments</div>
+      </div>
+    `).join('');
+  } catch (err) {
+    el.innerHTML = `<div class="panel error-panel" style="display:block">Failed to load tested reels: ${escapeHtml(err.message)}</div>`;
+  }
+}
+
+async function showTestedReelFromHistory(jobId) {
+  // Deliberately doesn't touch #evalResult's innerHTML before the fetch resolves --
+  // showEvalResult() below expects its child elements (evalHeadline, evalStatChips,
+  // ...) to already exist; clobbering them here for a loading message would delete
+  // exactly what it needs to populate. The fetch is a single fast JSON GET, so no
+  // loading state is shown -- the detail view just appears once data arrives.
+  showTestedReelDetailView();
+  try {
+    const res = await fetch(`/api/evaluate/${jobId}/status`);
+    const data = await res.json();
+    if (data.status === 'done') showEvalResult(data.result);
+  } catch (err) {
+    document.getElementById('evalHeadline').textContent = `Failed to load this result: ${err.message}`;
+  }
+}
+
+function backToTestedReelsList() {
+  showTestedReelsListView();
+  loadTestedReelsList();
+}
+
+function testInProject(name) {
+  switchTab('testReel');
+  loadProjectsIntoDropdown().then(() => {
+    document.getElementById('evalProject').value = name;
+  });
+}
+
+async function deleteProject(name) {
+  if (!confirm(`Delete project "${name}"? This can't be undone.`)) return;
+  await fetch(`/api/projects/${encodeURIComponent(name)}`, { method: 'DELETE' });
+  loadProjectsList();
+}
+
+async function loadProjectsIntoDropdown() {
+  const sel = document.getElementById('evalProject');
+  const hint = document.getElementById('evalProjectHint');
+  try {
+    const res = await fetch('/api/projects');
+    const data = await res.json();
+    if (!data.projects.length) {
+      sel.innerHTML = '<option value="">No projects yet</option>';
+      hint.innerHTML = 'You need at least one project before testing a reel. <a href="#" onclick="switchTab(\'newProject\');return false;">Create one</a>.';
+      return;
+    }
+    sel.innerHTML = data.projects.map(p => `<option value="${escapeHtml(p.name)}">${escapeHtml(p.name)} (${p.n_rules} rules)</option>`).join('');
+    hint.textContent = '';
+  } catch (err) {
+    sel.innerHTML = '<option value="">Failed to load projects</option>';
+  }
+}
+
+// ---------------------------------------------------------------------
+// New Project tab: dynamic ideal-reel rows
+// ---------------------------------------------------------------------
+const MIN_REELS = 2, MAX_REELS = 8;
+const rowsContainer = document.getElementById('idealReelRows');
+const addRowBtn = document.getElementById('addReelRowBtn');
+
+function addReelRow() {
+  const rows = rowsContainer.querySelectorAll('.reel-row');
+  if (rows.length >= MAX_REELS) return;
+  const row = document.createElement('div');
+  row.className = 'reel-row';
+  row.innerHTML = `
+    <div class="reel-row-header">
+      <span class="reel-row-label"></span>
+      <button type="button" class="icon-btn remove-row-btn" title="Remove this reel">&times;</button>
+    </div>
+    <input type="text" class="reel-url-input" placeholder="https://www.instagram.com/reel/..." required>
+    <label style="margin:10px 0 6px">Retention graph recording <span class="badge recommended">optional, recommended</span></label>
+    <div class="reel-row-retention">
+      <input type="file" class="reel-retention-input" accept="video/*,image/*">
+    </div>
+  `;
+  row.querySelector('.remove-row-btn').addEventListener('click', () => {
+    if (rowsContainer.querySelectorAll('.reel-row').length <= MIN_REELS) return;
+    row.remove();
+    renumberRows();
+  });
+  rowsContainer.appendChild(row);
+  renumberRows();
+}
+
+function renumberRows() {
+  const rows = rowsContainer.querySelectorAll('.reel-row');
+  rows.forEach((row, i) => {
+    row.querySelector('.reel-row-label').textContent = `Reel ${i + 1}`;
+    row.querySelector('.remove-row-btn').style.visibility = rows.length > MIN_REELS ? 'visible' : 'hidden';
+  });
+  addRowBtn.disabled = rows.length >= MAX_REELS;
+}
+
+addRowBtn.addEventListener('click', addReelRow);
+for (let i = 0; i < MIN_REELS; i++) addReelRow();
+
+document.getElementById('projectForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const submitBtn = document.getElementById('projectSubmitBtn');
+  const progressEl = document.getElementById('projectProgress');
+  const progressLines = document.getElementById('projectProgressLines');
+  const errorEl = document.getElementById('projectError');
+  const resultEl = document.getElementById('projectResult');
+
+  const projectName = document.getElementById('projectName').value.trim();
+  const rows = [...rowsContainer.querySelectorAll('.reel-row')];
+  const urls = rows.map(r => r.querySelector('.reel-url-input').value.trim());
+
+  submitBtn.disabled = true;
+  errorEl.style.display = 'none';
+  resultEl.style.display = 'none';
+  progressEl.style.display = 'block';
+  progressLines.innerHTML = '<div class="line"><span class="spinner"></span>Starting...</div>';
+
+  const fd = new FormData();
+  fd.append('project_name', projectName);
+  fd.append('reel_urls', urls.join('\n'));
+  rows.forEach((r, i) => {
+    const file = r.querySelector('.reel-retention-input').files[0];
+    if (file) fd.append(`retention_${i}`, file);
+  });
+
+  try {
+    const res = await fetch('/api/projects', { method: 'POST', body: fd });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || `Server error: ${res.status}`);
+    pollProject(data.job_id, projectName);
+  } catch (err) {
+    submitBtn.disabled = false;
+    errorEl.style.display = 'block';
+    errorEl.textContent = `Failed: ${err.message}`;
+  }
+});
+
+async function pollProject(jobId, projectName) {
+  const progressLines = document.getElementById('projectProgressLines');
+  const errorEl = document.getElementById('projectError');
+  const submitBtn = document.getElementById('projectSubmitBtn');
+  try {
+    const res = await fetch(`/api/projects/jobs/${jobId}`);
+    const data = await res.json();
+    progressLines.innerHTML = data.messages.map((m, i) =>
+      `<div class="line">${i === data.messages.length - 1 && data.status === 'running' ? '<span class="spinner"></span>' : ''}${escapeHtml(m)}</div>`
+    ).join('');
+
+    if (data.status === 'running') { setTimeout(() => pollProject(jobId, projectName), 1500); return; }
+    submitBtn.disabled = false;
+    if (data.status === 'error') {
+      errorEl.style.display = 'block';
+      errorEl.textContent = `Failed: ${data.error}`;
+      return;
+    }
+    await showProjectResult(projectName);
+  } catch (err) {
+    submitBtn.disabled = false;
+    errorEl.style.display = 'block';
+    errorEl.textContent = `Failed: ${err.message}`;
+  }
+}
+
+async function showProjectResult(projectName) {
+  const resultEl = document.getElementById('projectResult');
+  const res = await fetch(`/api/projects/${encodeURIComponent(projectName)}`);
+  const rules = await res.json();
+
+  resultEl.style.display = 'block';
+  resultEl.innerHTML = `
+    <div class="headline">Project "${escapeHtml(projectName)}" is ready</div>
+    <p style="color:var(--muted); font-size:0.9rem; line-height:1.6;">${escapeHtml(rules.profile_summary)}</p>
+    <div class="stat-chip-row">
+      <div class="stat-chip"><div class="label">Rules found</div><div class="value">${rules.rules.length}</div></div>
+      <div class="stat-chip"><div class="label">Typical duration</div><div class="value">${escapeHtml(rules.benchmark_duration_s)}</div></div>
+    </div>
+    ${benchmarkStatChips(rules.benchmark_stats)}
+    <p style="color:var(--muted); font-size:0.85rem;">${escapeHtml(rules.benchmark_engagement)}</p>
+    <div class="section-title">Extracted Rules</div>
+    ${renderRuleCards(rules.rules)}
+    <button style="margin-top:20px" onclick="testInProject('${escapeHtml(projectName)}')">Test a reel in this project</button>
+  `;
+}
+
+// ---------------------------------------------------------------------
+// Test a Reel tab
+// ---------------------------------------------------------------------
+const video = document.getElementById('reelVideo');
+const svg = document.getElementById('chart');
+const tooltip = document.getElementById('tooltip');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const restartBtn = document.getElementById('restartBtn');
+const curTimeEl = document.getElementById('curTime');
+const durTimeEl = document.getElementById('durTime');
+
+const CHART = { w: 700, h: 220, pad: { left: 34, right: 10, top: 12, bottom: 22 } };
+let chartState = null;
+const DEFS = svg.innerHTML;
+
 function fmtTime(s) {
   s = Math.max(0, s || 0);
   const m = Math.floor(s / 60), sec = Math.floor(s % 60);
   return `${m}:${sec.toString().padStart(2, '0')}`;
 }
-
 function zoneColor(e) {
   if (e.quality_issue_found) return 'var(--danger)';
   if (e.likely_skip) return 'var(--ok)';
@@ -251,10 +1012,16 @@ function buildChart(result) {
     svgContent += `<line class="gridline" x1="${pad.left}" x2="${w - pad.right}" y1="${y}" y2="${y}"/>`;
     svgContent += `<text class="axis-label" x="2" y="${y + 3}">${pct}%</text>`;
   });
-  result.drop_events.forEach((e, i) => {
+  (result.drop_events || []).forEach((e, i) => {
     const x0 = xScale(e.start_t), x1 = xScale(e.end_t);
     svgContent += `<rect class="drop-zone" data-idx="${i}" x="${x0}" y="${pad.top}" ` +
       `width="${Math.max(3, x1 - x0)}" height="${h - pad.top - pad.bottom}" fill="${zoneColor(e)}" opacity="0.20"/>`;
+  });
+  const reusedInstances = result.features?.reused_shot_instances || [];
+  reusedInstances.forEach((r, i) => {
+    const x0 = xScale(r.start_t), x1 = xScale(r.end_t);
+    svgContent += `<rect class="reused-marker" data-idx="${i}" x="${x0}" y="${h - pad.bottom - 6}" ` +
+      `width="${Math.max(3, x1 - x0)}" height="6"/>`;
   });
   const path = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${xScale(p.t).toFixed(1)},${yScale(p.pct).toFixed(1)}`).join(' ');
   svgContent += `<path class="retline" d="${path}"/>`;
@@ -270,11 +1037,29 @@ function buildChart(result) {
     zoneEl.addEventListener('mouseleave', hideTooltip);
     zoneEl.addEventListener('click', (ev) => { ev.stopPropagation(); video.currentTime = e.start_t; });
   });
-
+  svg.querySelectorAll('.reused-marker').forEach(markerEl => {
+    const r = reusedInstances[+markerEl.dataset.idx];
+    markerEl.addEventListener('mousemove', (ev) => showReusedTooltip(ev, r));
+    markerEl.addEventListener('mouseleave', hideTooltip);
+    markerEl.addEventListener('click', (ev) => { ev.stopPropagation(); video.currentTime = r.start_t; });
+  });
   svg.onclick = (ev) => {
-    if (ev.target.classList.contains('drop-zone')) return;
+    if (ev.target.classList.contains('drop-zone') || ev.target.classList.contains('reused-marker')) return;
     video.currentTime = timeFromEvent(ev);
   };
+}
+
+function showReusedTooltip(ev, r) {
+  const wrapRect = document.getElementById('chartWrap').getBoundingClientRect();
+  tooltip.innerHTML = `<div class="tt-title" style="color:var(--accent2)">Reused shot</div>` +
+    `<div class="tt-body">t=${r.start_t.toFixed(1)}-${r.end_t.toFixed(1)}s` +
+    (r.reused_of_start_t != null ? ` &mdash; near-duplicate of the shot at t=${r.reused_of_start_t.toFixed(1)}s` : '') +
+    `</div>`;
+  tooltip.style.display = 'block';
+  let left = ev.clientX - wrapRect.left + 12;
+  if (left + 260 > wrapRect.width) left = ev.clientX - wrapRect.left - 272;
+  tooltip.style.left = `${left}px`;
+  tooltip.style.top = `${ev.clientY - wrapRect.top - 10}px`;
 }
 
 function timeFromEvent(ev) {
@@ -288,7 +1073,7 @@ function showTooltip(ev, e) {
   const wrapRect = document.getElementById('chartWrap').getBoundingClientRect();
   const label = e.quality_issue_found ? 'Quality issue' : (e.likely_skip ? 'Likely a skip' : 'Retention drop');
   tooltip.innerHTML = `<div class="tt-title ${zoneClass(e)}">${label} &mdash; ${e.pct_lost.toFixed(1)} pts lost</div>` +
-    `<div class="tt-body">t=${e.start_t.toFixed(0)}-${e.end_t.toFixed(0)}s (${e.start_pct.toFixed(0)}%→${e.end_pct.toFixed(0)}%)<br><br>${escapeHtml(e.reason)}` +
+    `<div class="tt-body">t=${e.start_t.toFixed(0)}-${e.end_t.toFixed(0)}s (${e.start_pct.toFixed(0)}%&rarr;${e.end_pct.toFixed(0)}%)<br><br>${escapeHtml(e.reason)}` +
     (e.suggestion ? `<br><br><strong>Suggestion:</strong> ${escapeHtml(e.suggestion)}` : '') + `</div>`;
   tooltip.style.display = 'block';
   let left = ev.clientX - wrapRect.left + 12;
@@ -310,12 +1095,17 @@ video.addEventListener('timeupdate', () => {
 video.addEventListener('loadedmetadata', () => { durTimeEl.textContent = fmtTime(video.duration); });
 video.addEventListener('play', () => { playPauseBtn.innerHTML = '&#9208;'; });
 video.addEventListener('pause', () => { playPauseBtn.innerHTML = '&#9654;'; });
-
 playPauseBtn.addEventListener('click', () => { video.paused ? video.play() : video.pause(); });
 restartBtn.addEventListener('click', () => { video.currentTime = 0; });
 
-form.addEventListener('submit', async (e) => {
+document.getElementById('evalForm').addEventListener('submit', async (e) => {
   e.preventDefault();
+  const submitBtn = document.getElementById('evalSubmitBtn');
+  const progressEl = document.getElementById('evalProgress');
+  const progressLines = document.getElementById('evalProgressLines');
+  const errorEl = document.getElementById('evalError');
+  const resultEl = document.getElementById('evalResult');
+
   submitBtn.disabled = true;
   errorEl.style.display = 'none';
   resultEl.style.display = 'none';
@@ -323,60 +1113,124 @@ form.addEventListener('submit', async (e) => {
   progressLines.innerHTML = '<div class="line"><span class="spinner"></span>Starting...</div>';
 
   const fd = new FormData();
-  fd.append('reel_url', document.getElementById('reelUrl').value);
-  fd.append('retention_recording', document.getElementById('retentionRecording').files[0]);
+  fd.append('project_name', document.getElementById('evalProject').value);
+  fd.append('reel_url', document.getElementById('evalReelUrl').value);
+  const retFile = document.getElementById('evalRetention').files[0];
+  if (retFile) fd.append('retention_recording', retFile);
 
   try {
-    const res = await fetch('/api/analyze', { method: 'POST', body: fd });
-    if (!res.ok) throw new Error(`Server error: ${res.status}`);
-    const { job_id } = await res.json();
-    poll(job_id);
+    const res = await fetch('/api/evaluate', { method: 'POST', body: fd });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || `Server error: ${res.status}`);
+    pollEval(data.job_id);
   } catch (err) {
-    showError(err.message);
+    submitBtn.disabled = false;
+    errorEl.style.display = 'block';
+    errorEl.textContent = `Failed: ${err.message}`;
   }
 });
 
-async function poll(jobId) {
+async function pollEval(jobId) {
+  const progressLines = document.getElementById('evalProgressLines');
+  const errorEl = document.getElementById('evalError');
+  const submitBtn = document.getElementById('evalSubmitBtn');
   try {
-    const res = await fetch(`/api/analyze/${jobId}/status`);
+    const res = await fetch(`/api/evaluate/${jobId}/status`);
     const data = await res.json();
-
     progressLines.innerHTML = data.messages.map((m, i) =>
       `<div class="line">${i === data.messages.length - 1 && data.status === 'running' ? '<span class="spinner"></span>' : ''}${escapeHtml(m)}</div>`
     ).join('');
 
-    if (data.status === 'running') setTimeout(() => poll(jobId), 1500);
-    else if (data.status === 'error') showError(data.error);
-    else if (data.status === 'done') showResult(data.result);
+    if (data.status === 'running') { setTimeout(() => pollEval(jobId), 1500); return; }
+    submitBtn.disabled = false;
+    if (data.status === 'error') {
+      errorEl.style.display = 'block';
+      errorEl.textContent = `Failed: ${data.error}`;
+      return;
+    }
+    // A finished evaluation's result lives on the Tested Reels page, not inline here --
+    // Test a Reel stays purely the submit form (see the Tested Reels tab section).
+    switchTab('testedReels');
+    showTestedReelDetailView();
+    showEvalResult(data.result);
   } catch (err) {
-    showError(err.message);
+    submitBtn.disabled = false;
+    errorEl.style.display = 'block';
+    errorEl.textContent = `Failed: ${err.message}`;
   }
 }
 
-function showError(msg) {
-  submitBtn.disabled = false;
-  errorEl.style.display = 'block';
-  errorEl.textContent = `Failed: ${msg}`;
+function impactClass(i) { return `impact-${(i || 'low').toLowerCase()}`; }
+
+function seekEvalVideo(t) {
+  const activeVideo = document.getElementById('evalPlayerRow').style.display !== 'none' ? video : document.getElementById('evalVideoOnly');
+  if (activeVideo && activeVideo.src) activeVideo.currentTime = t;
 }
 
-function showResult(result) {
-  submitBtn.disabled = false;
+function showEvalResult(result) {
+  const resultEl = document.getElementById('evalResult');
   resultEl.style.display = 'block';
-  video.src = result.video_url;
-  buildChart(result);
-  document.getElementById('reportHtml').innerHTML = result.report_markdown
-    ? renderMarkdown(result.report_markdown)
-    : '<p>No synthesis report was generated.</p>';
+
+  const c = result.critique;
+  const eng = result.engagement || {};
+  const engRate = (eng.views && eng.likes != null && eng.comments != null)
+    ? ((eng.likes + eng.comments) / eng.views * 100).toFixed(1) + '%' : 'n/a';
+
+  document.getElementById('evalHeadline').textContent = c.headline;
+  document.getElementById('evalStatChips').innerHTML = `
+    <div class="stat-chip"><div class="label">Views</div><div class="value">${eng.views ?? 'n/a'}</div></div>
+    <div class="stat-chip"><div class="label">Likes</div><div class="value">${eng.likes ?? 'n/a'}</div></div>
+    <div class="stat-chip"><div class="label">Comments</div><div class="value">${eng.comments ?? 'n/a'}</div></div>
+    <div class="stat-chip"><div class="label">Engagement rate</div><div class="value">${engRate}</div></div>
+  `;
+  document.getElementById('evalEngagementAssessment').textContent = c.engagement_assessment;
+
+  const hasRetention = Array.isArray(result.retention_points) && result.retention_points.length > 0;
+  document.getElementById('evalPlayerRow').style.display = hasRetention ? 'flex' : 'none';
+  document.getElementById('evalVideoOnlyWrap').style.display = (!hasRetention && result.video_url) ? 'block' : 'none';
+  if (hasRetention) {
+    video.src = result.video_url;
+    buildChart(result);
+  } else if (result.video_url) {
+    document.getElementById('evalVideoOnly').src = result.video_url;
+  }
+
+  const reusedInstances = result.features?.reused_shot_instances || [];
+  document.getElementById('evalReusedShots').innerHTML = reusedInstances.length
+    ? reusedInstances.map(r => `
+      <div class="reused-shot-row">
+        <span class="time-range">t=${r.start_t.toFixed(1)}-${r.end_t.toFixed(1)}s</span>
+        <span class="reused-from">${r.reused_of_start_t != null ? `near-duplicate of the shot at t=${r.reused_of_start_t.toFixed(1)}s` : 'near-duplicate of another shot'}</span>
+        <button type="button" class="ghost small" onclick="seekEvalVideo(${r.start_t})">Jump to</button>
+      </div>
+    `).join('')
+    : '<p style="color:var(--muted); font-size:0.88rem;">No reused shots detected.</p>';
+
+  document.getElementById('evalViolations').innerHTML = (c.violations && c.violations.length)
+    ? c.violations.map(v => `
+      <div class="violation-card ${impactClass(v.impact)}">
+        <span class="impact-tag">${escapeHtml(v.impact)}</span>
+        <div class="rule-text">${escapeHtml(v.rule)}</div>
+        <div class="field-label">Expected</div><div class="field-value">${escapeHtml(v.expected)}</div>
+        <div class="field-label">Observed</div><div class="field-value">${escapeHtml(v.observed)}</div>
+        <div class="field-label">Suggestion</div><div class="field-value">${escapeHtml(v.suggestion)}</div>
+      </div>
+    `).join('')
+    : '<p style="color:var(--muted); font-size:0.88rem;">No significant rule violations found.</p>';
+
+  document.getElementById('evalStrengths').innerHTML = (c.strengths || []).map(s => `<li>${escapeHtml(s)}</li>`).join('')
+    || '<li style="color:var(--muted)">None noted.</li>';
+  document.getElementById('evalOverallSuggestions').innerHTML = (c.overall_suggestions || []).map(s => `<li>${escapeHtml(s)}</li>`).join('');
+
+  document.getElementById('reportHtml').innerHTML = result.report_markdown ? renderMarkdown(result.report_markdown) : '';
 }
 
-function escapeHtml(s) {
-  const d = document.createElement('div');
-  d.textContent = s;
-  return d.innerHTML;
-}
-
-const existingJob = new URLSearchParams(location.search).get('job');
-if (existingJob) poll(existingJob);
+// ---------------------------------------------------------------------
+// Init
+// ---------------------------------------------------------------------
+let seenTutorial = false;
+try { seenTutorial = !!localStorage.getItem(TUTORIAL_SEEN_KEY); } catch (e) {}
+if (!seenTutorial) openTutorial();
 </script>
 </body>
 </html>

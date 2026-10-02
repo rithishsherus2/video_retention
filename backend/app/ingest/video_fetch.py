@@ -19,8 +19,12 @@ from pathlib import Path
 import yt_dlp
 
 
-def fetch_reel(url: str, out_dir: Path, cookies_from_browser: str | None = None,
-                cookies_file: Path | None = None) -> Path:
+def fetch_reel_with_info(url: str, out_dir: Path, cookies_from_browser: str | None = None,
+                          cookies_file: Path | None = None) -> tuple[Path, dict]:
+    """Like fetch_reel, but also returns yt-dlp's extracted metadata dict --
+    this is where view_count/like_count/comment_count/description come
+    from for app.ingest.engagement, at no extra network cost since it's
+    already fetched as part of downloading the video."""
     out_dir.mkdir(parents=True, exist_ok=True)
     ydl_opts = {
         "outtmpl": str(out_dir / "%(id)s.%(ext)s"),
@@ -41,7 +45,13 @@ def fetch_reel(url: str, out_dir: Path, cookies_from_browser: str | None = None,
         path = Path(ydl.prepare_filename(info))
         # merge_output_format forces mp4 even if prepare_filename guesses otherwise
         mp4_path = path.with_suffix(".mp4")
-        return mp4_path if mp4_path.exists() else path
+        return (mp4_path if mp4_path.exists() else path), info
+
+
+def fetch_reel(url: str, out_dir: Path, cookies_from_browser: str | None = None,
+                cookies_file: Path | None = None) -> Path:
+    path, _info = fetch_reel_with_info(url, out_dir, cookies_from_browser, cookies_file)
+    return path
 
 
 def main() -> None:

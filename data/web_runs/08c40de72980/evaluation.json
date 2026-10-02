@@ -1,0 +1,119 @@
+{
+  "reel_url": "https://www.instagram.com/reel/DbqP5Iqxqx7/?stkn=MTljZDB1amR2Y2NvdA==",
+  "evaluated_at": "2026-09-22T09:43:24.313004+00:00",
+  "profile_name": "suddenly.horror",
+  "rules_summary": "This account captures high-engagement true-crime audiences by packaging notorious serial killer profiles into stylized 2D graphic-novel animations. The winning formula relies on an immediate shock-value animated cold open, followed by a chronological narrative exploring the chilling juxtaposition between everyday normalcy and extreme violence. Execution is standardized with an exact pacing rhythm of ~2.8 seconds per shot, centered single-word kinetic subtitles, and a solemn documentary-style voiceover.",
+  "engagement": {
+    "views": 8011,
+    "likes": 274,
+    "comments": 3,
+    "caption": "In 1968, Glasgow’s Barrowland Ballroom was the ultimate spot for a night out—until a shadow fell over the dance floor.\n\nWhen 25-year-old Patricia Docker went missing after a Thursday night at Barrowland, it marked the beginning of a chilling chapter in Scottish history. By the time the city realized what was happening, a serial killer had struck three times, leaving behind a mystery that remains unsolved to this day.\n\nEpisode 1 of The Story of Bible John is out now on aby.one. Watch to dive into the origins of Glasgow’s most infamous cold case.\n\n#BibleJohn #TrueCrime #Glasgow #Barrowland #AbyOne",
+    "hashtags": [
+      "BibleJohn",
+      "TrueCrime",
+      "Glasgow",
+      "Barrowland",
+      "AbyOne"
+    ],
+    "posted_at": "20260805",
+    "source": "yt_dlp+provider:instagram_api_fast_reliable"
+  },
+  "features": {
+    "duration_s": 95.0,
+    "shot_count": 26,
+    "avg_shot_duration_s": 3.67,
+    "min_shot_duration_s": 1.0,
+    "max_shot_duration_s": 6.83,
+    "cuts_per_10s": 2.74,
+    "cuts_in_first_3s": 1,
+    "has_dialogue": true,
+    "dialogue_seconds": 60,
+    "dialogue_density": 0.63,
+    "silent_seconds": 0,
+    "redundant_cuts": 0,
+    "reused_shots": 2,
+    "reused_shot_instances": [
+      {
+        "start_t": 0.0,
+        "end_t": 5.2,
+        "reused_of_start_t": 17.3
+      },
+      {
+        "start_t": 17.3,
+        "end_t": 23.1,
+        "reused_of_start_t": 0.0
+      }
+    ],
+    "redundant_dialogue_moments": 0,
+    "avg_sharpness": 49.3,
+    "avg_blockiness": 1.065,
+    "avg_brightness": 57.7,
+    "avg_audio_rms_db": -18.6,
+    "full_transcript": "The steel mills at Ravens Craig ran at full capacity. The city's east -end tenements were, in 1968, still largely unmodernized. Central Glasgow's nightlife orbited the network of pubs, clubs, and dance halls. The most famous of them was the Barreland Ballroom on Gallogate. Barreland's Thursday night was the Over 25s. It was the night most married Glasgow women went to. The rule was informal but understood. You went with your sister or your friend. You danced. You went home. Husbands, in most cases, knew and did not object. In February 1968, a 25 -year -old nursing auxiliary named Patricia Docker did exactly that. She never came home. By the time Glasgow understood that a serial killer had emerged from the Barreland dance floor, three young women were dead. The Barreland is still open today. The killer has never been named.",
+    "has_retention_data": false
+  },
+  "decoding": {
+    "hook_description": "Establishes a gloomy, atmospheric shot of 1968 Glasgow tenement rooftops with stylized anime visuals and title text, immediately setting an ominous true-crime tone.",
+    "storytelling_arc": "Context setup (1968 industrial Glasgow nightlife) to specific setting (Barrowland Ballroom rules) to victim introduction (Patricia Docker), escalating to tragedy (she never returned, three victims dead) and ending on an unsolved cliffhanger.",
+    "pacing_style": "Measured documentary cadence averaging 3.7 seconds per shot, using subtle 2D camera pans/zooms over dramatic illustrated scenes rather than rapid cuts.",
+    "tone_and_style": "Moody retro anime/motion-comic noir aesthetic; desaturated palette with muted grays and warm amber lighting, conveying a grim, serious true-crime mystery.",
+    "audio_strategy": "Solemn, steady voiceover narration driving the historical crime narrative, underpinned by subtle atmospheric sound design and tension-building score.",
+    "text_overlay_and_captions": "Dynamic single-word/short-phrase centered bold white captions timed strictly to speech; stylized red chapter marker overlay ('Episode 01') near the start.",
+    "notable_techniques": [
+      "Motion comic / stylized 2D anime visuals replacing stock archival footage",
+      "Rapid single-word subtitle pulsing in center frame for high mobile retention",
+      "Unresolved chilling closing hook ('The killer has never been named') paired with a walking silhouette"
+    ],
+    "call_to_action": "Explicit text slide at the finale: 'WATCH NOW AT ABY.ONE / EPISODE 02'."
+  },
+  "drop_results": null,
+  "critique": {
+    "headline": "The reel abandons the account's proven high-shock animated hook and tight 2.8-second pacing in favor of slow historical exposition and an off-platform call-to-action slide.",
+    "engagement_assessment": "This reel severely underperformed across every metric relative to the account's benchmark stats: it achieved only 8,011 views (versus a profile median of 922,619 and a historical minimum of 40,482), 274 likes (versus a median of 60,615 and minimum of 1,906), and 3 comments (versus a median of 498 and minimum of 39), resulting in an engagement rate of ~3.46% compared to the account's baseline range of 4.80% - 6.62%. Because second-by-second retention data was not provided, these structural deviations—especially the slow atmospheric cold open, bloated 95-second runtime, and off-platform promo screen—are the most probable drivers of viewer abandonment and diminished distribution.",
+    "violations": [
+      {
+        "category": "hook",
+        "rule": "Open immediately (within the first 1-2 seconds) on graphic animated violence or an infamous serial killer figure mid-act, cutting at least once within the first 3 seconds.",
+        "expected": "Shocking, high-stakes imagery or a notorious killer actively committing a crime right at 0:00 to immediately arrest scrolling before introducing context.",
+        "observed": "Opens on atmospheric scenic shots of 1968 Glasgow tenement rooftops and steel mills, paired with slow historical scene-setting ('The steel mills at Ravens Craig ran at full capacity').",
+        "impact": "high",
+        "suggestion": "Start in media res directly on the killer stalking or attacking Patricia Docker, saving the 1968 Barrowland Ballroom context for seconds 0:04-0:10."
+      },
+      {
+        "category": "pacing",
+        "rule": "Maintain an average shot duration tightly bounded between 2.7 and 2.9 seconds, yielding approximately 3.5 to 3.7 cuts per 10 seconds across the entire video.",
+        "expected": "A hypnotic, uniform cut cadence of 2.7-2.9 seconds per shot across a total runtime of 61-78 seconds, with fresh visual setups throughout.",
+        "observed": "Average shot duration drifted to 3.67 seconds (2.74 cuts per 10s) across an over-extended 95.0-second total runtime, including a full shot reuse between 0.0-5.2s and 17.3-23.1s.",
+        "impact": "high",
+        "suggestion": "Trim total duration down to 65-75 seconds, tighten every shot length to average under 2.9 seconds, and eliminate the duplicated 5-second animation clip."
+      },
+      {
+        "category": "cta",
+        "rule": "Keep the on-screen video ending completely free of explicit verbal or visual CTAs; confine account follow prompts strictly to the text caption.",
+        "expected": "End abruptly on a chilling moral reflection or lingering visual to maximize atmospheric tension and seamless looping.",
+        "observed": "Concludes with an overt promotional title card reading 'WATCH NOW AT ABY.ONE / EPISODE 02', breaking the narrative spell.",
+        "impact": "medium",
+        "suggestion": "Cut the video immediately after the final spoken line ('The killer has never been named') over a fading silhouette, delegating the website link and episode 2 notice entirely to the caption."
+      },
+      {
+        "category": "storytelling",
+        "rule": "Structure the narrative around the 'mask of normalcy' paradox: establish deceptive everyday charm, escalate through grotesque crimes, reveal capture details, and conclude with a reflective moral insight.",
+        "expected": "A psychological exploration contrasting a known killer's outward persona against horrific crimes and eventual apprehension.",
+        "observed": "Narrated as a location-first unsolved cold case documentary, dedicating substantial runtime to ballroom attendance etiquette rather than the killer's persona or capture arc.",
+        "impact": "medium",
+        "suggestion": "Refocus the script around the psychological horror of Bible John blending into crowded social spaces undetected rather than general ballroom customs."
+      }
+    ],
+    "strengths": [
+      "Retains the account's stylized 2D graphic-novel animation aesthetic rather than resorting to low-engagement archival stills.",
+      "Executes dynamic, centered single-word kinetic subtitles timed precisely to voiceover dialogue.",
+      "Maintains zero silent dead air throughout the 95-second clip with a normalized, solemn vocal delivery (-18.6 dB RMS)."
+    ],
+    "overall_suggestions": [
+      "Condense the script by 25-30% to fit within the proven 61-78 second sweet spot, raising overall information density.",
+      "Eliminate promotional end screens that signal to viewers that the content has finished, allowing natural replay loops.",
+      "Avoid front-loading documentary scene-setting; reserve historical context for after the immediate narrative hook."
+    ]
+  },
+  "report_markdown": "# Reel Evaluation vs. Profile \"suddenly.horror\"\n\n**The reel abandons the account's proven high-shock animated hook and tight 2.8-second pacing in favor of slow historical exposition and an off-platform call-to-action slide.**\n\n**Engagement:** views=8011, likes=274, comments=3\n\nThis reel severely underperformed across every metric relative to the account's benchmark stats: it achieved only 8,011 views (versus a profile median of 922,619 and a historical minimum of 40,482), 274 likes (versus a median of 60,615 and minimum of 1,906), and 3 comments (versus a median of 498 and minimum of 39), resulting in an engagement rate of ~3.46% compared to the account's baseline range of 4.80% - 6.62%. Because second-by-second retention data was not provided, these structural deviations—especially the slow atmospheric cold open, bloated 95-second runtime, and off-platform promo screen—are the most probable drivers of viewer abandonment and diminished distribution.\n\n## Rule Violations\n\n### [HIGH] Open immediately (within the first 1-2 seconds) on graphic animated violence or an infamous serial killer figure mid-act, cutting at least once within the first 3 seconds.\n\n**Expected:** Shocking, high-stakes imagery or a notorious killer actively committing a crime right at 0:00 to immediately arrest scrolling before introducing context.\n\n**Observed:** Opens on atmospheric scenic shots of 1968 Glasgow tenement rooftops and steel mills, paired with slow historical scene-setting ('The steel mills at Ravens Craig ran at full capacity').\n\n**Suggestion:** Start in media res directly on the killer stalking or attacking Patricia Docker, saving the 1968 Barrowland Ballroom context for seconds 0:04-0:10.\n\n### [HIGH] Maintain an average shot duration tightly bounded between 2.7 and 2.9 seconds, yielding approximately 3.5 to 3.7 cuts per 10 seconds across the entire video.\n\n**Expected:** A hypnotic, uniform cut cadence of 2.7-2.9 seconds per shot across a total runtime of 61-78 seconds, with fresh visual setups throughout.\n\n**Observed:** Average shot duration drifted to 3.67 seconds (2.74 cuts per 10s) across an over-extended 95.0-second total runtime, including a full shot reuse between 0.0-5.2s and 17.3-23.1s.\n\n**Suggestion:** Trim total duration down to 65-75 seconds, tighten every shot length to average under 2.9 seconds, and eliminate the duplicated 5-second animation clip.\n\n### [MEDIUM] Keep the on-screen video ending completely free of explicit verbal or visual CTAs; confine account follow prompts strictly to the text caption.\n\n**Expected:** End abruptly on a chilling moral reflection or lingering visual to maximize atmospheric tension and seamless looping.\n\n**Observed:** Concludes with an overt promotional title card reading 'WATCH NOW AT ABY.ONE / EPISODE 02', breaking the narrative spell.\n\n**Suggestion:** Cut the video immediately after the final spoken line ('The killer has never been named') over a fading silhouette, delegating the website link and episode 2 notice entirely to the caption.\n\n### [MEDIUM] Structure the narrative around the 'mask of normalcy' paradox: establish deceptive everyday charm, escalate through grotesque crimes, reveal capture details, and conclude with a reflective moral insight.\n\n**Expected:** A psychological exploration contrasting a known killer's outward persona against horrific crimes and eventual apprehension.\n\n**Observed:** Narrated as a location-first unsolved cold case documentary, dedicating substantial runtime to ballroom attendance etiquette rather than the killer's persona or capture arc.\n\n**Suggestion:** Refocus the script around the psychological horror of Bible John blending into crowded social spaces undetected rather than general ballroom customs.\n\n## What's Already Working\n\n- Retains the account's stylized 2D graphic-novel animation aesthetic rather than resorting to low-engagement archival stills.\n- Executes dynamic, centered single-word kinetic subtitles timed precisely to voiceover dialogue.\n- Maintains zero silent dead air throughout the 95-second clip with a normalized, solemn vocal delivery (-18.6 dB RMS).\n\n## Retention Drop Events\n\n_No retention recording was provided for this reel -- suggestions above are based on comparing this reel's own stats against the ideal-reel rule set, not a second-by-second drop-off curve._\n\n## Overall Suggestions\n\n- Condense the script by 25-30% to fit within the proven 61-78 second sweet spot, raising overall information density.\n- Eliminate promotional end screens that signal to viewers that the content has finished, allowing natural replay loops.\n- Avoid front-loading documentary scene-setting; reserve historical context for after the immediate narrative hook."
+}

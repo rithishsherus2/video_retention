@@ -1,0 +1,60 @@
+{
+  "engagement": {
+    "views": 2726,
+    "likes": 87,
+    "comments": 2,
+    "caption": "The most elusive serial killer in American history. Can you crack the cipher? ✉️🔪 \n\nDive into the chilling investigation of Zodiac, now streaming in our True Crime collection.\n\nWatch now at aby.one \n\nLink in bio 🔗",
+    "hashtags": [],
+    "posted_at": "20260914",
+    "source": "yt_dlp+provider:instagram_api_fast_reliable"
+  },
+  "features": {
+    "duration_s": 38.0,
+    "shot_count": 11,
+    "avg_shot_duration_s": 3.49,
+    "min_shot_duration_s": 1.33,
+    "max_shot_duration_s": 5.75,
+    "cuts_per_10s": 2.89,
+    "cuts_in_first_3s": 1,
+    "has_dialogue": true,
+    "dialogue_seconds": 39,
+    "dialogue_density": 1.03,
+    "silent_seconds": 0,
+    "redundant_cuts": 0,
+    "reused_shots": 2,
+    "reused_shot_instances": [
+      {
+        "start_t": 0.0,
+        "end_t": 4.0,
+        "reused_of_start_t": 27.5
+      },
+      {
+        "start_t": 27.5,
+        "end_t": 32.5,
+        "reused_of_start_t": 0.0
+      }
+    ],
+    "redundant_dialogue_moments": 0,
+    "avg_sharpness": 56.1,
+    "avg_blockiness": 1.003,
+    "avg_brightness": 64.5,
+    "avg_audio_rms_db": -18.8,
+    "full_transcript": "Five dead, two survivors, 20 letters, four ciphers. Almost 60 years later, nobody has ever said his name. He is the only major American serial killer of the modern era whose case is still officially open. A killer, if he is still alive, would be somewhere between 85 and 100 years old. He may be in a nursing home. He may have died in 1989. He may be reading this on a small phone screen by a window. He gave us four crime scenes, 20 letters, two surviving victims. He took everything else with him. He is the only killer in this entire series who got away with it.",
+    "has_retention_data": false
+  },
+  "decoding": {
+    "hook_description": "Begins with a stark visual of a detective pinboard covered in ciphers and victim photos, paired with rapid-fire statistics: 'Five dead, two survivors, 20 letters, four ciphers.'",
+    "storytelling_arc": "Mysterious hook -> Contextual escalation (decades unsolved, open case) -> Chilling speculation on killer's current life/age -> Climax emphasizing he got away with it.",
+    "pacing_style": "Deliberate narrative pacing with average cuts around 3.5 seconds, shifting scenes to match speculative statements in the continuous voiceover.",
+    "tone_and_style": "Dark, suspenseful animated noir documentary with desaturated palettes, dramatic shadows, and a chilling, serious atmosphere.",
+    "audio_strategy": "Non-stop grave, cinematic voiceover narration running edge-to-edge over subtle, atmospheric suspense audio.",
+    "text_overlay_and_captions": "Word-by-word dynamic white subtitles centered at the bottom, accompanied by a gritty red-and-white series title overlay at the top in early shots.",
+    "notable_techniques": [
+      "Numerical rapid-fire hook within first 3 seconds",
+      "Direct viewer address/fourth-wall break ('reading this on a small phone screen')",
+      "Speculative visualization montage matching voiceover hypothetical scenarios",
+      "Word-by-word synchronized captioning for retention"
+    ],
+    "call_to_action": "Implicit promotion of the full series ('He is the only killer in this entire series who got away with it')."
+  }
+}

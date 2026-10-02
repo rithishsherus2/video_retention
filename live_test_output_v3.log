@@ -1,0 +1,218 @@
+=== EXTRACTING RULES FROM IDEAL REELS (v3: timeout + fault-tolerant engagement + 2fps frames) ===
+[rules] [1/3] decoding ideal reel: https://www.instagram.com/reel/DTkqrN3kp_1/
+[PROGRESS] [1/3] decoding ideal reel: https://www.instagram.com/reel/DTkqrN3kp_1/
+[rules] Fetching https://www.instagram.com/reel/DTkqrN3kp_1/ ...
+[PROGRESS] Fetching https://www.instagram.com/reel/DTkqrN3kp_1/ ...
+[Instagram] Extracting URL: https://www.instagram.com/reel/DTkqrN3kp_1/
+[Instagram] DTkqrN3kp_1: Downloading video info
+[info] DTkqrN3kp_1: Downloading 1 format(s): dash-1238195874882881v+dash-894650080181731a
+[download] Destination: ..\data\web_runs\live_test_profile_extraction_v2\ideal_0\DTkqrN3kp_1.fdash-1238195874882881v.mp4
+[download]   0.0% of   18.90MiB at  500.45KiB/s ETA 00:38[download]   0.0% of   18.90MiB at    1.47MiB/s ETA 00:12[download]   0.0% of   18.90MiB at    2.28MiB/s ETA 00:08[download]   0.1% of   18.90MiB at    1.48MiB/s ETA 00:12[download]   0.2% of   18.90MiB at    2.28MiB/s ETA 00:08[download]   0.3% of   18.90MiB at    2.75MiB/s ETA 00:06[download]   0.7% of   18.90MiB at    3.87MiB/s ETA 00:04[download]   1.3% of   18.90MiB at    5.82MiB/s ETA 00:03[download]   2.6% of   18.90MiB at    8.83MiB/s ETA 00:02[download]   5.3% of   18.90MiB at    5.15MiB/s ETA 00:03[download]  10.6% of   18.90MiB at    4.42MiB/s ETA 00:03[download]  21.2% of   18.90MiB at    4.02MiB/s ETA 00:03[download]  40.7% of   18.90MiB at    3.89MiB/s ETA 00:02[download]  60.6% of   18.90MiB at    3.81MiB/s ETA 00:01[download]  80.0% of   18.90MiB at    3.79MiB/s ETA 00:00[download]  99.7% of   18.90MiB at    3.66MiB/s ETA 00:00[download] 100.0% of   18.90MiB at    3.66MiB/s ETA 00:00[download] 100% of   18.90MiB in 00:00:05 at 3.63MiB/s   
+[download] Destination: ..\data\web_runs\live_test_profile_extraction_v2\ideal_0\DTkqrN3kp_1.fdash-894650080181731a.m4a
+[download]   0.2% of  545.19KiB at  427.38KiB/s ETA 00:01[download]   0.6% of  545.19KiB at  835.46KiB/s ETA 00:00[download]   1.3% of  545.19KiB at    1.90MiB/s ETA 00:00[download]   2.8% of  545.19KiB at    2.00MiB/s ETA 00:00[download]   5.7% of  545.19KiB at    1.12MiB/s ETA 00:00[download]  11.6% of  545.19KiB at    2.28MiB/s ETA 00:00[download]  23.3% of  545.19KiB at    2.86MiB/s ETA 00:00[download]  46.8% of  545.19KiB at    4.02MiB/s ETA 00:00[download]  93.7% of  545.19KiB at    3.83MiB/s ETA 00:00[download] 100.0% of  545.19KiB at    4.05MiB/s ETA 00:00[download] 100% of  545.19KiB in 00:00:00 at 3.09MiB/s   
+[Merger] Merging formats into "..\data\web_runs\live_test_profile_extraction_v2\ideal_0\DTkqrN3kp_1.mp4"
+Deleting original file ..\data\web_runs\live_test_profile_extraction_v2\ideal_0\DTkqrN3kp_1.fdash-894650080181731a.m4a (pass -k to keep)
+Deleting original file ..\data\web_runs\live_test_profile_extraction_v2\ideal_0\DTkqrN3kp_1.fdash-1238195874882881v.mp4 (pass -k to keep)
+[rules] Fetched DTkqrN3kp_1.mp4
+[PROGRESS] Fetched DTkqrN3kp_1.mp4
+[rules] Engagement (yt_dlp+provider:instagram_api_fast_reliable): views=922582 likes=60626 comments=498
+[PROGRESS] Engagement (yt_dlp+provider:instagram_api_fast_reliable): views=922582 likes=60626 comments=498
+[rules] Building feature timeline (quality, shots, audio, transcript)... this is the slow step.
+[PROGRESS] Building feature timeline (quality, shots, audio, transcript)... this is the slow step.
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+WARNING:huggingface_hub.utils._http:Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[timeline] shot detection + CLIP similarity...
+[timeline] quality metrics...
+[timeline] audio loudness...
+[timeline] transcription (faster-whisper, this is the slow step)...
+[audio] dropped 12 low-confidence segment(s) (no_speech_prob > 0.2 or avg_logprob < -1.0) -- not treated as real transcript.
+[timeline] detected language: en (confidence 0.98, model 'small')
+[timeline] redundant dialogue check...
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 1997.06it/s]
+[rules] Sampled 156 frames at ~2.0/s for decoding.
+[PROGRESS] Sampled 156 frames at ~2.0/s for decoding.
+[rules] Decoding creative/technical approach with Gemini...
+[PROGRESS] Decoding creative/technical approach with Gemini...
+WARNING:google_genai.models:Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+    Gemini call failed (ReadTimeout), attempt 1/6, retrying in 3s...
+    Gemini call failed (ServerError), attempt 2/6, retrying in 6s...
+[rules] [2/3] decoding ideal reel: https://www.instagram.com/reel/DTSjJw1kiAW/
+[PROGRESS] [2/3] decoding ideal reel: https://www.instagram.com/reel/DTSjJw1kiAW/
+[rules] Fetching https://www.instagram.com/reel/DTSjJw1kiAW/ ...
+[PROGRESS] Fetching https://www.instagram.com/reel/DTSjJw1kiAW/ ...
+[Instagram] Extracting URL: https://www.instagram.com/reel/DTSjJw1kiAW/
+[Instagram] DTSjJw1kiAW: Downloading video info
+[info] DTSjJw1kiAW: Downloading 1 format(s): dash-1409497270686152v+dash-854432254158857a
+[download] Destination: ..\data\web_runs\live_test_profile_extraction_v2\ideal_1\DTSjJw1kiAW.fdash-1409497270686152v.mp4
+[download]   0.0% of   16.90MiB at  290.14KiB/s ETA 00:59[download]   0.0% of   16.90MiB at  673.28KiB/s ETA 00:25[download]   0.0% of   16.90MiB at    1.24MiB/s ETA 00:13[download]   0.1% of   16.90MiB at    1.94MiB/s ETA 00:08[download]   0.2% of   16.90MiB at    2.18MiB/s ETA 00:07[download]   0.4% of   16.90MiB at    3.15MiB/s ETA 00:05[download]   0.7% of   16.90MiB at    4.47MiB/s ETA 00:03[download]   1.5% of   16.90MiB at    6.86MiB/s ETA 00:02[download]   3.0% of   16.90MiB at   10.52MiB/s ETA 00:01[download]   5.9% of   16.90MiB at    5.28MiB/s ETA 00:03[download]  11.8% of   16.90MiB at    3.81MiB/s ETA 00:03[download]  23.7% of   16.90MiB at    4.00MiB/s ETA 00:03[download]  47.3% of   16.90MiB at    3.84MiB/s ETA 00:02[download]  69.2% of   16.90MiB at    3.78MiB/s ETA 00:01[download]  90.8% of   16.90MiB at    3.43MiB/s ETA 00:00[download] 100.0% of   16.90MiB at    3.43MiB/s ETA 00:00[download] 100% of   16.90MiB in 00:00:04 at 3.40MiB/s   
+[download] Destination: ..\data\web_runs\live_test_profile_extraction_v2\ideal_1\DTSjJw1kiAW.fdash-854432254158857a.m4a
+[download]   0.2% of  432.83KiB at  499.80KiB/s ETA 00:00[download]   0.7% of  432.83KiB at 1000.95KiB/s ETA 00:00[download]   1.6% of  432.83KiB at    2.28MiB/s ETA 00:00[download]   3.5% of  432.83KiB at    1.61MiB/s ETA 00:00[download]   7.2% of  432.83KiB at    1.06MiB/s ETA 00:00[download]  14.6% of  432.83KiB at    1.71MiB/s ETA 00:00[download]  29.3% of  432.83KiB at    2.67MiB/s ETA 00:00[download]  58.9% of  432.83KiB at    4.22MiB/s ETA 00:00[download] 100.0% of  432.83KiB at    6.24MiB/s ETA 00:00[download] 100% of  432.83KiB in 00:00:00 at 3.13MiB/s   
+[Merger] Merging formats into "..\data\web_runs\live_test_profile_extraction_v2\ideal_1\DTSjJw1kiAW.mp4"
+Deleting original file ..\data\web_runs\live_test_profile_extraction_v2\ideal_1\DTSjJw1kiAW.fdash-854432254158857a.m4a (pass -k to keep)
+Deleting original file ..\data\web_runs\live_test_profile_extraction_v2\ideal_1\DTSjJw1kiAW.fdash-1409497270686152v.mp4 (pass -k to keep)
+[rules] Fetched DTSjJw1kiAW.mp4
+[PROGRESS] Fetched DTSjJw1kiAW.mp4
+[rules] Engagement (yt_dlp+provider:instagram_api_fast_reliable): views=2053263 likes=106495 comments=1222
+[PROGRESS] Engagement (yt_dlp+provider:instagram_api_fast_reliable): views=2053263 likes=106495 comments=1222
+[rules] Building feature timeline (quality, shots, audio, transcript)... this is the slow step.
+[PROGRESS] Building feature timeline (quality, shots, audio, transcript)... this is the slow step.
+INFO:pyscenedetect:Detecting scenes...
+[timeline] shot detection + CLIP similarity...
+[timeline] quality metrics...
+[timeline] audio loudness...
+[timeline] transcription (faster-whisper, this is the slow step)...
+[audio] dropped 8 low-confidence segment(s) (no_speech_prob > 0.2 or avg_logprob < -1.0) -- not treated as real transcript.
+[timeline] detected language: en (confidence 0.98, model 'small')
+[timeline] redundant dialogue check...
+[rules] Sampled 122 frames at ~2.0/s for decoding.
+[PROGRESS] Sampled 122 frames at ~2.0/s for decoding.
+[rules] Decoding creative/technical approach with Gemini...
+[PROGRESS] Decoding creative/technical approach with Gemini...
+Traceback (most recent call last):
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\httpx\_transports\default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\httpx\_transports\default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\httpcore\_sync\connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\httpcore\_sync\connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\httpcore\_sync\connection.py", line 103, in handle_request
+    return self._connection.handle_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\httpcore\_sync\http11.py", line 136, in handle_request
+    raise exc
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\httpcore\_sync\http11.py", line 106, in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\httpcore\_sync\http11.py", line 177, in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\httpcore\_sync\http11.py", line 217, in _receive_event
+    data = self._network_stream.read(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\httpcore\_backends\sync.py", line 126, in read
+    with map_exceptions(exc_map):
+  File "C:\Program Files\Python312\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ReadTimeout: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\analysis\gemini_client.py", line 156, in attempt_with_key
+    response = client.models.generate_content(model=model, contents=contents, config=config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\google\genai\models.py", line 6270, in generate_content
+    response = self._generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\google\genai\models.py", line 4707, in _generate_content
+    response = self._api_client.request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\google\genai\_api_client.py", line 1750, in request
+    response = self._request(http_request, http_options, stream=False)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\google\genai\_api_client.py", line 1513, in _request_once
+    response = self._httpx_client.send(httpx_request, stream=stream)  # type: ignore[union-attr, arg-type]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\httpx\_client.py", line 914, in send
+    response = self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\httpx\_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\httpx\_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\httpx\_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\httpx\_transports\default.py", line 249, in handle_request
+    with map_httpcore_exceptions():
+  File "C:\Program Files\Python312\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ReadTimeout: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\infra\rotation.py", line 36, in try_each
+    return fn(item)
+           ^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\analysis\gemini_client.py", line 181, in attempt_with_key
+    raise ExhaustedError(f"exhausted {max_retries} retries: {last_err}") from last_err
+app.infra.rotation.ExhaustedError: exhausted 6 retries: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\analysis\gemini_client.py", line 185, in _generate_structured
+    return try_each(keys, attempt_with_key, label="Gemini API key")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\infra\rotation.py", line 41, in try_each
+    raise RuntimeError(f"All {len(items)} {label}(s) exhausted or rate-limited.") from last_err
+RuntimeError: All 3 Gemini API key(s) exhausted or rate-limited.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 23, in <module>
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\analysis\rules.py", line 134, in extract_rules_from_ideal_reels
+    analysis = fetch_and_analyze_reel(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\analysis\rules.py", line 108, in fetch_and_analyze_reel
+    decoding = decode_reel(features, engagement.model_dump(), frame_paths)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\analysis\gemini_client.py", line 336, in decode_reel
+    return _generate_structured(MODEL, contents, ReelDecoding)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\analysis\gemini_client.py", line 187, in _generate_structured
+    raise RuntimeError(
+RuntimeError: All 3 Gemini API key(s) exhausted or rate-limited. This does not resolve by retrying -- wait for the quota window to reset (check https://ai.dev/rate-limit for timing), add more keys to GEMINI_API_KEYS, or enable billing to raise the limit.
+    Gemini call failed (ReadTimeout), attempt 1/6, retrying in 3s...
+    Gemini call failed (ReadTimeout), attempt 2/6, retrying in 6s...
+    Gemini call failed (ServerError), attempt 3/6, retrying in 12s...
+    Gemini call failed (ServerError), attempt 4/6, retrying in 24s...
+    Gemini call failed (ReadTimeout), attempt 5/6, retrying in 48s...
+[rotation] Gemini API key 1/3 exhausted/rate-limited (exhausted 6 retries: The read operation timed out); trying next...
+    Gemini call failed (ServerError), attempt 1/6, retrying in 3s...
+    Gemini call failed (ServerError), attempt 2/6, retrying in 6s...
+    Gemini call failed (ReadTimeout), attempt 3/6, retrying in 12s...
+    Gemini call failed (ReadTimeout), attempt 4/6, retrying in 24s...
+    Gemini call failed (ServerError), attempt 5/6, retrying in 48s...
+[rotation] Gemini API key 2/3 exhausted/rate-limited (exhausted 6 retries: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}); trying next...
+    Gemini call failed (ServerError), attempt 1/6, retrying in 3s...
+    Gemini call failed (ReadTimeout), attempt 2/6, retrying in 6s...
+    Gemini call failed (ServerError), attempt 3/6, retrying in 12s...
+    Gemini call failed (ServerError), attempt 4/6, retrying in 24s...
+    Gemini call failed (ReadTimeout), attempt 5/6, retrying in 48s...
+[rotation] Gemini API key 3/3 exhausted/rate-limited (exhausted 6 retries: The read operation timed out); trying next...
