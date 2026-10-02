@@ -6,8 +6,11 @@ data/samples/*
 !data/samples/.gitkeep
 data/runs/*
 !data/runs/.gitkeep
+data/profiles/*
+!data/profiles/.gitkeep
 *.mp4
 *.mov
 *.wav
 cookies.txt
+backend/config/engagement_providers.json
 .pytest_cache/

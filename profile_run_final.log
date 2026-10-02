@@ -1,0 +1,190 @@
+=== EXTRACTING RULES (v4: caching + reduced retries) ===
+[rules] [1/3] decoding ideal reel: https://www.instagram.com/reel/DTkqrN3kp_1/
+[PROGRESS] [1/3] decoding ideal reel: https://www.instagram.com/reel/DTkqrN3kp_1/
+[rules] Fetching https://www.instagram.com/reel/DTkqrN3kp_1/ ...
+[PROGRESS] Fetching https://www.instagram.com/reel/DTkqrN3kp_1/ ...
+[Instagram] Extracting URL: https://www.instagram.com/reel/DTkqrN3kp_1/
+[Instagram] DTkqrN3kp_1: Downloading video info
+[info] DTkqrN3kp_1: Downloading 1 format(s): dash-1238195874882881v+dash-894650080181731a
+[download] Destination: ..\data\web_runs\profile_run_final\ideal_0\DTkqrN3kp_1.fdash-1238195874882881v.mp4
+[download]   0.0% of   18.90MiB at  369.80KiB/s ETA 00:52[download]   0.0% of   18.90MiB at  583.79KiB/s ETA 00:33[download]   0.0% of   18.90MiB at    1.11MiB/s ETA 00:16[download]   0.1% of   18.90MiB at    1.35MiB/s ETA 00:13[download]   0.2% of   18.90MiB at    1.22MiB/s ETA 00:15[download]   0.3% of   18.90MiB at    2.29MiB/s ETA 00:08[download]   0.7% of   18.90MiB at    3.47MiB/s ETA 00:05[download]   1.3% of   18.90MiB at    4.99MiB/s ETA 00:03[download]   2.6% of   18.90MiB at    8.17MiB/s ETA 00:02[download]   5.3% of   18.90MiB at    5.49MiB/s ETA 00:03[download]  10.6% of   18.90MiB at    4.30MiB/s ETA 00:03[download]  21.2% of   18.90MiB at    3.98MiB/s ETA 00:03[download]  40.7% of   18.90MiB at    3.82MiB/s ETA 00:02[download]  60.1% of   18.90MiB at    3.79MiB/s ETA 00:01[download]  79.8% of   18.90MiB at    3.77MiB/s ETA 00:01[download]  99.4% of   18.90MiB at    3.75MiB/s ETA 00:00[download] 100.0% of   18.90MiB at    3.76MiB/s ETA 00:00[download] 100% of   18.90MiB in 00:00:05 at 3.66MiB/s   
+[download] Destination: ..\data\web_runs\profile_run_final\ideal_0\DTkqrN3kp_1.fdash-894650080181731a.m4a
+[download]   0.2% of  545.19KiB at  865.16KiB/s ETA 00:00[download]   0.6% of  545.19KiB at    2.53MiB/s ETA 00:00[download]   1.3% of  545.19KiB at    2.64MiB/s ETA 00:00[download]   2.8% of  545.19KiB at    4.03MiB/s ETA 00:00[download]   5.7% of  545.19KiB at    2.48MiB/s ETA 00:00[download]  11.6% of  545.19KiB at    2.87MiB/s ETA 00:00[download]  23.3% of  545.19KiB at    3.72MiB/s ETA 00:00[download]  46.8% of  545.19KiB at    5.09MiB/s ETA 00:00[download]  93.7% of  545.19KiB at    8.54MiB/s ETA 00:00[download] 100.0% of  545.19KiB at    8.95MiB/s ETA 00:00[download] 100% of  545.19KiB in 00:00:01 at 519.24KiB/s 
+[Merger] Merging formats into "..\data\web_runs\profile_run_final\ideal_0\DTkqrN3kp_1.mp4"
+Deleting original file ..\data\web_runs\profile_run_final\ideal_0\DTkqrN3kp_1.fdash-894650080181731a.m4a (pass -k to keep)
+Deleting original file ..\data\web_runs\profile_run_final\ideal_0\DTkqrN3kp_1.fdash-1238195874882881v.mp4 (pass -k to keep)
+[rules] Fetched DTkqrN3kp_1.mp4
+[PROGRESS] Fetched DTkqrN3kp_1.mp4
+[rules] Engagement (yt_dlp+provider:instagram_api_fast_reliable): views=922619 likes=60615 comments=498
+[PROGRESS] Engagement (yt_dlp+provider:instagram_api_fast_reliable): views=922619 likes=60615 comments=498
+[rules] Building feature timeline (quality, shots, audio, transcript)... this is the slow step.
+[PROGRESS] Building feature timeline (quality, shots, audio, transcript)... this is the slow step.
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+WARNING:huggingface_hub.utils._http:Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[timeline] shot detection + CLIP similarity...
+[timeline] quality metrics...
+[timeline] audio loudness...
+[timeline] transcription (faster-whisper, this is the slow step)...
+[audio] dropped 12 low-confidence segment(s) (no_speech_prob > 0.2 or avg_logprob < -1.0) -- not treated as real transcript.
+[timeline] detected language: en (confidence 0.98, model 'small')
+[timeline] redundant dialogue check...
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 1558.96it/s]
+[rules] Sampled 156 frames at ~2.0/s for decoding.
+[PROGRESS] Sampled 156 frames at ~2.0/s for decoding.
+[rules] Decoding creative/technical approach with Gemini...
+[PROGRESS] Decoding creative/technical approach with Gemini...
+WARNING:google_genai.models:Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+[rules] [2/3] decoding ideal reel: https://www.instagram.com/reel/DTSjJw1kiAW/
+[PROGRESS] [2/3] decoding ideal reel: https://www.instagram.com/reel/DTSjJw1kiAW/
+[rules] Fetching https://www.instagram.com/reel/DTSjJw1kiAW/ ...
+[PROGRESS] Fetching https://www.instagram.com/reel/DTSjJw1kiAW/ ...
+[Instagram] Extracting URL: https://www.instagram.com/reel/DTSjJw1kiAW/
+[Instagram] DTSjJw1kiAW: Downloading video info
+[info] DTSjJw1kiAW: Downloading 1 format(s): dash-1409497270686152v+dash-854432254158857a
+[download] Destination: ..\data\web_runs\profile_run_final\ideal_1\DTSjJw1kiAW.fdash-1409497270686152v.mp4
+[download]   0.0% of   16.90MiB at    1.20KiB/s ETA 03:59:43[download]   0.0% of   16.90MiB at    2.65KiB/s ETA 01:48:51[download]   0.0% of   16.90MiB at    5.53KiB/s ETA 52:07   [download]   0.1% of   16.90MiB at   11.30KiB/s ETA 25:30[download]   0.1% of   16.90MiB at   22.73KiB/s ETA 12:40[download]   0.2% of   16.90MiB at   45.42KiB/s ETA 06:20[download]   0.4% of   16.90MiB at   90.29KiB/s ETA 03:10[download]   0.9% of   16.90MiB at  178.39KiB/s ETA 01:36[download]   1.8% of   16.90MiB at  346.54KiB/s ETA 00:49[download]   3.6% of   16.90MiB at  606.69KiB/s ETA 00:27[download]   7.1% of   16.90MiB at    1.05MiB/s ETA 00:14[download]  14.2% of   16.90MiB at    1.64MiB/s ETA 00:08[download]  28.5% of   16.90MiB at    2.24MiB/s ETA 00:05[download]  49.2% of   16.90MiB at    2.61MiB/s ETA 00:03[download]  69.2% of   16.90MiB at    2.83MiB/s ETA 00:01[download]  90.2% of   16.90MiB at    2.98MiB/s ETA 00:00[download] 100.0% of   16.90MiB at    3.01MiB/s ETA 00:00[download] 100% of   16.90MiB in 00:00:05 at 2.97MiB/s   
+[download] Destination: ..\data\web_runs\profile_run_final\ideal_1\DTSjJw1kiAW.fdash-854432254158857a.m4a
+[download]   0.2% of  432.83KiB at  Unknown B/s ETA Unknown[download]   0.7% of  432.83KiB at  Unknown B/s ETA Unknown[download]   1.6% of  432.83KiB at    2.21MiB/s ETA 00:00  [download]   3.5% of  432.83KiB at    1.18MiB/s ETA 00:00[download]   7.2% of  432.83KiB at    1.97MiB/s ETA 00:00[download]  14.6% of  432.83KiB at    2.51MiB/s ETA 00:00[download]  29.3% of  432.83KiB at    3.63MiB/s ETA 00:00[download]  58.9% of  432.83KiB at    5.25MiB/s ETA 00:00[download] 100.0% of  432.83KiB at    7.26MiB/s ETA 00:00[download] 100% of  432.83KiB in 00:00:00 at 2.80MiB/s   
+[Merger] Merging formats into "..\data\web_runs\profile_run_final\ideal_1\DTSjJw1kiAW.mp4"
+Deleting original file ..\data\web_runs\profile_run_final\ideal_1\DTSjJw1kiAW.fdash-854432254158857a.m4a (pass -k to keep)
+Deleting original file ..\data\web_runs\profile_run_final\ideal_1\DTSjJw1kiAW.fdash-1409497270686152v.mp4 (pass -k to keep)
+[rules] Fetched DTSjJw1kiAW.mp4
+[PROGRESS] Fetched DTSjJw1kiAW.mp4
+[rules] Engagement (yt_dlp+provider:instagram_api_fast_reliable): views=2053305 likes=106464 comments=1222
+[PROGRESS] Engagement (yt_dlp+provider:instagram_api_fast_reliable): views=2053305 likes=106464 comments=1222
+[rules] Building feature timeline (quality, shots, audio, transcript)... this is the slow step.
+[PROGRESS] Building feature timeline (quality, shots, audio, transcript)... this is the slow step.
+INFO:pyscenedetect:Detecting scenes...
+[timeline] shot detection + CLIP similarity...
+[timeline] quality metrics...
+[timeline] audio loudness...
+[timeline] transcription (faster-whisper, this is the slow step)...
+[audio] dropped 8 low-confidence segment(s) (no_speech_prob > 0.2 or avg_logprob < -1.0) -- not treated as real transcript.
+[timeline] detected language: en (confidence 0.98, model 'small')
+[timeline] redundant dialogue check...
+[rules] Sampled 122 frames at ~2.0/s for decoding.
+[PROGRESS] Sampled 122 frames at ~2.0/s for decoding.
+[rules] Decoding creative/technical approach with Gemini...
+[PROGRESS] Decoding creative/technical approach with Gemini...
+[rules] [3/3] decoding ideal reel: https://www.instagram.com/reel/DdGy9TMBvnf/
+[PROGRESS] [3/3] decoding ideal reel: https://www.instagram.com/reel/DdGy9TMBvnf/
+[rules] Fetching https://www.instagram.com/reel/DdGy9TMBvnf/ ...
+[PROGRESS] Fetching https://www.instagram.com/reel/DdGy9TMBvnf/ ...
+[Instagram] Extracting URL: https://www.instagram.com/reel/DdGy9TMBvnf/
+[Instagram] DdGy9TMBvnf: Downloading video info
+[info] DdGy9TMBvnf: Downloading 1 format(s): dash-1770233874173875v+dash-1770082574189005a
+[download] Destination: ..\data\web_runs\profile_run_final\ideal_2\DdGy9TMBvnf.fdash-1770233874173875v.mp4
+[download]   0.0% of   16.54MiB at   78.88KiB/s ETA 03:51[download]   0.0% of   16.54MiB at   81.00KiB/s ETA 03:29[download]   0.0% of   16.54MiB at  160.93KiB/s ETA 01:45[download]   0.1% of   16.54MiB at  295.49KiB/s ETA 00:57[download]   0.2% of   16.54MiB at  529.60KiB/s ETA 00:31[download]   0.4% of   16.54MiB at  826.85KiB/s ETA 00:20[download]   0.7% of   16.54MiB at    1.38MiB/s ETA 00:11[download]   1.5% of   16.54MiB at    2.18MiB/s ETA 00:07[download]   3.0% of   16.54MiB at    3.26MiB/s ETA 00:04[download]   6.0% of   16.54MiB at    4.52MiB/s ETA 00:03[download]  12.1% of   16.54MiB at    3.91MiB/s ETA 00:03[download]  24.2% of   16.54MiB at    3.80MiB/s ETA 00:03[download]  46.5% of   16.54MiB at    3.70MiB/s ETA 00:02[download]  68.2% of   16.54MiB at    3.70MiB/s ETA 00:01[download]  90.5% of   16.54MiB at    3.68MiB/s ETA 00:00[download] 100.0% of   16.54MiB at    3.72MiB/s ETA 00:00[download] 100% of   16.54MiB in 00:00:05 at 3.27MiB/s   
+[download] Destination: ..\data\web_runs\profile_run_final\ideal_2\DdGy9TMBvnf.fdash-1770082574189005a.m4a
+[download]   0.2% of  480.53KiB at  200.09KiB/s ETA 00:02[download]   0.6% of  480.53KiB at  187.57KiB/s ETA 00:02[download]   1.5% of  480.53KiB at  350.08KiB/s ETA 00:01[download]   3.1% of  480.53KiB at  555.53KiB/s ETA 00:00[download]   6.5% of  480.53KiB at  938.94KiB/s ETA 00:00[download]  13.1% of  480.53KiB at    1.54MiB/s ETA 00:00[download]  26.4% of  480.53KiB at  155.64KiB/s ETA 00:02[download]  43.6% of  480.53KiB at  253.77KiB/s ETA 00:01[download]  77.9% of  480.53KiB at  444.95KiB/s ETA 00:00[download] 100.0% of  480.53KiB at  560.65KiB/s ETA 00:00[download] 100% of  480.53KiB in 00:00:01 at 472.83KiB/s 
+[Merger] Merging formats into "..\data\web_runs\profile_run_final\ideal_2\DdGy9TMBvnf.mp4"
+Deleting original file ..\data\web_runs\profile_run_final\ideal_2\DdGy9TMBvnf.fdash-1770233874173875v.mp4 (pass -k to keep)
+Deleting original file ..\data\web_runs\profile_run_final\ideal_2\DdGy9TMBvnf.fdash-1770082574189005a.m4a (pass -k to keep)
+[rules] Fetched DdGy9TMBvnf.mp4
+[PROGRESS] Fetched DdGy9TMBvnf.mp4
+[rules] Engagement (yt_dlp+provider:instagram_api_fast_reliable): views=40482 likes=1906 comments=39
+[PROGRESS] Engagement (yt_dlp+provider:instagram_api_fast_reliable): views=40482 likes=1906 comments=39
+[rules] Building feature timeline (quality, shots, audio, transcript)... this is the slow step.
+[PROGRESS] Building feature timeline (quality, shots, audio, transcript)... this is the slow step.
+INFO:pyscenedetect:Detecting scenes...
+[timeline] shot detection + CLIP similarity...
+[timeline] quality metrics...
+[timeline] audio loudness...
+[timeline] transcription (faster-whisper, this is the slow step)...
+[audio] dropped 9 low-confidence segment(s) (no_speech_prob > 0.2 or avg_logprob < -1.0) -- not treated as real transcript.
+[timeline] detected language: en (confidence 0.98, model 'small')
+[timeline] redundant dialogue check...
+[rules] Sampled 140 frames at ~2.0/s for decoding.
+[PROGRESS] Sampled 140 frames at ~2.0/s for decoding.
+[rules] Decoding creative/technical approach with Gemini...
+[PROGRESS] Decoding creative/technical approach with Gemini...
+    Gemini call failed (ServerError), attempt 1/3, retrying in 3s...
+    Gemini call failed (ServerError), attempt 2/3, retrying in 6s...
+[rules] Synthesizing rules across all ideal reels...
+[PROGRESS] Synthesizing rules across all ideal reels...
+Traceback (most recent call last):
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\analysis\gemini_client.py", line 159, in attempt_with_key
+    response = client.models.generate_content(model=model, contents=contents, config=config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\google\genai\models.py", line 6270, in generate_content
+    response = self._generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\google\genai\models.py", line 4707, in _generate_content
+    response = self._api_client.request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\google\genai\_api_client.py", line 1750, in request
+    response = self._request(http_request, http_options, stream=False)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\google\genai\_api_client.py", line 1514, in _request_once
+    errors.APIError.raise_for_response(response)
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\google\genai\errors.py", line 173, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\google\genai\errors.py", line 204, in raise_error
+    raise ServerError(status_code, response_json, response)
+google.genai.errors.ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\infra\rotation.py", line 36, in try_each
+    return fn(item)
+           ^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\analysis\gemini_client.py", line 184, in attempt_with_key
+    raise ExhaustedError(f"exhausted {max_retries} retries: {last_err}") from last_err
+app.infra.rotation.ExhaustedError: exhausted 3 retries: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\analysis\gemini_client.py", line 188, in _generate_structured
+    return try_each(keys, attempt_with_key, label="Gemini API key")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\infra\rotation.py", line 41, in try_each
+    raise RuntimeError(f"All {len(items)} {label}(s) exhausted or rate-limited.") from last_err
+RuntimeError: All 3 Gemini API key(s) exhausted or rate-limited.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 24, in <module>
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\analysis\rules.py", line 177, in extract_rules_from_ideal_reels
+    rules = synthesize_content_rules([a.to_summary_dict() for a in analyses])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\analysis\gemini_client.py", line 383, in synthesize_content_rules
+    return _generate_structured(SYNTHESIS_MODEL, [prompt], ContentRules)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\analysis\gemini_client.py", line 190, in _generate_structured
+    raise RuntimeError(
+RuntimeError: All 3 Gemini API key(s) exhausted or rate-limited. This does not resolve by retrying -- wait for the quota window to reset (check https://ai.dev/rate-limit for timing), add more keys to GEMINI_API_KEYS, or enable billing to raise the limit.
+    Gemini call failed (ServerError), attempt 1/3, retrying in 3s...
+    Gemini call failed (ServerError), attempt 2/3, retrying in 6s...
+[rotation] Gemini API key 1/3 exhausted/rate-limited (exhausted 3 retries: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}); trying next...
+    Gemini call failed (ServerError), attempt 1/3, retrying in 3s...
+    Gemini call failed (ServerError), attempt 2/3, retrying in 6s...
+[rotation] Gemini API key 2/3 exhausted/rate-limited (exhausted 3 retries: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}); trying next...
+    Gemini call failed (ServerError), attempt 1/3, retrying in 3s...
+    Gemini call failed (ServerError), attempt 2/3, retrying in 6s...
+[rotation] Gemini API key 3/3 exhausted/rate-limited (exhausted 3 retries: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}); trying next...

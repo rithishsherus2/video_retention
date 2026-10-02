@@ -1,0 +1,126 @@
+=== EVALUATING TEST REEL AGAINST live_test_profile ===
+[evaluate] Loaded profile 'live_test_profile' (6 rules).
+[PROGRESS] Loaded profile 'live_test_profile' (6 rules).
+[evaluate] No retention recording provided -- evaluating on rules + engagement only.
+[PROGRESS] No retention recording provided -- evaluating on rules + engagement only.
+[rules] Fetching https://www.instagram.com/reel/DdR7uwOCfkw/ ...
+[PROGRESS] Fetching https://www.instagram.com/reel/DdR7uwOCfkw/ ...
+[Instagram] Extracting URL: https://www.instagram.com/reel/DdR7uwOCfkw/
+[Instagram] DdR7uwOCfkw: Downloading video info
+[info] DdR7uwOCfkw: Downloading 1 format(s): dash-17925087231422027v+dash-17925087207422027a
+[download] Destination: ..\data\web_runs\evaluate_run_final\DdR7uwOCfkw.fdash-17925087231422027v.mp4
+[download]   0.0% of    3.65MiB at   86.12KiB/s ETA 00:43[download]   0.1% of    3.65MiB at  247.41KiB/s ETA 00:15[download]   0.2% of    3.65MiB at  494.98KiB/s ETA 00:07[download]   0.4% of    3.65MiB at  958.07KiB/s ETA 00:03[download]   0.8% of    3.65MiB at    1.36MiB/s ETA 00:02[download]   1.7% of    3.65MiB at    2.07MiB/s ETA 00:01[download]   3.4% of    3.65MiB at    2.16MiB/s ETA 00:01[download]   6.8% of    3.65MiB at    2.75MiB/s ETA 00:01[download]  13.7% of    3.65MiB at    4.16MiB/s ETA 00:00[download]  27.4% of    3.65MiB at    4.81MiB/s ETA 00:00[download]  54.7% of    3.65MiB at    4.31MiB/s ETA 00:00[download] 100.0% of    3.65MiB at    4.04MiB/s ETA 00:00[download] 100% of    3.65MiB in 00:00:00 at 3.80MiB/s   
+[download] Destination: ..\data\web_runs\evaluate_run_final\DdR7uwOCfkw.fdash-17925087207422027a.m4a
+[download]   0.3% of  327.25KiB at  390.17KiB/s ETA 00:00[download]   0.9% of  327.25KiB at  838.58KiB/s ETA 00:00[download]   2.1% of  327.25KiB at    1.49MiB/s ETA 00:00[download]   4.6% of  327.25KiB at    3.20MiB/s ETA 00:00[download]   9.5% of  327.25KiB at    3.82MiB/s ETA 00:00[download]  19.3% of  327.25KiB at    4.05MiB/s ETA 00:00[download]  38.8% of  327.25KiB at    4.21MiB/s ETA 00:00[download]  77.9% of  327.25KiB at    4.23MiB/s ETA 00:00[download] 100.0% of  327.25KiB at    4.29MiB/s ETA 00:00[download] 100% of  327.25KiB in 00:00:00 at 2.46MiB/s   
+[Merger] Merging formats into "..\data\web_runs\evaluate_run_final\DdR7uwOCfkw.mp4"
+Deleting original file ..\data\web_runs\evaluate_run_final\DdR7uwOCfkw.fdash-17925087231422027v.mp4 (pass -k to keep)
+Deleting original file ..\data\web_runs\evaluate_run_final\DdR7uwOCfkw.fdash-17925087207422027a.m4a (pass -k to keep)
+[rules] Fetched DdR7uwOCfkw.mp4
+[PROGRESS] Fetched DdR7uwOCfkw.mp4
+[rules] Engagement (yt_dlp+provider:instagram_api_fast_reliable): views=2726 likes=87 comments=2
+[PROGRESS] Engagement (yt_dlp+provider:instagram_api_fast_reliable): views=2726 likes=87 comments=2
+[rules] Building feature timeline (quality, shots, audio, transcript)... this is the slow step.
+[PROGRESS] Building feature timeline (quality, shots, audio, transcript)... this is the slow step.
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+WARNING:huggingface_hub.utils._http:Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[timeline] shot detection + CLIP similarity...
+[timeline] quality metrics...
+[timeline] audio loudness...
+[timeline] transcription (faster-whisper, this is the slow step)...
+[timeline] detected language: en (confidence 0.99, model 'small')
+[timeline] redundant dialogue check...
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 1479.52it/s]
+[rules] Sampled 76 frames at ~2.0/s for decoding.
+[PROGRESS] Sampled 76 frames at ~2.0/s for decoding.
+[rules] Decoding creative/technical approach with Gemini...
+[PROGRESS] Decoding creative/technical approach with Gemini...
+WARNING:google_genai.models:Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+Traceback (most recent call last):
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\analysis\gemini_client.py", line 159, in attempt_with_key
+    response = client.models.generate_content(model=model, contents=contents, config=config)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\google\genai\models.py", line 6270, in generate_content
+    response = self._generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\google\genai\models.py", line 4707, in _generate_content
+    response = self._api_client.request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\google\genai\_api_client.py", line 1750, in request
+    response = self._request(http_request, http_options, stream=False)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python312\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python312\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\google\genai\_api_client.py", line 1514, in _request_once
+    errors.APIError.raise_for_response(response)
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\google\genai\errors.py", line 173, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+  File "C:\Users\rithi\Desktop\video_retention\backend\.venv\Lib\site-packages\google\genai\errors.py", line 204, in raise_error
+    raise ServerError(status_code, response_json, response)
+google.genai.errors.ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\infra\rotation.py", line 36, in try_each
+    return fn(item)
+           ^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\analysis\gemini_client.py", line 184, in attempt_with_key
+    raise ExhaustedError(f"exhausted {max_retries} retries: {last_err}") from last_err
+app.infra.rotation.ExhaustedError: exhausted 3 retries: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\analysis\gemini_client.py", line 188, in _generate_structured
+    return try_each(keys, attempt_with_key, label="Gemini API key")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\infra\rotation.py", line 41, in try_each
+    raise RuntimeError(f"All {len(items)} {label}(s) exhausted or rate-limited.") from last_err
+RuntimeError: All 3 Gemini API key(s) exhausted or rate-limited.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 20, in <module>
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\analysis\evaluate.py", line 87, in evaluate_reel_against_profile
+    analysis: ReelAnalysis = fetch_and_analyze_reel(
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\analysis\rules.py", line 140, in fetch_and_analyze_reel
+    decoding = decode_reel(features, engagement.model_dump(), frame_paths)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\analysis\gemini_client.py", line 339, in decode_reel
+    return _generate_structured(MODEL, contents, ReelDecoding)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\rithi\Desktop\video_retention\backend\app\analysis\gemini_client.py", line 190, in _generate_structured
+    raise RuntimeError(
+RuntimeError: All 3 Gemini API key(s) exhausted or rate-limited. This does not resolve by retrying -- wait for the quota window to reset (check https://ai.dev/rate-limit for timing), add more keys to GEMINI_API_KEYS, or enable billing to raise the limit.
+    Gemini call failed (ServerError), attempt 1/3, retrying in 3s...
+    Gemini call failed (ServerError), attempt 2/3, retrying in 6s...
+[rotation] Gemini API key 1/3 exhausted/rate-limited (exhausted 3 retries: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}); trying next...
+    Gemini call failed (ServerError), attempt 1/3, retrying in 3s...
+    Gemini call failed (ServerError), attempt 2/3, retrying in 6s...
+[rotation] Gemini API key 2/3 exhausted/rate-limited (exhausted 3 retries: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}); trying next...
+    Gemini call failed (ServerError), attempt 1/3, retrying in 3s...
+    Gemini call failed (ServerError), attempt 2/3, retrying in 6s...
+[rotation] Gemini API key 3/3 exhausted/rate-limited (exhausted 3 retries: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}); trying next...

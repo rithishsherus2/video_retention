@@ -1,0 +1,56 @@
+loaded 3 cached analyses
+attempt 1/6 calling synthesize_content_rules...
+Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+    Gemini call failed (ServerError), attempt 1/3, retrying in 3s...
+    Gemini call failed (ServerError), attempt 2/3, retrying in 6s...
+[rotation] Gemini API key 1/3 exhausted/rate-limited (exhausted 3 retries: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}); trying next...
+    Gemini call failed (ServerError), attempt 1/3, retrying in 3s...
+    Gemini call failed (ServerError), attempt 2/3, retrying in 6s...
+[rotation] Gemini API key 2/3 exhausted/rate-limited (exhausted 3 retries: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}); trying next...
+    Gemini call failed (ServerError), attempt 1/3, retrying in 3s...
+    Gemini call failed (ServerError), attempt 2/3, retrying in 6s...
+[rotation] Gemini API key 3/3 exhausted/rate-limited (exhausted 3 retries: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}); trying next...
+failed: All 3 Gemini API key(s) exhausted or rate-limited. This does not resolve by retrying -- wait for the quota window to reset (check https://ai.dev/rate-limit for timing), add more keys to GEMINI_API_KEYS, or enable billing to raise the limit.
+sleeping 30s before retry...
+attempt 2/6 calling synthesize_content_rules...
+    Gemini call failed (ServerError), attempt 1/3, retrying in 3s...
+    Gemini call failed (ServerError), attempt 2/3, retrying in 6s...
+=== SUCCESS ===
+{
+  "profile_summary": "This channel captures massive true-crime viewership by blending dark, stylized 2D graphic novel animations with solemn, documentary-style narration. Each reel hooks viewers within the first second through explicit, high-shock graphic visuals and maintains engagement with rapid single-word kinetic subtitles and metronomic shot cuts every ~2.8 seconds. Narratively, the stories consistently hinge on the psychological contrast between mundane normalcy and hidden monstrosity.",
+  "rules": [
+    {
+      "category": "hook",
+      "rule": "Open on frame 1 with a graphic, shock-value illustration of a notorious killer or active crime scene, executing at least 1 to 2 scene cuts within the first 3 seconds.",
+      "rationale": "High-shock animated violence immediately stops the feed scroll and prevents early drop-off by establishing graphic true-crime stakes before any exposition begins."
+    },
+    {
+      "category": "pacing",
+      "rule": "Enforce a strict shot cadence averaging between 2.75 and 2.85 seconds per shot (~3.6 cuts per 10 seconds) across the entire video.",
+      "rationale": "All top-performing reels exhibited near-identical cut intervals (2.78s-2.82s), providing a steady narrative momentum that prevents viewer fatigue over long 60-80 second durations."
+    },
+    {
+      "category": "visual_style",
+      "rule": "Render scenes in stylized 2D dark comic/graphic novel animation with atmospheric noir lighting and subtle camera parallax rather than live-action or static archival photos.",
+      "rationale": "Stylized animation allows the visual depiction of explicit blood and visceral crime scenes without triggering platform algorithmic censorship while creating an immersive, distinct brand aesthetic."
+    },
+    {
+      "category": "text_overlay",
+      "rule": "Place high-contrast, bold white sans-serif kinetic captions dead center on screen, flashing 1-2 words at a time strictly synchronized with audio speech.",
+      "rationale": "Centering single-word captions keeps the viewer's eye anchored in the focal point of the visual composition, maximizing retention and accommodating sound-off viewing."
+    },
+    {
+      "category": "storytelling",
+      "rule": "Structure the narrative arc around the dichotomy of 'monsters hiding in plain sight'—juxtaposing public charm/normalcy against grotesque hidden acts, ending with a philosophical takeaway on human deception.",
+      "rationale": "This consistent thematic formula amplifies psychological dread and drives high comment discussion regarding how ordinary predators appear in real life."
+    },
+    {
+      "category": "audio",
+      "rule": "Maintain uninterrupted, solemn voiceover narration (0 silent seconds) normalized near -17 dB to -18 dB RMS over low-key atmospheric horror drone soundscapes.",
+      "rationale": "Dead air causes swift swipe-aways; a continuous, grave voiceover paired with eerie sound design sustains tension and maintains a professional true-crime documentary tone."
+    }
+  ],
+  "benchmark_duration_s": "61-78s",
+  "benchmark_engagement": "Views range from ~40k on niche cases to 1M-2M+ on iconic subjects (median ~920k); likes range from 1.9k to 106k with a healthy engagement rate typically between 5% and 7%."
+}
+=== DONE ===

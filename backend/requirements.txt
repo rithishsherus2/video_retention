@@ -26,3 +26,6 @@ open_clip_torch==3.3.0
 
 # --- Phase 3: analysis ---
 google-genai==2.23.0
+
+# --- Phase 4: engagement metrics + rule extraction ---
+requests==2.34.2

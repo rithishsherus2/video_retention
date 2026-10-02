@@ -30,7 +30,17 @@ def sample_frame_times(start_t: float, end_t: float, n: int) -> list[float]:
     return [start_t + i * (end_t - start_t) / (n - 1) for i in range(n)]
 
 
-def extract_frames_at(video_path: str, times: list[float], out_dir: Path, prefix: str) -> list[Path]:
+def extract_frames_at(
+    video_path: str, times: list[float], out_dir: Path, prefix: str,
+    max_width: int | None = None, jpeg_quality: int = 85,
+) -> list[Path]:
+    """max_width, if given, downscales each frame (preserving aspect ratio)
+    before saving -- necessary once a caller wants enough frames that full
+    source resolution would blow past Gemini's ~20MB inline-request limit
+    (a reel's native 1080x1920 frame is 200-450KB; at just 2 frames/sec a
+    60-80s reel already exceeds that budget at full res). None (the
+    default) keeps existing callers -- e.g. before/during drop evidence,
+    which only ever sample a handful of frames -- at full resolution."""
     out_dir.mkdir(parents=True, exist_ok=True)
     cap = cv2.VideoCapture(video_path)
     paths = []
@@ -39,8 +49,12 @@ def extract_frames_at(video_path: str, times: list[float], out_dir: Path, prefix
         ok, frame = cap.read()
         if not ok:
             continue
+        if max_width and frame.shape[1] > max_width:
+            scale = max_width / frame.shape[1]
+            new_size = (max_width, max(1, round(frame.shape[0] * scale)))
+            frame = cv2.resize(frame, new_size, interpolation=cv2.INTER_AREA)
         p = out_dir / f"{prefix}_{i:02d}_t{t:.1f}s.jpg"
-        cv2.imwrite(str(p), frame)
+        cv2.imwrite(str(p), frame, [cv2.IMWRITE_JPEG_QUALITY, jpeg_quality])
         paths.append(p)
     cap.release()
     return paths

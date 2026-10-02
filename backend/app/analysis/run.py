@@ -26,21 +26,21 @@ from app.analysis.gemini_client import analyze_drop_event, render_report_markdow
 ProgressCallback = Callable[[str], None]
 
 
-def analyze_drops_and_report(
-    video_path: str, timeline_csv_path: str, out_dir: Path, top_n: int = 3,
-    summary_path: Path | None = None, on_progress: ProgressCallback | None = None,
-) -> dict:
-    """Runs the full drop-analysis + synthesis pass and writes drop_analysis.json
-    and report.md into out_dir. Returns {"results": [...], "report_markdown": str | None}.
-    on_progress, if given, is called with short human-readable status strings --
-    the web backend uses this to stream progress to the browser instead of the console."""
+def run_drop_event_analysis(
+    video_path: str, df: pd.DataFrame, out_dir: Path, top_n: int = 3,
+    on_progress: ProgressCallback | None = None,
+) -> list[dict]:
+    """The detect-events -> gather-evidence -> Gemini-per-event loop, operating
+    on an in-memory timeline DataFrame (no CSV round-trip required) -- pulled
+    out of analyze_drops_and_report so app.analysis.evaluate can reuse it on
+    a timeline it already has in memory, without re-reading anything from
+    disk. Does NOT write drop_analysis.json itself; the caller decides that."""
     def progress(msg: str) -> None:
         print(msg)
         if on_progress:
             on_progress(msg)
 
     out_dir = Path(out_dir)
-    df = pd.read_csv(timeline_csv_path)
     all_drops = detect_drop_events(df)
     all_rises = detect_rise_events(df)
     skip_patterns = find_skip_patterns(all_drops, all_rises)
@@ -78,6 +78,26 @@ def analyze_drops_and_report(
             "finding": finding.model_dump(),
         })
         progress(f"  -> quality_issue_found={finding.quality_issue_found}  severity={finding.severity}")
+
+    return results
+
+
+def analyze_drops_and_report(
+    video_path: str, timeline_csv_path: str, out_dir: Path, top_n: int = 3,
+    summary_path: Path | None = None, on_progress: ProgressCallback | None = None,
+) -> dict:
+    """Runs the full drop-analysis + synthesis pass and writes drop_analysis.json
+    and report.md into out_dir. Returns {"results": [...], "report_markdown": str | None}.
+    on_progress, if given, is called with short human-readable status strings --
+    the web backend uses this to stream progress to the browser instead of the console."""
+    def progress(msg: str) -> None:
+        print(msg)
+        if on_progress:
+            on_progress(msg)
+
+    out_dir = Path(out_dir)
+    df = pd.read_csv(timeline_csv_path)
+    results = run_drop_event_analysis(video_path, df, out_dir, top_n, on_progress)
 
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "drop_analysis.json").write_text(json.dumps(results, indent=2, ensure_ascii=False), encoding="utf-8")

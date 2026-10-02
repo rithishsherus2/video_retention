@@ -1,0 +1,57 @@
+# Reel Evaluation vs. Profile "suddenly.horror"
+
+**At just 38 seconds, this reel functions as a slow-paced teaser trailer rather than the channel's signature 60-80 second shock-driven, metronomically cut mini-documentary.**
+
+**Engagement:** views=2726, likes=87, comments=2
+
+This reel garnered only 2,726 views, 87 likes, and 2 comments, drastically underperforming the profile's established benchmark of 40,000 views on niche cases and median performance of ~920,000 views (with 1,900 to 106,000 likes). Its engagement rate sits at approximately 3.2%, well below the typical 5-7% baseline. Because no second-by-second retention curve was provided, these findings represent the most likely systemic reasons for drop-off: viewers accustomed to visceral shock hooks and high-density 60-78s complete stories were instead presented with an intellectual teaser and slower visual rhythm, likely stalling early completion and algorithmic distribution.
+
+## Rule Violations
+
+### [HIGH] Structure the narrative arc around the dichotomy of 'monsters hiding in plain sight'—juxtaposing public charm/normalcy against grotesque hidden acts, ending with a philosophical takeaway on human deception, across a full 61-78s runtime.
+
+**Expected:** A complete, self-contained 61-78s character study tracking a killer's mundane public facade versus private depravity, culminating in a reflective philosophical message.
+
+**Observed:** The reel runs only 38.0 seconds and focuses on speculative trivia and unsolved statistics (Zodiac ciphers, nursing homes), serving primarily as an explicit marketing vehicle for the website series ('He is the only killer in this entire series who got away with it').
+
+**Suggestion:** Expand the script to 65-75 seconds. Anchor the narrative on Zodiac's jarring contrast between chilling domestic anonymity and theatrical terror, concluding on human vulnerability rather than pitching an external streaming platform.
+
+### [HIGH] Enforce a strict shot cadence averaging between 2.75 and 2.85 seconds per shot (~3.6 cuts per 10 seconds) across the entire video.
+
+**Expected:** A steady, rapid metronomic rhythm where shots consistently transition every ~2.8 seconds, with no single shot dragging.
+
+**Observed:** The average shot duration stretches to 3.49 seconds (only 2.89 cuts per 10 seconds), with individual shots lingering as long as 5.75 seconds, causing noticeable visual drag.
+
+**Suggestion:** Tighten the edit by cutting 3-4 additional visual angles or inserts, bringing total shots for a 38s video to at least 13-14 shots (or ~24 shots if expanded to full 68s duration) and capping individual shot lengths at 3.0 seconds.
+
+### [MEDIUM] Open on frame 1 with a graphic, shock-value illustration of a notorious killer or active crime scene, executing at least 1 to 2 scene cuts within the first 3 seconds.
+
+**Expected:** Immediate high-shock animated violence or visceral crime scene illustration on frame 1 to halt feed scrolling immediately.
+
+**Observed:** The reel opens on an intellectual pinboard with ciphers, victim photos, and numerical statistics ('Five dead, two survivors, 20 letters...'), lacking visceral graphic shock.
+
+**Suggestion:** Replace the static detective corkboard in shot 1 with a stylized, visceral rendering of the Lake Berryessa or Presidio Heights crime scene before transitioning into the cipher evidence.
+
+### [LOW] Place high-contrast, bold white sans-serif kinetic captions dead center on screen, flashing 1-2 words at a time strictly synchronized with audio speech.
+
+**Expected:** Dead-center screen placement to lock the viewer's focal point and match graphic visual beats.
+
+**Observed:** Dynamic subtitles are anchored along the lower third/bottom of the frame while a graphic series logo occupies the top.
+
+**Suggestion:** Shift the synchronized 1-2 word kinetic text directly into dead center of the 9:16 frame and eliminate top-heavy series banners to preserve single-point visual focus.
+
+## What's Already Working
+
+- Audio density is continuous and tight, achieving 0 silent seconds and maintaining a grave voiceover tone at -18.8 dB RMS, perfectly matching the channel's documentary standard.
+- Maintains the signature stylized noir animated aesthetic and desaturated color palette, preserving recognizable visual branding.
+- Clever fourth-wall break in the copy ('reading this on a small phone screen by a window') provides strong conceptual engagement.
+
+## Retention Drop Events
+
+_No retention recording was provided for this reel -- suggestions above are based on comparing this reel's own stats against the ideal-reel rule set, not a second-by-second drop-off curve._
+
+## Overall Suggestions
+
+- Avoid treating Reels as cliffhanger ads for external streaming sites; complete stories perform best algorithmically on short-form feeds.
+- Match the account's standard 61-78 second duration profile so viewers receive a fully satisfying story arc rather than an abbreviated teaser.
+- Eliminate reused scenes (2 detected) by integrating varied camera framing, close-up macro details, or parallax pans to preserve freshness.

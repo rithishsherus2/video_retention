@@ -12,6 +12,7 @@ import argparse
 import json
 from pathlib import Path
 
+import cv2
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -24,13 +25,30 @@ from app.features import shots as shots_mod
 from app.schemas import RetentionCurve
 
 
+def _video_duration_s(video_path: str) -> float:
+    cap = cv2.VideoCapture(video_path)
+    fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
+    frame_count = cap.get(cv2.CAP_PROP_FRAME_COUNT) or 0.0
+    cap.release()
+    return frame_count / fps if fps > 0 else 0.0
+
+
 def build_timeline(
-    video_path: str, retention_path: str, quality_fps: float = 5.0,
+    video_path: str, retention_path: str | None = None, quality_fps: float = 5.0,
     whisper_model: str = "small", language: str | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
-    curve = RetentionCurve.model_validate(json.loads(Path(retention_path).read_text()))
-    points = curve.sorted_points()
-    duration = curve.video_duration_s or (points[-1].t if points else 0.0)
+    """retention_path is optional: pass None to build the same feature
+    timeline for a reel that has no retention recording at all (e.g. an
+    "ideal" reel being decoded for its rules, or a test reel evaluated
+    without one) -- retention_pct just stays NaN throughout and duration
+    is read from the video file itself instead of the curve."""
+    if retention_path:
+        curve = RetentionCurve.model_validate(json.loads(Path(retention_path).read_text()))
+        points = curve.sorted_points()
+        duration = curve.video_duration_s or (points[-1].t if points else 0.0)
+    else:
+        points = []
+        duration = _video_duration_s(video_path)
     n_seconds = int(round(duration)) + 1
 
     print("[timeline] shot detection + CLIP similarity...")
@@ -113,8 +131,11 @@ def build_timeline(
 
     # ---- assemble the per-second base table ----
     base = pd.DataFrame({"sec": range(n_seconds)})
-    ret_df = pd.DataFrame([{"sec": int(round(p.t)), "retention_pct": p.pct} for p in points])
-    ret_df = ret_df.drop_duplicates(subset="sec", keep="first")
+    if points:
+        ret_df = pd.DataFrame([{"sec": int(round(p.t)), "retention_pct": p.pct} for p in points])
+        ret_df = ret_df.drop_duplicates(subset="sec", keep="first")
+    else:
+        ret_df = pd.DataFrame(columns=["sec", "retention_pct"])
 
     df = base.merge(ret_df, on="sec", how="left")
     df = df.merge(q_agg, on="sec", how="left")
@@ -131,6 +152,102 @@ def build_timeline(
     df["transcript"] = df["sec"].map(text_by_sec).fillna("")
 
     return df, shots_df
+
+
+def compute_reel_features(df: pd.DataFrame, shots_df: pd.DataFrame, duration_s: float) -> dict:
+    """Deterministic, no-LLM aggregate stats describing a reel's pacing and
+    technical execution as a whole (as opposed to build_timeline's
+    per-second table). This is the raw material fed into Gemini's
+    decode/critique prompts in app.analysis.rules/evaluate -- it doesn't
+    itself judge whether any of these numbers are good or bad."""
+    shot_durations = shots_df["shot_duration"].tolist() if not shots_df.empty else []
+    n_shots = len(shots_df)
+    cuts_in_first_3s = int((shots_df["shot_start_t"] < 3.0).sum()) if not shots_df.empty else 0
+
+    transcript_col = df["transcript"].fillna("") if "transcript" in df else pd.Series(dtype=str)
+    dialogue_seconds = int(transcript_col.str.strip().ne("").sum())
+    full_transcript = " ".join(t for t in transcript_col if t).strip()
+
+    silent_seconds = int(df["is_silent_any"].fillna(False).sum()) if "is_silent_any" in df else 0
+    redundant_cuts = int(df["is_redundant_cut_second"].fillna(False).sum()) if "is_redundant_cut_second" in df else 0
+    reused_shots = int(df["is_reused_shot_second"].fillna(False).sum()) if "is_reused_shot_second" in df else 0
+    redundant_dialogue = int(df["is_redundant_dialogue_second"].fillna(False).sum()) if "is_redundant_dialogue_second" in df else 0
+
+    retention_stats = _retention_summary_stats(df, duration_s)
+    reused_shot_instances = _reused_shot_instances(shots_df)
+
+    return {
+        "duration_s": round(duration_s, 1),
+        "shot_count": n_shots,
+        "avg_shot_duration_s": round(sum(shot_durations) / len(shot_durations), 2) if shot_durations else None,
+        "min_shot_duration_s": round(min(shot_durations), 2) if shot_durations else None,
+        "max_shot_duration_s": round(max(shot_durations), 2) if shot_durations else None,
+        "cuts_per_10s": round(n_shots / duration_s * 10, 2) if duration_s else None,
+        "cuts_in_first_3s": cuts_in_first_3s,
+        "has_dialogue": dialogue_seconds > 0,
+        "dialogue_seconds": dialogue_seconds,
+        "dialogue_density": round(dialogue_seconds / duration_s, 2) if duration_s else None,
+        "silent_seconds": silent_seconds,
+        "redundant_cuts": redundant_cuts,
+        "reused_shots": reused_shots,
+        "reused_shot_instances": reused_shot_instances,
+        "redundant_dialogue_moments": redundant_dialogue,
+        "avg_sharpness": round(float(df["sharpness_mean"].mean()), 1) if "sharpness_mean" in df and df["sharpness_mean"].notna().any() else None,
+        "avg_blockiness": round(float(df["blockiness_mean"].mean()), 3) if "blockiness_mean" in df and df["blockiness_mean"].notna().any() else None,
+        "avg_brightness": round(float(df["brightness_mean"].mean()), 1) if "brightness_mean" in df and df["brightness_mean"].notna().any() else None,
+        "avg_audio_rms_db": round(float(df["rms_db_mean"].mean()), 1) if "rms_db_mean" in df and df["rms_db_mean"].notna().any() else None,
+        "full_transcript": full_transcript,
+        **retention_stats,
+    }
+
+
+def _reused_shot_instances(shots_df: pd.DataFrame) -> list[dict]:
+    """Each shot flagged as a near-duplicate of an earlier/later non-adjacent
+    shot (see app.features.shots.analyze_shots), with real timestamps for
+    both this occurrence and the shot it matches -- not just the aggregate
+    count reused_shots already gives. This is what lets the UI point at the
+    actual reused footage instead of just saying "some shots were reused"."""
+    if shots_df.empty or "is_likely_reused_shot" not in shots_df:
+        return []
+    start_by_index = dict(zip(shots_df["shot_index"], shots_df["shot_start_t"]))
+    instances = []
+    for _, row in shots_df[shots_df["is_likely_reused_shot"].fillna(False)].iterrows():
+        start_t = float(row["shot_start_t"])
+        other_idx = row.get("reused_shot_of_index")
+        other_start = start_by_index.get(other_idx) if pd.notna(other_idx) else None
+        instances.append({
+            "start_t": round(start_t, 1),
+            "end_t": round(start_t + float(row["shot_duration"]), 1),
+            "reused_of_start_t": round(float(other_start), 1) if other_start is not None else None,
+        })
+    return instances
+
+
+def _retention_summary_stats(df: pd.DataFrame, duration_s: float) -> dict:
+    """Only populated when this reel's OWN retention curve was supplied
+    (an ideal reel's retention recording is optional -- see
+    app.analysis.rules.extract_rules_from_ideal_reels). Gives the rule-
+    synthesis step actual evidence for which techniques correlate with
+    viewers still watching at a given second, not just an aggregate
+    engagement count for the whole reel."""
+    if "retention_pct" not in df or not df["retention_pct"].notna().any():
+        return {"has_retention_data": False}
+
+    ret = df[["sec", "retention_pct"]].dropna().sort_values("sec")
+
+    def _at(target_sec: float):
+        at_or_before = ret[ret["sec"] <= target_sec]
+        row = at_or_before.iloc[-1] if not at_or_before.empty else ret.iloc[0]
+        return round(float(row["retention_pct"]), 1)
+
+    return {
+        "has_retention_data": True,
+        "retention_at_3s_pct": _at(3) if duration_s >= 1 else None,
+        "retention_at_5s_pct": _at(5) if duration_s >= 3 else None,
+        "retention_at_10s_pct": _at(10) if duration_s >= 6 else None,
+        "retention_end_pct": round(float(ret.iloc[-1]["retention_pct"]), 1),
+        "retention_min_pct": round(float(ret["retention_pct"].min()), 1),
+    }
 
 
 def save_debug_plot(df: pd.DataFrame, out_path: str) -> None:
@@ -190,10 +307,11 @@ def write_human_summary(
     duration = int(df["sec"].max())
     n_cuts = int(df["is_cut_second"].sum())
     n_redundant = int(df["is_redundant_cut_second"].sum())
-    start_pct = df["retention_pct"].dropna().iloc[0] if df["retention_pct"].notna().any() else None
-    end_pct = df["retention_pct"].dropna().iloc[-1] if df["retention_pct"].notna().any() else None
-    lines.append(f"=== {duration}s reel -- {n_cuts} cuts ({n_redundant} likely redundant) "
-                 f"-- retention {start_pct:.0f}% -> {end_pct:.0f}% ===")
+    has_retention = df["retention_pct"].notna().any()
+    start_pct = df["retention_pct"].dropna().iloc[0] if has_retention else None
+    end_pct = df["retention_pct"].dropna().iloc[-1] if has_retention else None
+    retention_str = f"retention {start_pct:.0f}% -> {end_pct:.0f}%" if has_retention else "no retention data"
+    lines.append(f"=== {duration}s reel -- {n_cuts} cuts ({n_redundant} likely redundant) -- {retention_str} ===")
     has_any_words = df["transcript"].fillna("").str.strip().ne("").any()
     has_any_audio = df["rms_db_mean"].notna().any()
     if not has_any_words and has_any_audio:

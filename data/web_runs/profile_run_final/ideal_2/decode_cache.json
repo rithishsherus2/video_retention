@@ -1,0 +1,53 @@
+{
+  "engagement": {
+    "views": 40482,
+    "likes": 1906,
+    "comments": 39,
+    "caption": "He didn’t look like a monster.\nHe looked like a man nobody would remember.\n\nIn the 1960s, Mumbai was terrorized by a killer who moved through the city’s streets with almost no warning: Raman Raghav.\n\nHis victims were often people living on the margins—sleeping in the open, in huts, or in poorly protected homes.\n\nWhat made his crimes especially disturbing wasn’t just the violence.\n\nIt was the randomness.\n\nThere was no elaborate disguise. No grand motive. No obvious pattern that made him easy to recognize.\n\nHe simply appeared, attacked, and disappeared back into the city.\n\nFor years, the fear surrounding the killings grew as police struggled to identify the person responsible.\n\nWhen Raman Raghav was finally arrested, investigators began to uncover a history of violence that was far darker than anyone had imagined.\n\nHis name became permanently tied to one of Mumbai’s most chilling criminal cases—a reminder that sometimes the most terrifying predators don't need to hide in sophisticated ways.\n\nThey only need to become invisible among everyone else.\n\nFollow Suddenly Horror for the stories where history’s darkest figures wore the most convincing masks.\n\n#history #truecrime #ramanraghav #mumbai #serialkiller",
+    "hashtags": [
+      "history",
+      "truecrime",
+      "ramanraghav",
+      "mumbai",
+      "serialkiller"
+    ],
+    "posted_at": "20260910",
+    "source": "yt_dlp+provider:instagram_api_fast_reliable"
+  },
+  "features": {
+    "duration_s": 70.0,
+    "shot_count": 25,
+    "avg_shot_duration_s": 2.82,
+    "min_shot_duration_s": 0.6,
+    "max_shot_duration_s": 6.8,
+    "cuts_per_10s": 3.57,
+    "cuts_in_first_3s": 1,
+    "has_dialogue": true,
+    "dialogue_seconds": 29,
+    "dialogue_density": 0.41,
+    "silent_seconds": 0,
+    "redundant_cuts": 0,
+    "reused_shots": 0,
+    "redundant_dialogue_moments": 0,
+    "avg_sharpness": 57.5,
+    "avg_blockiness": 1.029,
+    "avg_brightness": 46.2,
+    "avg_audio_rms_db": -17.4,
+    "full_transcript": "Mumbai was gripped by terror. People stopped sleeping outdoors, locked their doors, and rumors spread that the killer had supernatural powers. For years, police searched for the man behind the attacks. In 1968, police finally caught Raghav after an officer recognized him from photographs. He initially refused to confess. It wasn't until he was given chicken curry. Eventually, he admitted responsibility for the murders attributed to him."
+  },
+  "decoding": {
+    "hook_description": "Starts abruptly with a graphic animated visual of a bloody killer wielding an iron rod over a victim in a dark, rainy alleyway, immediately gripping true crime fans with high shock value.",
+    "storytelling_arc": "Chronological true-crime narrative: atmospheric terror establishment -> killer introduction and escalation -> citywide fear -> police hunt -> capture -> bizarre confession twist (chicken curry) -> judicial conclusion and haunting open mystery.",
+    "pacing_style": "Moderate and rhythmic pacing averaging ~2.8 seconds per shot, using 2.5D parallax camera zooms and pans on still animations timed tightly to single-word subtitle delivery.",
+    "tone_and_style": "Dark, gritty graphic novel animation aesthetic with high-contrast noir lighting, muted blues, warm streetlights, and explicit bloody accents.",
+    "audio_strategy": "Solemn, measured narrative voiceover providing serious true-crime documentary storytelling against tense, low-key ambient soundscapes.",
+    "text_overlay_and_captions": "Rapid single-word centered captions in bold white sans-serif uppercase, synced precisely word-by-word with spoken voiceover to maximize visual retention.",
+    "notable_techniques": [
+      "Shock hook using graphic violence illustration within first second",
+      "Rapid single-word dynamic center subtitles",
+      "Parallax depth and slow camera push-ins on 2D comic art",
+      "Bizarre narrative detail pivot ('chicken curry confession') to spike mid-video retention"
+    ],
+    "call_to_action": ""
+  }
+}

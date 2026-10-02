@@ -1,0 +1,52 @@
+{
+  "engagement": {
+    "views": 2053305,
+    "likes": 106464,
+    "comments": 1222,
+    "caption": "He didn’t just kill in secret.\nHe performed normalcy.\n\nIn the late 1970s, the quiet suburbs of Chicago became the backdrop for one of America’s most unsettling nightmares: John Wayne Gacy—a man who lived as a businessman, a neighbor, a volunteer… and a predator.\n\nBy day, he entertained children as a clown and hosted community gatherings.\nBy night, young men vanished after crossing his path.\n\nWhat made Gacy terrifying wasn’t spectacle—it was proximity. His crimes unfolded behind closed doors, beneath a seemingly ordinary home, exposing how evil could hide not in alleys, but in plain sight.\n\nAs investigators uncovered the scale of his violence, America was forced to confront a new truth: monsters don’t always look like monsters. Sometimes, they wear smiles, shake hands, and blend seamlessly into suburban life.\n\nDecades later, Gacy remains a case study in deception, denial, and the terrifying banality of evil—one that reshaped how law enforcement profiles serial offenders and how society defines trust.\n\nFollow Suddenly Horror for the stories where history’s darkest figures wore the most convincing masks.\n\n#history #educational #creepy #serialkiller #johnwaynegacy \n\n[history, serial killer, john wayne gacy, horror, scary, interesting, creepy, creepy history]",
+    "hashtags": [
+      "history",
+      "educational",
+      "creepy",
+      "serialkiller",
+      "johnwaynegacy"
+    ],
+    "posted_at": "20260109",
+    "source": "yt_dlp+provider:instagram_api_fast_reliable"
+  },
+  "features": {
+    "duration_s": 61.0,
+    "shot_count": 22,
+    "avg_shot_duration_s": 2.78,
+    "min_shot_duration_s": 0.73,
+    "max_shot_duration_s": 5.17,
+    "cuts_per_10s": 3.61,
+    "cuts_in_first_3s": 2,
+    "has_dialogue": true,
+    "dialogue_seconds": 32,
+    "dialogue_density": 0.52,
+    "silent_seconds": 0,
+    "redundant_cuts": 0,
+    "reused_shots": 0,
+    "redundant_dialogue_moments": 0,
+    "avg_sharpness": 140.6,
+    "avg_blockiness": 0.988,
+    "avg_brightness": 91.3,
+    "avg_audio_rms_db": -17.7,
+    "full_transcript": "Strangled them slowly with rope. Then dragged their bodies to the crawl space beneath his house. For six years, he walked over 29 graves buried in the dirt under his own feet. When neighbors complained about the smell, he blamed it on plumbing issues. In December 1978, police finally tore up his floorboards. They found body after body crammed in the crawl space. 33 young men total, most of them teenagers. Gacy proved that evil doesn't always look evil. Sometimes it wears a smile and invites you inside."
+  },
+  "decoding": {
+    "hook_description": "Opens with an animated portrayal of Jeffrey Dahmer smoking in a filthy room to set up a comparison, quickly pivoting to John Wayne Gacy to immediately establish high-stakes true-crime horror.",
+    "storytelling_arc": "Chronological true-crime narrative: begins by establishing Gacy's dual persona, walks through his abduction method and crawlspace concealment, details the police investigation and discovery of victims, and closes with a chilling philosophical takeaway.",
+    "pacing_style": "Steady, documentary-style pacing averaging ~2.8 seconds per shot, using cutaways and animated transitions synchronized to the rhythm of the voiceover exposition.",
+    "tone_and_style": "Dark, macabre true-crime animation using a stylized adult-cartoon aesthetic reminiscent of 'Rick and Morty', juxtaposing bright suburban colors with grim, bloody imagery.",
+    "audio_strategy": "Solemn, steady voiceover narration that delivers shocking factual details, likely accompanied by eerie ambient sound design and atmospheric suspense music.",
+    "text_overlay_and_captions": "Dynamic single-word/short-phrase kinetic subtitles positioned dead center in a bold white sans-serif font with black borders for effortless readability.",
+    "notable_techniques": [
+      "Comparative bait-and-switch hook featuring another famous figure (Dahmer) before introducing the true subject",
+      "Split-level visual cross-section showing normal domestic life above and corpses in the crawlspace below",
+      "High-contrast thematic juxtaposition between daytime clown performances and nocturnal crimes"
+    ],
+    "call_to_action": ""
+  }
+}
